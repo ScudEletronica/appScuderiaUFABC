@@ -1,15 +1,14 @@
 import styled from 'styled-components/native';
-import { Dimensions } from "react-native";
 
 export const Container = styled.View`
   position: absolute;
-  z-index: 5;
-  width: 217;
-  height: 640px;
+  z-index: 6;
+  width: 217px;
+  height: 100%;
   left: 0px;
   top: 0px;
-  background: #FFFFFF;
-  border: 2px solid #FFFFFF;
+  background: #FFF;
+  border: 2px solid #FFF;
 `;
 
 export const Header = styled.View`
@@ -22,7 +21,7 @@ export const Options = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20;
+  margin-top: 20px;
 `
 
 export const Profile = styled.View`
@@ -31,6 +30,7 @@ export const Profile = styled.View`
   align-items: center;
   width: 200px;
   margin-bottom: 11px;
+  /* border: 2px solid #000; */
 `
 
 export const ProfileImage = styled.Image``
@@ -46,8 +46,16 @@ export const Option = styled.TouchableOpacity`
   align-items: center;
   margin-top: 20px;
   width: 170px;
+  /* border: 2px solid #000; */
 `
 
 export const OptionText = styled.Text`
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  
+  color: #343434;
+  
   margin-left: 17px;
 `

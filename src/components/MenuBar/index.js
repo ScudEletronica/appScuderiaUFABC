@@ -1,7 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
 
-import { Container, Header, Profile, ProfileImage, ProfileText, Options,  Option, OptionText } from './styles';
+import { 
+  Container, Header, Profile, ProfileImage, ProfileText, Options,  Option, OptionText 
+} from './styles';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Icon2 from 'react-native-vector-icons/Ionicons'
 import Icon3 from 'react-native-vector-icons/Entypo'

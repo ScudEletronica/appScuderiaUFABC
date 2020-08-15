@@ -1,9 +1,13 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import Main from '~/pages/Main';
+import Login from '~/pages/Login';
 import Loading from '~/pages/Loading'
-import MenuBar from "~/components/MenuBar";
+import About from '~/pages/About'
+import Messages from '~/pages/Messages'
+import LabAndWorkshop from '~/pages/LabAndWorkshop'
+import Head from '~/components/Head'
 
-const Routes = createAppContainer(createSwitchNavigator({ MenuBar }));
+
+const Routes = createAppContainer(createSwitchNavigator({ Messages }));
 
 export default Routes;
