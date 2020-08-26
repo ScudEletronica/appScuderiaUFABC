@@ -1,29 +1,30 @@
 import styled from 'styled-components/native';
-import { Animated } from "react-native";
+import { Animated, Dimensions } from "react-native";
 
 
 export const Container = styled.View`
   flex: 1;
   background: #FFF;
   align-items: center;
+  /* justify-content: flex-start; */
 `;
+
+export const Fundo = styled.View`
+  flex-direction: row;
+`
 
 export const Fundo1 = styled.Image`
   position: absolute;
   width: 100%;
-  height: 280px;
-  top: -198px;
+  height: ${82 + Dimensions.get('window').width - 360}px;
 `
 export const Fundo2 = styled.Image`
   width: 100%;
-  height: 210px;
-  top: -114px;
+  height: ${96 + Dimensions.get('window').width - 360}px;
   margin-bottom: 0;
 `
 
 export const Carro = styled.Image`
-  margin: 0;
-  border: 2px #000;
 `
 
 export const Title = styled.Text`
@@ -35,4 +36,8 @@ export const Title = styled.Text`
   text-align: center;
 
   color: #343434;
+`
+
+export const GIF = styled.Image`
+  
 `

@@ -1,10 +1,11 @@
 import React from 'react';
+import { StyleSheet } from "react-native";
 
 import { 
   Container, Title, Date, Content 
 } from './styles';
 
-const Message = () => {
+const MessageList = () => {
   return (
     <Container>
       <Title>Lorem Ipsum</Title>
@@ -16,4 +17,4 @@ const Message = () => {
   );
 }
 
-export default Message;
+export default MessageList;

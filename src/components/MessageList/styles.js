@@ -1,31 +1,23 @@
 import styled from 'styled-components/native';
-import { BlackTitle, BlackText } from "~/styles/global";
 
-export const Container = styled.View.attrs({
-  shadowColor: "rgba(0, 0, 0, 0.25)",
-  shadowOffset: {
-    width: 0,
-    height: 2,
-  },
-  shadowOpacity: 1,
-  shadowRadius: 0,
-  elevation: 5,
-})`
-  width: 338px;
+export const Container = styled.View`
+  width: 100%;
   height: 141px;
   padding: 20px;
 
-  border-radius: 25px;
   background: #F0F0F0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 `;
 
-export const Title = styled(BlackTitle)`
+export const Title = styled.Text`
+  font-family: Roboto;
+  font-weight: bold;
   font-size: 18px;
   line-height: 21px;
+  text-align: center;
 
   color: #222222;
 `;
@@ -40,8 +32,13 @@ export const Date = styled.Text`
   color: #343434;
 `;
 
-export const Content = styled(BlackText)`
+export const Content = styled.Text`
+  font-family: Roboto;
+  font-weight: normal;
   font-size: 14px;
   line-height: 20px;
+  text-align: justify;
+
+  color: #222222;
 `;
 

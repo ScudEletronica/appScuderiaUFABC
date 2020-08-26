@@ -1,7 +1,5 @@
 import styled from 'styled-components/native';
-import { Animated } from "react-native";
-
-
+import { Dimensions } from "react-native";
 
 export const Container = styled.View`
   flex: 1;
@@ -12,22 +10,24 @@ export const Container = styled.View`
 export const Fundo = styled.View`
   flex-direction: row;
 `
+
 export const Logo = styled.Image`
   position: absolute;
-  width: 100%;
-  height: 160px;
+  width: ${Dimensions.get('window').width - 10}px;
+  height: ${160 + Dimensions.get('window').width - 360}px;
   left: 10px;
   top: 12px;
 `
+
 export const Fundo1 = styled.Image`
   position: absolute;
   width: 100%;
-  height: 279px;
-  top: -62px;
+  height: ${217 + Dimensions.get('window').width - 360}px;
 `
+
 export const Fundo2 = styled.Image`
   width: 100%;
-  height: 223px;
+  height: ${208 + Dimensions.get('window').width - 360}px;
   top: 21px;
   margin-bottom: 31px;
 `
@@ -50,6 +50,8 @@ export const Title = styled.Text`
   line-height: 47px;
   text-align: center;
 
+  margin-bottom: 10px;
+
   color: #343434;
 `
 
@@ -60,15 +62,24 @@ export const Subtitle = styled(Title)`
   margin-bottom: 37px;
 `
 
-export const Input = styled.TextInput`
+export const Input = styled.TextInput.attrs({
+  shadowColor: "rgba(0, 0, 0, 0.25)",
+  shadowOffset: {
+    width: 0,
+    height: 0,
+  },
+  shadowOpacity: 1,
+  shadowRadius: 0,
+  elevation: 1,
+})`
   width: 291.58px;
   height: 48.55px;
   margin-bottom: 32px;
-  color: #000;
 
   background: #E6E6E6;
   box-shadow: 10px 5px 5px black;
   border-radius: 22px;
+  padding-left: 15px;
 `;
 
 export const LoginBotao = styled.TouchableOpacity`

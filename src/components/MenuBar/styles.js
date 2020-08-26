@@ -1,6 +1,15 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.View.attrs({
+  shadowColor: "rgba(0, 0, 0, 0.2)",
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 1,
+  shadowRadius: 0,
+  elevation: 5,
+})`
   position: absolute;
   z-index: 6;
   width: 217px;

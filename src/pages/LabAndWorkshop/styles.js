@@ -1,10 +1,9 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Content = styled.View`
   flex: 1;
   background: #FFF;
-  align-items: flex-start;
-  padding-left: 26px;
+  align-items: center;
 `;
 
 export const Title = styled.Text`
@@ -19,6 +18,10 @@ export const Title = styled.Text`
   color: #37BF65;
 `;
 
+export const Intern = styled.View`
+  align-items: flex-start;
+  margin-bottom: 5px;
+`
 
 export const Place = styled.View`
   align-items: flex-start;
@@ -26,8 +29,9 @@ export const Place = styled.View`
 `
 
 export const Status = styled.View`
+  width: 70%;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
 `
 
 export const SubTitle = styled.Text`
@@ -35,6 +39,7 @@ export const SubTitle = styled.Text`
   font-weight: bold;
   font-size: 24px;
   line-height: 28px;
+  margin-right: auto;
 
   color: #000000;
 `;
@@ -44,7 +49,7 @@ export const Open = styled.Text`
   font-weight: bold;
   font-size: 24px;
   line-height: 28px;
-  /* right: 41px; */
+  /* margin-left: auto; */
   color: #00FF00;
 `;
 
@@ -53,7 +58,7 @@ export const Close = styled.Text`
   font-weight: bold;
   font-size: 24px;
   line-height: 28px;
-  /* right: 41px; */
+
 
   color: #FF0000;
 `;
@@ -63,17 +68,30 @@ export const Buttons = styled.View`
   align-items: center;
 `
 
-export const Button = styled.TouchableOpacity`
+export const ButtonAsk = styled.TouchableOpacity.attrs({
+  shadowColor: "rgba(0, 0, 0, 0.25)",
+  shadowOffset: {
+    width: 0,
+    height: 4,
+  },
+  shadowOpacity: 1,
+  shadowRadius: 0,
+  elevation: 4,
+})`
   width: 110px;
   height: 46px;
   display: flex;
-  align-items: center;
   text-align: center;
+  align-items: center;
   justify-content: center;
   background: #222222;
   border-radius: 38px;
   margin: 14px 18px 10px 0;
 `
+
+export const ButtonCancel = styled(ButtonAsk)`
+  background: #EB5757;
+`;
 
 export const ButtonText = styled.Text`
   font-family: Roboto;
@@ -84,13 +102,8 @@ export const ButtonText = styled.Text`
   color: #FFFFFF;
 `
 
-export const Notification = styled.View`
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-`
-
 export const NotificationText = styled.Text`
+  width: 145px;
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
@@ -117,7 +130,6 @@ export const InformationTitle = styled.Text`
   margin-right: 10px;
 
   color: #000000;
-  
 `
 
 export const InformationContent = styled.Text`
@@ -130,7 +142,6 @@ export const InformationContent = styled.Text`
 
   color: #000000;
 `
-
 
 export const Keys = styled.View`
   align-items: flex-start;

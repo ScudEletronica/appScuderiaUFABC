@@ -24,27 +24,27 @@ const MenuBar = () => {
         </Profile>
       
         <Option>
-          <Icon name="home" size={29} />
+          <Icon name="home" size={29} color="#343434"/>
           <OptionText>Home</OptionText>
         </Option>
         <Option>
-          <Icon3 name="info-with-circle" size={29} />
+          <Icon3 name="info-with-circle" size={29} color="#343434"/>
           <OptionText>Sobre</OptionText>
         </Option>
         <Option>
-          <Icon4 name="newspaper-variant-outline" size={29} />
+          <Icon4 name="newspaper-variant-outline" size={29} color="#343434"/>
           <OptionText>Recados</OptionText>
         </Option>
         <Option>
-          <Icon5 name="laboratory" size={29} />
+          <Icon5 name="laboratory" size={29} color="#343434"/>
           <OptionText>Lab/Oficina</OptionText>
         </Option>
         <Option>
-          <Icon6 name="dashboard" size={29} />
+          <Icon6 name="dashboard" size={29} color="#343434"/>
           <OptionText>Telemetria</OptionText>
         </Option>
         <Option>
-          <Icon name="shopping-cart" size={29} />
+          <Icon name="shopping-cart" size={29} color="#343434"/>
           <OptionText>Requisição</OptionText>
         </Option>
       </Options>

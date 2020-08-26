@@ -1,11 +1,12 @@
 import styled from 'styled-components/native';
+import { Dimensions } from "react-native";
 
 export const Scroll = styled.ScrollView`
   width: 100%;
   height: 829px;
 `;
 
-export const Container = styled.View`
+export const Content = styled.View`
   width: 100%;
   height: 829px;
   display: flex;
@@ -46,11 +47,11 @@ export const Title = styled.Text`
 
   color: #222222;
 `;
-
+ 
 export const Fundo3 = styled.Image`
   position: absolute;
   width: 100%;
-  height: 382.28px;
+  height: ${382.28 + Dimensions.get('window').width - 360}px;
   left: 0px;
   bottom: 0px;
 `;
@@ -58,25 +59,26 @@ export const Fundo3 = styled.Image`
 export const Fundo4 = styled.Image`
   position: absolute;
   width: 100%;
-  height: 208px;
+  height: ${208 + Dimensions.get('window').width - 360}px;
   left: 0px;
   bottom: 193px;
 `;
 
 export const Medias = styled.View`
   flex-direction: row;
+  margin-bottom: 30px;
 `;
 
 export const Instagram = styled.View`
   flex-direction: row;
 `;
 
-
-export const Media = styled.View`
+export const Media = styled.TouchableOpacity`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 37px;
+  margin-right: 18px;
+  margin-left: 18px;
 `;
 
 export const MediaText = styled.Text`
@@ -94,7 +96,15 @@ export const WebSite = styled.Image`
   height: 50px;
 `;
 
+export const Intern = styled.View`
+
+`
+
 export const Lock = styled.Image`
+  position: absolute;
+  right: 0;
+  bottom: 0;
   width: 15.76px;
   height: 25.96px;
+  z-index: 2;
 `;
