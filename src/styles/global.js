@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -46,8 +47,7 @@ export const Subtitle = styled.Text`
   color: #222222;
 `
 
-export const Button = styled.TouchableOpacity`
-  display: flex;
+export const Button = styled(RectButton)`
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -69,18 +69,6 @@ export const End = styled.View`
   justify-content: center;
 `
 
-export const Back = styled.TouchableOpacity.attrs({
-  shadowColor: "rgba(0, 0, 0, 0.3)",
-  shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 0,
-  shadowOpacity: 1,
-  elevation: 2,
-})`
-  position: absolute;
-  left: 18px;
-  bottom: 21px;
-`;
-
 export const Input = styled.TextInput.attrs({
   shadowColor: "rgba(0, 0, 0, 0.25)",
   shadowOffset: {
@@ -88,7 +76,7 @@ export const Input = styled.TextInput.attrs({
     height: 0,
   },
   shadowOpacity: 1,
-  shadowRadius: 0,
+  shadowRadius: 1,
   elevation: 1,
 })`
   font-family: Roboto;

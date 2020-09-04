@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { GreenTitle, BlackTitle, Input } from "~/styles/global";
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Title = styled(GreenTitle)`
   font-size: 24px;
@@ -28,7 +29,7 @@ export const BigInput = styled(NewInput)`
 
 export const PriceInput = styled(QuantityInput)`
   width: 183px;
-kkkkk`;
+`;
 
 export const Inline = styled.View`
   align-items: center;
@@ -48,13 +49,7 @@ export const NormalText = styled.Text`
   color: #000000;
 `;
 
-export const New = styled.TouchableOpacity.attrs({
-  shadowColor: 'rgba(0, 0, 0, 0.2)',
-  shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 0,
-  shadowOpacity: 1,
-  elevation: 2,
-})`
+export const New = styled(RectButton)`
   background: #37BF65;
   width: 307px;
   height: 44px;
@@ -76,13 +71,7 @@ export const NewText = styled.Text`
   color: #000000;
 `;
 
-export const Create = styled.TouchableOpacity.attrs({
-  shadowColor: 'rgba(0, 0, 0, 0.2)',
-  shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 0,
-  shadowOpacity: 1,
-  elevation: 2,
-})`
+export const Create = styled(RectButton)`
   background: #4F81BC;
   width: 215px;
   height: 44px;

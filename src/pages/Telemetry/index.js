@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
       height: 3,
     },
     shadowOpacity: 1,
-    shadowRadius: 0,
+    shadowRadius: 2,
     elevation: 2,
     backgroundColor: "#FF7373"
   },
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
       height: 3,
     },
     shadowOpacity: 1,
-    shadowRadius: 0,
+    shadowRadius: 2,
     elevation: 2,
     backgroundColor: "#05A4D7"
   },
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
       height: 3,
     },
     shadowOpacity: 1,
-    shadowRadius: 0,
+    shadowRadius: 2,
     elevation: 2,
     backgroundColor: "#6299E2"
   },
@@ -108,14 +108,14 @@ const styles = StyleSheet.create({
       height: 3,
     },
     shadowOpacity: 1,
-    shadowRadius: 0,
+    shadowRadius: 2,
     elevation: 2,
     backgroundColor: "#FFA555"
   },
   button: {
     shadowColor: 'rgba(0, 0, 0, 0.3)',
     shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 0,
+    shadowRadius: 2,
     shadowOpacity: 1,
     elevation: 2,
   },

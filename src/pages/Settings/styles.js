@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { GreenTitle, Button, ButtonText } from "~/styles/global";
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Title = styled(GreenTitle)`
   font-size: 30px;
@@ -10,26 +11,21 @@ export const Title = styled(GreenTitle)`
 
 export const Modes = styled.View`
   flex-direction: row;
+  width: 100%;
   margin-bottom: 82px;
+  justify-content: space-between;
 `
 
-export const LightMode = styled(Button).attrs({
-  shadowColor: "rgba(0, 0, 0, 0.2)",
-  shadowOffset: {
-    width: 0,
-    height: 2,
-  },
-  shadowOpacity: 1,
-  shadowRadius: 0,
-  elevation: 2,
-})`
+export const LightMode = styled(RectButton)`
   width: 135px;
   height: 28px;
   
   background: #EDEDED;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
   border-radius: 80px;
-  margin: 0 10px;
+
+  align-items: center;
+  justify-content: center;
 `
 
 export const LightModeText = styled.Text`
@@ -51,19 +47,20 @@ export const DarkModeText = styled(LightModeText)`
 `
 
 export const Options = styled.View`
-  display: flex;
+  width: 80%;
+  
   justify-content: center;
   align-items: flex-start;
 `
 
-export const Option = styled.TouchableOpacity`
-  display: flex;
+export const Option = styled(RectButton)`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   margin-top: 20px;
   width: 170px;
   margin-bottom: 21px;
+  width: 100%;
 `
 
 export const OptionTitle = styled.Text`

@@ -9,7 +9,7 @@ export const Fundo = styled.View`
   top: 17px;
 `;
 
-export const Fundo7 = styled.Image`
+export const Fundo7 = styled.ImageBackground`
   position: absolute;
   width: 100%;
   height: ${279 + Dimensions.get('window').width - 360}px;
@@ -17,7 +17,7 @@ export const Fundo7 = styled.Image`
   top: 0px;
 `;
 
-export const Fundo8 = styled.Image`
+export const Fundo8 = styled.ImageBackground`
   width: 100%;
   height: ${208 + Dimensions.get('window').width - 360}px;
   left: 0px;
@@ -69,10 +69,9 @@ export const Open = styled.View.attrs({
     height: 2,
   },
   shadowOpacity: 1,
-  shadowRadius: 0,
+  shadowRadius: 4,
   elevation: 4,
 })`
-  display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;

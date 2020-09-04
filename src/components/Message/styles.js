@@ -1,23 +1,14 @@
 import styled from 'styled-components/native';
 import { BlackTitle, BlackText } from "~/styles/global";
+import { RectButton } from "react-native-gesture-handler";
 
-export const Container = styled.View.attrs({
-  shadowColor: "rgba(0, 0, 0, 0.25)",
-  shadowOffset: {
-    width: 0,
-    height: 2,
-  },
-  shadowOpacity: 1,
-  shadowRadius: 0,
-  elevation: 5,
-})`
+export const Container = styled(RectButton)`
   width: 338px;
   height: 141px;
   padding: 20px;
 
   border-radius: 25px;
   background: #F0F0F0;
-  display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;

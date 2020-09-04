@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Dimensions } from "react-native";
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Scroll = styled.ScrollView`
   width: 100%;
@@ -9,7 +10,6 @@ export const Scroll = styled.ScrollView`
 export const Content = styled.View`
   width: 100%;
   height: 829px;
-  display: flex;
   align-items: center;
   background: #FFF;
 `;
@@ -31,7 +31,6 @@ export const Text = styled.Text`
 `;
 
 export const SocialMedias = styled.View`
-  display: flex;
   align-items: center;
 `;
 
@@ -48,7 +47,7 @@ export const Title = styled.Text`
   color: #222222;
 `;
  
-export const Fundo3 = styled.Image`
+export const Fundo3 = styled.ImageBackground`
   position: absolute;
   width: 100%;
   height: ${382.28 + Dimensions.get('window').width - 360}px;
@@ -56,7 +55,7 @@ export const Fundo3 = styled.Image`
   bottom: 0px;
 `;
 
-export const Fundo4 = styled.Image`
+export const Fundo4 = styled.ImageBackground`
   position: absolute;
   width: 100%;
   height: ${208 + Dimensions.get('window').width - 360}px;
@@ -73,8 +72,7 @@ export const Instagram = styled.View`
   flex-direction: row;
 `;
 
-export const Media = styled.TouchableOpacity`
-  display: flex;
+export const Media = styled(RectButton)`
   align-items: center;
   justify-content: center;
   margin-right: 18px;

@@ -1,18 +1,33 @@
-import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons'
-import Icon2 from 'react-native-vector-icons/AntDesign'
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/AntDesign'
 
 import { 
-  Title, Subtitle, Intern, Inline, InlineTitle, InlineText, ValueTitle, ValueText, Edit, Cancel, Confirm, ButtonText
+  Title, Subtitle, Intern, Inline, InlineTitle, InlineText, ValueTitle, ValueText, Edit, EditText, Cancel, Confirm, ButtonText
 } from './styles';
 
 import {
-  Container, Scroll, Content, End, Back
+  Container, Scroll, Content
 } from '~/styles/global'
 
 import Head from '~/components/Head';
 
 const Review = () => {
+  const { navigate } = useNavigation()
+
+  function handleCancel() {
+    navigate('MyRequirements')
+  }
+  
+  function handleConfirm() {
+    navigate('MyRequirements')
+  }
+  
+  function handleEdit() {
+    navigate('NewRequirement')
+  }
+
   return (
     <Container>
       <Head />
@@ -56,17 +71,23 @@ const Review = () => {
                 <ValueTitle>Valor: </ValueTitle>
                 <ValueText>R$ 67,24</ValueText>
               </Inline>
-              <Inline style={{marginLeft: "auto"}}>
-                <Icon2 name="edit" size={32}/>
-                <Edit>Editar</Edit>
-              </Inline>
+              <Edit onPress={handleEdit}>
+                <Icon name="edit" size={32}/>
+                <EditText>Editar</EditText>
+              </Edit>
             </Inline>
 
             <Inline>
-              <Cancel>
+              <Cancel 
+                style={styles.button}
+                onPress={handleCancel}
+              >
                 <ButtonText>Cancelar</ButtonText>
               </Cancel>
-              <Confirm>
+              <Confirm 
+                style={styles.button}
+                onPress={handleConfirm}
+              >
                 <ButtonText>Confirmar</ButtonText>
               </Confirm>
             </Inline>
@@ -76,5 +97,14 @@ const Review = () => {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+  shadowColor: "rgba(0, 0, 0, 0.2)",
+  shadowOffset: { width: 0, height: 2 },
+  shadowRadius: 2,
+  shadowOpacity: 1,
+  elevation: 2,
+}})
 
 export default Review;

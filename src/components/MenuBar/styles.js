@@ -1,4 +1,6 @@
 import styled from 'styled-components/native';
+import { DrawerItem } from '@react-navigation/drawer';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View.attrs({
   shadowColor: "rgba(0, 0, 0, 0.2)",
@@ -7,7 +9,7 @@ export const Container = styled.View.attrs({
     height: 2,
   },
   shadowOpacity: 1,
-  shadowRadius: 0,
+  shadowRadius: 5,
   elevation: 5,
 })`
   position: absolute;
@@ -26,36 +28,45 @@ export const Header = styled.View`
   align-items: center;
   padding: 19px 17px;
 `
+
+export const Less = styled(RectButton)`
+  
+`;
+
+export const Settings = styled(RectButton)`
+  
+`;
+
 export const Options = styled.View`
-  display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 `
 
-export const Profile = styled.View`
-  display: flex;
+export const Profile = styled(DrawerItem)`
   flex-direction: row;
   align-items: center;
   width: 200px;
   margin-bottom: 11px;
-  /* border: 2px solid #000; */
 `
 
 export const ProfileImage = styled.Image``
 
 export const ProfileText = styled.Text`
-  margin-left: 17px;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+
+  color: #343434;
 `
 
-export const Option = styled.TouchableOpacity`
-  display: flex;
+export const Option = styled(DrawerItem)`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   margin-top: 20px;
   width: 170px;
-  /* border: 2px solid #000; */
 `
 
 export const OptionText = styled.Text`
@@ -64,7 +75,5 @@ export const OptionText = styled.Text`
   font-size: 18px;
   line-height: 21px;
   
-  color: #343434;
-  
-  margin-left: 17px;
+  color: #343434;  
 `

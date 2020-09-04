@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 
 import { 
-  Title, Intern, Place, Status, SubTitle, Open, Close, Buttons, ButtonAsk, ButtonCancel, ButtonText, NotificationText, Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
+  Title, Intern, Place, Status, SubTitle, Open, Close, Buttons, ButtonAsk, ButtonCancel, ButtonText, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
 } from './styles';
+
 import { Container, Scroll, Content } from "~/styles/global";
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -10,15 +12,39 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Head from '~/components/Head';
 import MenuBar from '~/components/MenuBar';
 import AsktoOpen from '~/components/AsktoOpen';
+import { useFocusEffect } from '@react-navigation/native';
 
 const LabAndWorkshop = () => {
-  const LabOpen = false;
-  const WorkshopOpen = false;
+  const [labIsOpen, setLabIsOpen] = useState(true);
+  const [workshopIsOpen, setWorkshopIsOpen] = useState(false);
+  const [notificationLabIsOn, setNotificationLabIsOn] = useState(false);
+  const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(true);
+  const [totalHoursLab, setTotalHoursLab] = useState('');
+  const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
+  const [workshopKey, setWorkshopKey] = useState('');
+  const [labBlueKey, setLabBlueKey] = useState('');
+  const [labRedKey, setLabRedKey] = useState('');
+
+  useFocusEffect(() => {
+    setTotalHoursLab('1h50min');
+    setTotalHoursWorkshop('2h30min');
+    setWorkshopKey('Segurança Bloco A');
+    setLabBlueKey('Segurança Bloco L');
+    setLabRedKey('Oficina');
+  })
+
+  function toggleNotificationLab() {
+    setNotificationLabIsOn(!notificationLabIsOn)
+  }
+
+  function toggleNotificationWorkShop() {
+    setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
+  }
 
   return (
     <Container>
-      <AsktoOpen />
       <Head />
+      {/* <AsktoOpen /> */}
       <Scroll>
         <Content>
           <Title>Status Lab/Oficina</Title>
@@ -28,22 +54,29 @@ const LabAndWorkshop = () => {
             <Place>
               <Status>
                 <SubTitle>Laboratório</SubTitle>
-                {LabOpen && <Open>Aberto</Open>}
-                {!LabOpen && <Close>Fechado</Close>}
+                { labIsOpen
+                  ? <Open>Aberto</Open>
+                  : <Close>Fechado</Close>
+                } 
               </Status>
 
               <Buttons>
-                <ButtonAsk>
+                <ButtonAsk style={styles.button}>
                   <ButtonText>Pedir para</ButtonText>
                   <ButtonText>abrir</ButtonText>
                 </ButtonAsk>
                 <NotificationText>Notificar quando o Lab abrir?</NotificationText>
-                <Icon name="toggle-off" size={35}/>
+                <Toggle onPress={toggleNotificationLab}>
+                  { notificationLabIsOn
+                    ? <Icon name="toggle-on" size={35}/>
+                    : <Icon name="toggle-off" size={35}/>
+                  }
+                </Toggle>
               </Buttons>
 
               <Information>
                 <InformationTitle>Horas:</InformationTitle>
-                <InformationContent>26h30min</InformationContent>
+                <InformationContent>{totalHoursLab}</InformationContent>
               </Information>
             </Place>
 
@@ -51,8 +84,10 @@ const LabAndWorkshop = () => {
             <Place>
               <Status>
                 <SubTitle>Oficina</SubTitle>
-                {WorkshopOpen && <Open>Aberta</Open>}
-                {!WorkshopOpen && <Close>Fechada</Close>}
+                { workshopIsOpen
+                  ? <Open>Aberta</Open>
+                  : <Close>Fechada</Close>
+                } 
               </Status>
 
               <Buttons>
@@ -60,12 +95,17 @@ const LabAndWorkshop = () => {
                   <ButtonText>Cancelar</ButtonText>
                 </ButtonCancel>
                 <NotificationText>Notificar quando a Oficina abrir?</NotificationText>
-                <Icon name="toggle-on" size={35}/>
+                <Toggle onPress={toggleNotificationWorkShop}>
+                  { notificationWorkshopIsOn
+                    ? <Icon name="toggle-on" size={35}/>
+                    : <Icon name="toggle-off" size={35}/>
+                  }
+                </Toggle>
               </Buttons>
 
               <Information>
                 <InformationTitle>Horas:</InformationTitle>
-                <InformationContent>26h30min</InformationContent>
+                <InformationContent>{totalHoursWorkshop}</InformationContent>
               </Information>
             </Place>
 
@@ -78,17 +118,17 @@ const LabAndWorkshop = () => {
 
               <Information>
                 <InformationTitle>Oficina:</InformationTitle>
-                <InformationContent>Segurança Bloco A</InformationContent>
+                <InformationContent>{workshopKey}</InformationContent>
               </Information>
 
               <Information>
                 <InformationTitle>Lab Azul:</InformationTitle>
-                <InformationContent>Segurança Bloco L</InformationContent>
+                <InformationContent>{labBlueKey}</InformationContent>
               </Information>
 
               <Information>
                 <InformationTitle>Lab Vermelha:</InformationTitle>
-                <InformationContent>Oficina</InformationContent>
+                <InformationContent>{labRedKey}</InformationContent>
               </Information>
             </Keys>
           </Intern>
@@ -97,5 +137,18 @@ const LabAndWorkshop = () => {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    shadowColor: "rgba(0, 0, 0, 0.25)",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 4,
+  }
+})
 
 export default LabAndWorkshop;

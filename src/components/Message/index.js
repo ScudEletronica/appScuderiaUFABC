@@ -1,16 +1,35 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { 
   Container, Title, Date, Content 
 } from './styles';
 
-const Message = () => {
+const Message = ({title, date, text}) => {
+  const { navigate } = useNavigation()
+
+  function handleNavigateToMessage() {
+    navigate('Message')
+  }
+
   return (
-    <Container>
-      <Title>Lorem Ipsum</Title>
-      <Date>8/16/13</Date>
+    <Container 
+      style={{
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 5,
+      }}
+      onPress={handleNavigateToMessage}
+    >
+      <Title>{title}</Title>
+      <Date>{date}</Date>
       <Content>
-        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+        {text}
       </Content>
     </Container>
   );

@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { 
   Container, Information, InformationTitle, InformationText, Value, ValueTitle, ValueText
 } from './styles';
+import { useFocusEffect } from '@react-navigation/native';
 
-const Requirement = () => {
+const Requirement = ({product, amount, value}) => {
   return (
     <Container>
       <Information>
         <InformationTitle>Produto:</InformationTitle>
-        <InformationText>Lorem Ipsum</InformationText>
+        <InformationText>{product}</InformationText>
       </Information>
       <Information>
         <InformationTitle>Quantidade:</InformationTitle>
-        <InformationText>5</InformationText>
+        <InformationText>{amount}</InformationText>
       </Information>
       <Value>
         <ValueTitle>Valor:</ValueTitle>
-        <ValueText>R$ 100,00</ValueText>
+        <ValueText>R$ {value.toFixed(2)}</ValueText>
       </Value>
     </Container>
   );

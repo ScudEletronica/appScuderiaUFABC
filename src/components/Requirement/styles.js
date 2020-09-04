@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View.attrs({
   shadowColor: "rgba(0, 0, 0, 0.18)",
   shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 0,
+  shadowRadius: 6,
   shadowOpacity: 1,
   elevation: 6,
 })`

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import { 
   Container, Fundo, Logo, Fundo1, Fundo2, Form, Title, Subtitle, Input, LoginBotao, LoginImage
 } from './styles';
@@ -7,6 +8,12 @@ import {
 import { Scroll } from "~/styles/global";
 
 export default function Login() {
+  const { navigate } = useNavigation();
+  
+  function handleSubmit() {
+    navigate('Drawer');
+  }
+
   return (
     <Scroll>
       <Container>
@@ -18,9 +25,15 @@ export default function Login() {
         <Form>
             <Title>Bem-Vindo!</Title>
             <Subtitle>Efetue seu login a seguir:</Subtitle>
-          <Input placeholder="Insira seu Nome" placeholderTextColor={"#969696"}/>
-          <Input placeholder="Insira seu RA" placeholderTextColor={"#969696"} />
-          <LoginBotao>
+          <Input 
+            placeholder="Insira seu Nome" 
+            placeholderTextColor={"#969696"}
+          />
+          <Input 
+            placeholder="Insira seu RA" 
+            placeholderTextColor={"#969696"} 
+          />
+          <LoginBotao onPress={handleSubmit}>
             <LoginImage source={require('./../../assets/Login.png')} />
           </LoginBotao>
         </Form>

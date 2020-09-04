@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { GreenTitle } from "~/styles/global";
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Title = styled(GreenTitle)`
   font-size: 24px;
@@ -53,18 +54,19 @@ export const ValueText = styled(InlineText)`
   margin-right: 70px;
 `;
 
-export const Edit = styled(InlineTitle)`
+export const Edit = styled(RectButton)`
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 12px;
+`;
+
+export const EditText = styled(InlineTitle)`
   font-size: 20px;
   line-height: 23px;
 `;
 
-export const Cancel = styled.TouchableOpacity.attrs({
-  shadowColor: "rgba(0, 0, 0, 0.2)",
-  shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 0,
-  shadowOpacity: 1,
-  elevation: 2,
-})`
+export const Cancel = styled(RectButton)`
   width: 128px;
   height: 34px;
   background: #EB5757;
@@ -72,7 +74,6 @@ export const Cancel = styled.TouchableOpacity.attrs({
 
   margin-top: 13px;
 
-  display: flex;
   align-items: center;
   align-self: flex-end;
   justify-content: center;

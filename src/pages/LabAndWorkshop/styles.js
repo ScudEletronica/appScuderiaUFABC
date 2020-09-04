@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RectButton } from "react-native-gesture-handler";
 
 export const Content = styled.View`
   flex: 1;
@@ -68,19 +69,9 @@ export const Buttons = styled.View`
   align-items: center;
 `
 
-export const ButtonAsk = styled.TouchableOpacity.attrs({
-  shadowColor: "rgba(0, 0, 0, 0.25)",
-  shadowOffset: {
-    width: 0,
-    height: 4,
-  },
-  shadowOpacity: 1,
-  shadowRadius: 0,
-  elevation: 4,
-})`
+export const ButtonAsk = styled(RectButton)`
   width: 110px;
   height: 46px;
-  display: flex;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -113,6 +104,9 @@ export const NotificationText = styled.Text`
 
   color: #000000;
 `
+
+export const Toggle = styled(RectButton)`
+`;
 
 export const Information = styled.View`
   flex-direction: row;

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Dimensions } from "react-native";
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -33,7 +34,6 @@ export const Fundo2 = styled.Image`
 `
 
 export const Form = styled.View`
-  display: flex;
   justify-content: space-between;
   align-items: flex-end;
   background-color: rgba(0, 0, 0, 0);
@@ -69,7 +69,7 @@ export const Input = styled.TextInput.attrs({
     height: 0,
   },
   shadowOpacity: 1,
-  shadowRadius: 0,
+  shadowRadius: 1,
   elevation: 1,
 })`
   width: 291.58px;
@@ -82,7 +82,7 @@ export const Input = styled.TextInput.attrs({
   padding-left: 15px;
 `;
 
-export const LoginBotao = styled.TouchableOpacity`
+export const LoginBotao = styled(RectButton)`
 `
 
 export const LoginImage = styled.Image`
