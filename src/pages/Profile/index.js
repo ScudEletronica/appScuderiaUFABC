@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { 
@@ -17,6 +18,8 @@ const Profile = () => {
   const [name, setName] = useState(' ');
   const [ra, setRA] = useState(0);
   const [picture, setPicture] = useState(' ');
+  
+  const { colors } = useContext(ThemeContext);
 
   useFocusEffect(() => {
     setPicture('../../assets/Avatar.png');
@@ -32,7 +35,10 @@ const Profile = () => {
           <Avatar>
             <AvatarImage resizeMode="contain" source={require('../../assets/Avatar.png')} />
             <Cam>
-              <Icon name="camera-plus" size={40}/>
+              <Icon 
+                name="camera-plus" 
+                size={40} 
+                color={colors.primaryIcon}/>
             </Cam>
           </Avatar>
         </Content>
@@ -51,7 +57,7 @@ const Profile = () => {
           </Fundo10>
           
           <End>
-            <Back />
+            <Back different/>
           </End>
         </Fundo>
     </Container>

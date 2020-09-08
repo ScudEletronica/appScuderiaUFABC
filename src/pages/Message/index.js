@@ -12,25 +12,17 @@ import {
 import Head from '~/components/Head';
 import Back from '~/components/Back';
 
-const text = `
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-  
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-`
-
-const Message = () => {
+const Message = ({route}) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [content, setContent] = useState('');
 
+  const { mTitle, mDate, mText } = route.params;
+
   useFocusEffect(() =>{
-    setTitle("Lorem Ipsum");
-    setDate("8/16/13");
-    setContent(text);
+    setTitle(mTitle);
+    setDate(mDate);
+    setContent(mText);
   })
 
   return (

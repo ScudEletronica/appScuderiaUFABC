@@ -10,7 +10,17 @@ import { Container, Scroll, Content } from '~/styles/global';
 import Head from '~/components/Head';
 import Message from '~/components/Message';
 
-const Main = () => {
+const text = `
+  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+
+  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+
+  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+  
+  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+`
+
+const Main = ({route}) => {
   const [labIsOpen, setLabIsOpen] = useState(false);
   const [workshopIsOpen, setWorkshopIsOpen] = useState(true);
   const [name, setName] = useState(' ');
@@ -66,22 +76,22 @@ const Main = () => {
             <Message 
               title="Lorem Ipsum"
               date="8/16/13"
-              text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
+              content={text}
             />
             <Message 
               title="Lorem Ipsum"
               date="8/16/13"
-              text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
+              content={text}
             />
             <Message 
               title="Lorem Ipsum"
               date="8/16/13"
-              text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
+              content={text}
             />
             <Message 
               title="Lorem Ipsum"
               date="8/16/13"
-              text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
+              content={text}
             />
           </Messages>
         </Content>

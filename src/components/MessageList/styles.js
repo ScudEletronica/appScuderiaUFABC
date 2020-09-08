@@ -6,7 +6,7 @@ export const Container = styled(RectButton)`
   height: 141px;
   padding: 20px;
 
-  background: #F0F0F0;
+  background: ${props => props.theme.colors.fill};
   align-items: flex-start;
   justify-content: center;
   margin-bottom: 7px;
@@ -19,7 +19,7 @@ export const Title = styled.Text`
   line-height: 21px;
   text-align: center;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const Date = styled.Text`
@@ -29,7 +29,7 @@ export const Date = styled.Text`
   line-height: 16px;
   text-align: center;
 
-  color: #343434;
+  color: ${props => props.theme.colors.secondaryText};
 `;
 
 export const Content = styled.Text`
@@ -39,6 +39,6 @@ export const Content = styled.Text`
   line-height: 20px;
   text-align: justify;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 

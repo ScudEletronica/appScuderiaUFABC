@@ -48,7 +48,7 @@ export const LinkText = styled.Text`
 
   width: 100%;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `
 
 export const Subtitle = styled.Text`
@@ -60,7 +60,7 @@ export const Subtitle = styled.Text`
   margin: 14px 0 10px;
   align-self: flex-start;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const TextInfo = styled.Text`
@@ -71,5 +71,5 @@ export const TextInfo = styled.Text`
   margin-bottom: 4px;
   align-self: flex-start;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;

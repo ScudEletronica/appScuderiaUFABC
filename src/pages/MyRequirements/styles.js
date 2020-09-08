@@ -27,7 +27,7 @@ export const MenuTitle = styled.Text`
   text-align: center;
   margin-left: 10px;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `
 
 export const Cancel = styled(RectButton)`
@@ -50,7 +50,7 @@ export const CancelText = styled.Text`
   font-size: 16px;
   line-height: 19px;
 
-  color: #FFFFFF;
+  color: #FFF;
 `;
 
 export const New = styled(RectButton)`
@@ -73,5 +73,5 @@ export const NewText = styled.Text`
   line-height: 19px;
   margin-left: 8px;
 
-  color: #000000;
+  color: ${props => props.theme.colors.buttonText};
 `;

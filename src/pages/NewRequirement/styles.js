@@ -46,7 +46,7 @@ export const NormalText = styled.Text`
   text-align: center;
   margin: 0 10px 10px 0;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `;
 
 export const New = styled(RectButton)`
@@ -68,7 +68,7 @@ export const NewText = styled.Text`
   line-height: 19px;
   margin-left: 8px;
 
-  color: #000000;
+  color: ${props => props.theme.colors.buttonText};
 `;
 
 export const Create = styled(RectButton)`
@@ -90,7 +90,7 @@ export const CreateText = styled.Text`
   font-size: 20px;
   line-height: 23px;
 
-  color: #FFFFFF;
+  color: ${props => props.theme.colors.buttonText};
 `;
 
 export const Mean = styled.View`

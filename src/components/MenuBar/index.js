@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Icon2 from 'react-native-vector-icons/Ionicons'
 import Icon3 from 'react-native-vector-icons/Entypo'
@@ -12,9 +13,11 @@ import {
 } from './styles';
 import { useFocusEffect } from '@react-navigation/native';
 
-const color = "#343434"
 
 const MenuBar = (props) => {
+  const { colors } = useContext(ThemeContext)
+
+  const color = colors.secondaryIcon
   const [picture, setPicture] = useState('');
   const [name, setName] = useState('');
 
@@ -28,10 +31,10 @@ const MenuBar = (props) => {
       <DrawerContentScrollView>
         <Header>
           <Less onPress={props.navigation.closeDrawer}>
-            <Icon name="more-vert" size={20} />
+            <Icon name="more-vert" size={20} color={color}/>
           </Less>
           <Settings onPress={() => props.navigation.navigate('Settings')}>
-            <Icon2 name="settings-outline" size={20}/>
+            <Icon2 name="settings-outline" size={20} color={color}/>
           </Settings>
         </Header>
         <Options>

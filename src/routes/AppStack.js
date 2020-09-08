@@ -17,19 +17,22 @@ import Settings from '~/pages/Settings'
 import Profile from '~/pages/Profile'
 import Information from '~/pages/Information';
 import Notifications from '~/pages/Notifications';
-import Head from '~/components/Head';
 import Drawer from './Drawer';
-
 
 const { Navigator, Screen } = createStackNavigator();
 
-function AppStack() {
+function AppStack({darkMode, lightMode}) {
+
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false }}>
         <Screen name="Login" component={Login} />
         <Screen name="Loading" component={Loading} /> 
-        <Screen name="Drawer" component={Drawer} />
+        <Screen 
+          name="Drawer" 
+          component={Drawer} 
+          initialParams={{darkMode, lightMode}}
+        />
         <Screen name="Main" component={Main} />
         <Screen name="About" component={About} />
         <Screen name="Messages" component={Messages} />
@@ -39,7 +42,6 @@ function AppStack() {
         <Screen name="MyRequirements" component={MyRequirements} />
         <Screen name="NewRequirement" component={NewRequirement} />
         <Screen name="Review" component={Review} />
-        <Screen name="Settings" component={Settings} />
         <Screen name="Information" component={Information} />
         <Screen name="Notifications" component={Notifications} />
         <Screen name="Profile" component={Profile} />

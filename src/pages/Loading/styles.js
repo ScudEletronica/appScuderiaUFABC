@@ -4,9 +4,8 @@ import { Animated, Dimensions } from "react-native";
 
 export const Container = styled.View`
   flex: 1;
-  background: #FFF;
+  background: ${props => props.theme.colors.background};
   align-items: center;
-  /* justify-content: flex-start; */
 `;
 
 export const Fundo = styled.View`
@@ -35,7 +34,7 @@ export const Title = styled.Text`
   line-height: 21px;
   text-align: center;
 
-  color: #343434;
+  color: ${props => props.theme.colors.secondaryText};
 `
 
 export const GIF = styled.Image`

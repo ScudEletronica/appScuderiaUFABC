@@ -13,7 +13,7 @@ export const Container = styled.View.attrs({
 
   padding: 3px 14px;
 
-  background: #F0F0F0;
+  background: ${props => props.theme.colors.fill};
 `;
 
 export const Information = styled.View`
@@ -28,7 +28,7 @@ export const InformationTitle = styled.Text`
   line-height: 21px;
   margin-right: 10px;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const InformationText = styled(InformationTitle)`

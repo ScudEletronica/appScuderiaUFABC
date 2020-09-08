@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
 
 import { 
   Container
 } from './styles';
 
-function Back() {
+function Back({different}) {
   const { goBack } = useNavigation();
+  const { colors } = useContext(ThemeContext);
 
   function handleGoBack() {
     goBack()
@@ -22,8 +24,20 @@ function Back() {
         shadowOpacity: 1,
         elevation: 2,
       }}
-      onPress={handleGoBack}>
-      <Icon name="md-chevron-back-circle" size={34}/>
+      onPress={handleGoBack}
+    >
+      {different
+        ?<Icon 
+          name="md-chevron-back-circle" 
+          size={34} 
+          color='#000' 
+        />
+        :<Icon 
+          name="md-chevron-back-circle" 
+          size={34} 
+          color={colors.primaryIcon}
+        />
+      }
     </Container>
   );
 }

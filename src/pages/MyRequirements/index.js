@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from "react-native";
+import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Icon2 from 'react-native-vector-icons/AntDesign'
 
@@ -16,6 +17,8 @@ import Requirement from '~/components/Requirement';
 import Back from '~/components/Back';
 
 const MyRequirements = ({ navigation }) => {
+  const { colors } = useContext(ThemeContext);
+
   function handleCreateNewRequirement() {
     navigation.navigate('NewRequirement')
   }
@@ -28,7 +31,7 @@ const MyRequirements = ({ navigation }) => {
           <Title>MINHAS REQUISIÇÕES</Title>
           <Menu>
             <MenuHeader>
-              <Icon name="hourglass-outline" size={28} color="#000"/>
+              <Icon name="hourglass-outline" size={28} color={colors.primaryIcon}/>
               <MenuTitle>Pendentes</MenuTitle>
             </MenuHeader>
             <Requirement 

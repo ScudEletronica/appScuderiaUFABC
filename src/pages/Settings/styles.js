@@ -34,11 +34,11 @@ export const LightModeText = styled.Text`
   font-size: 20px;
   line-height: 23px;
 
-  color: #222222;
+  color: #222;
 `
 
 export const DarkMode = styled(LightMode)`
-  background: #222222;
+  background: #3D3D3D;
   border: 1px solid #222222;
 `
 
@@ -70,5 +70,5 @@ export const OptionTitle = styled.Text`
   line-height: 28px;
   margin-left: 12px;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `

@@ -48,7 +48,7 @@ export const Name = styled.View.attrs({
   align-self: center;
   width: 273px;
   top: 20px;
-  background: #FFFFFF;
+  background: ${props => props.theme.colors.background};
   border-radius: 40px;
   padding: 10px 26px;
   margin: 50px 0 25px;
@@ -62,7 +62,7 @@ export const NameText = styled.Text`
   line-height: 23px;
   text-align: center;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const RA = styled(Name)`

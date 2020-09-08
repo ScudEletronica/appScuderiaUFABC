@@ -5,11 +5,11 @@ import {
   Container, Title, Date, Content 
 } from './styles';
 
-const Message = ({title, date, text}) => {
+const Message = ({title, date, content}) => {
   const { navigate } = useNavigation()
 
   function handleNavigateToMessage() {
-    navigate('Message')
+    navigate("Message", {mTitle: title, mDate: date, mText: content})
   }
 
   return (
@@ -28,9 +28,7 @@ const Message = ({title, date, text}) => {
     >
       <Title>{title}</Title>
       <Date>{date}</Date>
-      <Content>
-        {text}
-      </Content>
+      <Content>{content.substring(1, 170)} ...</Content>
     </Container>
   );
 }

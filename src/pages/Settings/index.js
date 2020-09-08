@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Icon2 from 'react-native-vector-icons/Ionicons'
 import Icon3 from 'react-native-vector-icons/Entypo'
@@ -8,13 +9,19 @@ import Icon3 from 'react-native-vector-icons/Entypo'
 import { 
   Title, Modes, LightMode, LightModeText, DarkMode, DarkModeText,Options, Option, OptionTitle
 } from './styles';
+
 import { Container, Scroll, Content, End } from '~/styles/global';
 
 import Head from '~/components/Head';
 import Back from '~/components/Back';
 
-const Settings = () => {
-  const { navigate } = useNavigation()
+const Settings = ({ route }) => {
+  const { navigate } = useNavigation();
+  const { colors } = useContext(ThemeContext);
+
+  const color = colors.primaryIcon;
+
+  const { darkMode, lightMode } = route.params;
   
   function handleNavigateToProfile() {
     navigate('Profile');
@@ -34,25 +41,43 @@ const Settings = () => {
       <Scroll>
         <Content>
           <Title>CONFIGURAÇÕES</Title>
-          <Options>
+          <Options> 
             <Modes>
-              <LightMode style={styles.button}>
+              <LightMode 
+                style={styles.button}
+                onPress={lightMode}
+              >
                 <LightModeText>Light Mode</LightModeText>
               </LightMode>
-              <DarkMode style={styles.button}>
+              <DarkMode 
+                style={styles.button}
+                onPress={darkMode}
+              >
                 <DarkModeText>Dark Mode</DarkModeText>
               </DarkMode>
             </Modes>
             <Option onPress={handleNavigateToProfile}>
-              <Icon2 name="ios-person-circle-outline" size={40} />
+              <Icon2 
+                name="ios-person-circle-outline" 
+                size={40} 
+                color={color}
+              />
               <OptionTitle>Perfil</OptionTitle>
             </Option>
             <Option onPress={handleNavigateToNotifications}>
-              <Icon name="bell" size={40} />
+              <Icon 
+                name="bell" 
+                size={40} 
+                color={color}
+              />
               <OptionTitle>Notificações</OptionTitle>
             </Option>
             <Option onPress={handleNavigateToInformation}>
-              <Icon3 name="info-with-circle" size={40} />
+              <Icon3 
+                name="info-with-circle" 
+                size={40} 
+                color={color}
+              />
               <OptionTitle>Informações</OptionTitle>
             </Option>
           </Options>

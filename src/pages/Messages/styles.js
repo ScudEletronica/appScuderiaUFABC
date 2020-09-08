@@ -1,13 +1,9 @@
 import styled from 'styled-components/native';
+import { GreenTitle } from '~/styles/global';
 
-export const Title = styled.Text`
-  font-family: Roboto Condensed;
-  font-weight: bold;
+export const Title = styled(GreenTitle)`
   font-size: 36px;
   line-height: 42px;
 
-  margin-top: 10px;
-  margin-bottom: 17px;
-
-  color: #37BF65;
+  margin: 10px 0 17px;
 `;

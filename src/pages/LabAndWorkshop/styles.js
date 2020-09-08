@@ -1,22 +1,18 @@
 import styled from 'styled-components/native';
 import { RectButton } from "react-native-gesture-handler";
+import { GreenTitle, ButtonText } from '~/styles/global';
 
 export const Content = styled.View`
   flex: 1;
-  background: #FFF;
+  background: ${props => props.theme.colors.background};
   align-items: center;
 `;
 
-export const Title = styled.Text`
-  font-family: Roboto Condensed;
-  font-weight: bold;
+export const Title = styled(GreenTitle)`
   font-size: 36px;
   line-height: 42px;
 
-  margin-top: 23px;
-  margin-bottom: 28px;
-
-  color: #37BF65;
+  margin: 23px 0 28px;
 `;
 
 export const Intern = styled.View`
@@ -42,7 +38,7 @@ export const SubTitle = styled.Text`
   line-height: 28px;
   margin-right: auto;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `;
 
 export const Open = styled.Text`
@@ -75,7 +71,7 @@ export const ButtonAsk = styled(RectButton)`
   text-align: center;
   align-items: center;
   justify-content: center;
-  background: #222222;
+  background: ${props => props.theme.colors.primaryButton};
   border-radius: 38px;
   margin: 14px 18px 10px 0;
 `
@@ -84,13 +80,9 @@ export const ButtonCancel = styled(ButtonAsk)`
   background: #EB5757;
 `;
 
-export const ButtonText = styled.Text`
-  font-family: Roboto;
-  font-weight: bold;
+export const TextButton = styled(ButtonText)`
   font-size: 17px;
   line-height: 20px;
-
-  color: #FFFFFF;
 `
 
 export const NotificationText = styled.Text`
@@ -102,7 +94,7 @@ export const NotificationText = styled.Text`
   line-height: 19px;
   text-align: center;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `
 
 export const Toggle = styled(RectButton)`
@@ -123,7 +115,7 @@ export const InformationTitle = styled.Text`
 
   margin-right: 10px;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `
 
 export const InformationContent = styled.Text`
@@ -134,7 +126,7 @@ export const InformationContent = styled.Text`
   line-height: 21px;
   text-align: center;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `
 
 export const Keys = styled.View`

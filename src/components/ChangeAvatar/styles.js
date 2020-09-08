@@ -48,7 +48,7 @@ export const OptionText = styled.Text`
   line-height: 28px;
   margin-left: 12px;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `;
 
 export const ChangePhoto = styled.Image`

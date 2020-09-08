@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/Fontisto'
 import Icon2 from 'react-native-vector-icons/AntDesign'
 
@@ -7,6 +8,8 @@ import {
 } from './styles';
 
 const ChangeAvatar = () => {
+  const { colors } = useContext(ThemeContext);
+
   return (
     <Container>
         <Content>
@@ -16,7 +19,7 @@ const ChangeAvatar = () => {
           <Avatar source={require('../../assets/Avatar.png')}/>
           <Options>
             <Option>
-              <Icon2 name="edit" size={27} color="#000"/>
+              <Icon2 name="edit" size={27} color={colors.primaryIcon}/>
               <OptionText>Editar</OptionText>
             </Option>
             <Option>

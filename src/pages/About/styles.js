@@ -11,7 +11,7 @@ export const Content = styled.View`
   width: 100%;
   height: 829px;
   align-items: center;
-  background: #FFF;
+  background: ${props => props.theme.colors.background};
 `;
 
 export const RM01 = styled.Image`
@@ -27,7 +27,7 @@ export const Text = styled.Text`
 
   margin: 10px 30px 10px 20px;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const SocialMedias = styled.View`
@@ -44,7 +44,7 @@ export const Title = styled.Text`
   margin-bottom: 27px;
   margin-top: 50px;
 
-  color: #222222;
+  color: #222;
 `;
  
 export const Fundo3 = styled.ImageBackground`
@@ -86,7 +86,7 @@ export const MediaText = styled.Text`
   font-size: 16px;
   line-height: 19px;
 
-  color: #222222;
+  color: #222;
 `;
 
 export const WebSite = styled.Image`

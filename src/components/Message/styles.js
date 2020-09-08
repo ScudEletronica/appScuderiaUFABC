@@ -8,7 +8,7 @@ export const Container = styled(RectButton)`
   padding: 20px;
 
   border-radius: 25px;
-  background: #F0F0F0;
+  background: ${props => props.theme.colors.fill};
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
@@ -18,7 +18,7 @@ export const Title = styled(BlackTitle)`
   font-size: 18px;
   line-height: 21px;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const Date = styled.Text`
@@ -28,7 +28,7 @@ export const Date = styled.Text`
   line-height: 16px;
   text-align: center;
 
-  color: #343434;
+  color: ${props => props.theme.colors.secondaryText};
 `;
 
 export const Content = styled(BlackText)`

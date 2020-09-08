@@ -13,7 +13,7 @@ export const Container = styled.View.attrs({
   right: 0;
   width: 100%;
   height: 48px;
-  background: #FFF;
+  background: ${props => props.theme.colors.background};
   z-index: 5;
   
   flex-direction: row;

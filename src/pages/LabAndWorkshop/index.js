@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
 
 import { 
-  Title, Intern, Place, Status, SubTitle, Open, Close, Buttons, ButtonAsk, ButtonCancel, ButtonText, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
+  Title, Intern, Place, Status, SubTitle, Open, Close, Buttons, ButtonAsk, ButtonCancel, TextButton, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
 } from './styles';
 
 import { Container, Scroll, Content } from "~/styles/global";
@@ -10,9 +12,7 @@ import { Container, Scroll, Content } from "~/styles/global";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Head from '~/components/Head';
-import MenuBar from '~/components/MenuBar';
 import AsktoOpen from '~/components/AsktoOpen';
-import { useFocusEffect } from '@react-navigation/native';
 
 const LabAndWorkshop = () => {
   const [labIsOpen, setLabIsOpen] = useState(true);
@@ -24,6 +24,10 @@ const LabAndWorkshop = () => {
   const [workshopKey, setWorkshopKey] = useState('');
   const [labBlueKey, setLabBlueKey] = useState('');
   const [labRedKey, setLabRedKey] = useState('');
+
+  const { colors, images } = useContext(ThemeContext);
+
+  const color = colors.primaryIcon;
 
   useFocusEffect(() => {
     setTotalHoursLab('1h50min');
@@ -62,14 +66,14 @@ const LabAndWorkshop = () => {
 
               <Buttons>
                 <ButtonAsk style={styles.button}>
-                  <ButtonText>Pedir para</ButtonText>
-                  <ButtonText>abrir</ButtonText>
+                  <TextButton>Pedir para</TextButton>
+                  <TextButton>abrir</TextButton>
                 </ButtonAsk>
                 <NotificationText>Notificar quando o Lab abrir?</NotificationText>
                 <Toggle onPress={toggleNotificationLab}>
                   { notificationLabIsOn
-                    ? <Icon name="toggle-on" size={35}/>
-                    : <Icon name="toggle-off" size={35}/>
+                    ? <Icon name="toggle-on" size={35} color={color}/>
+                    : <Icon name="toggle-off" size={35} color={color}/>
                   }
                 </Toggle>
               </Buttons>
@@ -92,13 +96,13 @@ const LabAndWorkshop = () => {
 
               <Buttons>
                 <ButtonCancel>
-                  <ButtonText>Cancelar</ButtonText>
+                  <TextButton>Cancelar</TextButton>
                 </ButtonCancel>
                 <NotificationText>Notificar quando a Oficina abrir?</NotificationText>
                 <Toggle onPress={toggleNotificationWorkShop}>
                   { notificationWorkshopIsOn
-                    ? <Icon name="toggle-on" size={35}/>
-                    : <Icon name="toggle-off" size={35}/>
+                    ? <Icon name="toggle-on" size={35} color={color}/>
+                    : <Icon name="toggle-off" size={35} color={color}/>
                   }
                 </Toggle>
               </Buttons>
@@ -112,7 +116,7 @@ const LabAndWorkshop = () => {
             {/* Chaves */}
             <Keys>
               <KeyTitle>
-                <Key source={require('../../assets/Key.png')}/>
+                <Key source={images.key}/>
                 <SubTitle>Chaves</SubTitle>
               </KeyTitle>
 

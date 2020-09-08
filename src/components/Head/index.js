@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
 
 import { 
   Container, ScudHeader, More
@@ -8,6 +9,7 @@ import {
 
 function Head({ navigation }) {
   const { openDrawer } = useNavigation()
+  const { colors, images } = useContext(ThemeContext);
 
   function handleOpenMenuBar() {
     openDrawer()
@@ -16,9 +18,13 @@ function Head({ navigation }) {
   return (
     <Container >
       <More onPress={handleOpenMenuBar}>
-        <Icon name="more-horiz" size={24}/>
+        <Icon 
+          name="more-horiz" 
+          size={24} 
+          color={colors.primaryIcon}
+        />
       </More>
-      <ScudHeader source={require('./../../assets/ScudHeader.png')} />
+      <ScudHeader source={images.header} />
     </Container>
   );
 }

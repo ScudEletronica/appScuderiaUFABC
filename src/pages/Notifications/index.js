@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { 
@@ -17,6 +18,10 @@ const Notifications = () => {
   const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(true);
   const [notificationNewMessage, setNotificationNewMessage] = useState(false);
   const [notificationAcceptRequirement, setNotificationAcceptRequirement] = useState(true);
+
+  const { colors } = useContext(ThemeContext);
+
+  const color = colors.primaryIcon;
 
   function toggleNotificationLab() {
     setNotificationLabIsOn(!notificationLabIsOn)
@@ -46,8 +51,16 @@ const Notifications = () => {
               <InlineText>Notificar quando o Lab abrir?</InlineText>
               <Toggle onPress={toggleNotificationLab}>
                 { notificationLabIsOn
-                  ? <Icon name="toggle-on" size={35}/>
-                  : <Icon name="toggle-off" size={35}/>
+                  ? <Icon 
+                      name="toggle-on" 
+                      size={35} 
+                      color={color}
+                    />
+                  : <Icon 
+                      name="toggle-off" 
+                      size={35} 
+                      color={color}
+                    />
                 }
               </Toggle>
             </Inline>
@@ -56,8 +69,16 @@ const Notifications = () => {
               <InlineText>Notificar quando a Oficina abrir?</InlineText>
               <Toggle onPress={toggleNotificationWorkShop}>
                 { notificationWorkshopIsOn
-                  ? <Icon name="toggle-on" size={35}/>
-                  : <Icon name="toggle-off" size={35}/>
+                  ? <Icon 
+                      name="toggle-on" 
+                      size={35} 
+                      color={color}
+                    />
+                  : <Icon 
+                      name="toggle-off" 
+                      size={35} 
+                      color={color}
+                    />
                 }
               </Toggle>
             </Inline>
@@ -66,8 +87,16 @@ const Notifications = () => {
               <InlineText>Notificar quando aparecer um novo Recado?</InlineText>
               <Toggle onPress={toggleNotificationMessage}>
                 { notificationNewMessage
-                  ? <Icon name="toggle-on" size={35}/>
-                  : <Icon name="toggle-off" size={35}/>
+                  ? <Icon 
+                      name="toggle-on" 
+                      size={35} 
+                      color={color}
+                    />
+                  : <Icon 
+                      name="toggle-off" 
+                      size={35} 
+                      color={color}
+                    />
                 }
               </Toggle>
             </Inline>
@@ -76,8 +105,16 @@ const Notifications = () => {
               <InlineText>Notificar quando uma requisição de compra for aceita?</InlineText>
               <Toggle onPress={toggleNotificationRequirement}>
                 { notificationAcceptRequirement
-                  ? <Icon name="toggle-on" size={35}/>
-                  : <Icon name="toggle-off" size={35}/>
+                  ? <Icon 
+                      name="toggle-on" 
+                      size={35} 
+                      color={color}
+                    />
+                  : <Icon 
+                      name="toggle-off" 
+                      size={35} 
+                      color={color}
+                    />
                 }
               </Toggle>
             </Inline>

@@ -38,7 +38,7 @@ export const Name = styled.Text`
   text-align: center;
   margin-bottom: 10px;
 
-  color: #222222;
+  color: #222;
 `;
 
 export const RA = styled(Name)`

@@ -28,7 +28,7 @@ export const InlineText = styled.Text`
   line-height: 24px;
   width: 270px;
 
-  color: #000000;
+  color: ${props => props.theme.colors.tertiaryText};
 `;
 
 export const Toggle = styled(RectButton)`

@@ -16,7 +16,7 @@ export const Subtitle = styled.Text`
   line-height: 28px;
   margin: 11px 0 5px;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const Intern = styled.View`
@@ -36,7 +36,7 @@ export const InlineTitle = styled.Text`
   font-size: 16px;
   line-height: 19px;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const InlineText = styled(InlineTitle)`
@@ -92,6 +92,6 @@ export const ButtonText = styled.Text`
   font-size: 20px;
   line-height: 23px;
 
-  color: #FFFFFF;
+  color: #FFF;
 `;
 

@@ -1,14 +1,16 @@
-import React from 'react';
-import { View, StyleSheet } from "react-native";
+import React, { useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
+
 import { 
   Container, Fundo, Logo, Fundo1, Fundo2, Form, Title, Subtitle, Input, LoginBotao, LoginImage
 } from './styles';
 
-import { Scroll } from "~/styles/global";
+import { Scroll } from "~/styles/global"; 
 
 export default function Login() {
   const { navigate } = useNavigation();
+  const { images } = useContext(ThemeContext)
   
   function handleSubmit() {
     navigate('Drawer');
@@ -20,7 +22,7 @@ export default function Login() {
         <Fundo>
           <Fundo2 source={require('./../../assets/Fundo2.png')} />
           <Fundo1 source={require('./../../assets/Fundo1.png')} />
-          <Logo source={require('./../../assets/Capacete.png')} />
+          <Logo source={images.capacete} />
         </Fundo>
         <Form>
             <Title>Bem-Vindo!</Title>
@@ -34,7 +36,7 @@ export default function Login() {
             placeholderTextColor={"#969696"} 
           />
           <LoginBotao onPress={handleSubmit}>
-            <LoginImage source={require('./../../assets/Login.png')} />
+            <LoginImage source={images.login} />
           </LoginBotao>
         </Form>
       </Container>

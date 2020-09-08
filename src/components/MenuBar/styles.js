@@ -18,8 +18,8 @@ export const Container = styled.View.attrs({
   height: 100%;
   left: 0px;
   top: 0px;
-  background: #FFF;
-  border: 2px solid #FFF;
+  background: ${props => props.theme.colors.background};
+  border: 2px solid ${props => props.theme.colors.background};
 `;
 
 export const Header = styled.View`
@@ -58,7 +58,7 @@ export const ProfileText = styled.Text`
   font-size: 20px;
   line-height: 23px;
 
-  color: #343434;
+  color: ${props => props.theme.colors.quaternaryText};
 `
 
 export const Option = styled(DrawerItem)`
@@ -69,11 +69,7 @@ export const Option = styled(DrawerItem)`
   width: 170px;
 `
 
-export const OptionText = styled.Text`
-  font-family: Roboto;
-  font-weight: 500;
+export const OptionText = styled(ProfileText)`
   font-size: 18px;
   line-height: 21px;
-  
-  color: #343434;  
 `

@@ -4,7 +4,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  background: #FFF;
+  background: ${props => props.theme.colors.background};
   align-items: center;
 `;
 
@@ -52,7 +52,7 @@ export const Title = styled.Text`
 
   margin-bottom: 10px;
 
-  color: #343434;
+  color: ${props => props.theme.colors.tertiaryText};
 `
 
 export const Subtitle = styled(Title)`
@@ -76,8 +76,7 @@ export const Input = styled.TextInput.attrs({
   height: 48.55px;
   margin-bottom: 32px;
 
-  background: #E6E6E6;
-  box-shadow: 10px 5px 5px black;
+  background: ${props => props.theme.colors.inputFill};
   border-radius: 22px;
   padding-left: 15px;
 `;

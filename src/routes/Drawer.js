@@ -15,12 +15,12 @@ import Profile from '~/pages/Profile'
 import Information from '~/pages/Information';
 import Notifications from '~/pages/Notifications';
 import MenuBar from "~/components/MenuBar";
-import Head from "~/components/Head";
-
 
 const { Navigator, Screen } = createDrawerNavigator()
 
-function Drawer() {
+function Drawer({route}) {
+  const { darkMode, lightMode } = route.params;
+
   return (
     <>
       <Navigator 
@@ -28,16 +28,20 @@ function Drawer() {
         drawerContent={props => <MenuBar {...props} />}
         drawerStyle={{width: 217}}
       >
-        <Screen name="Main" component={Main}/>
+        <Screen name="Main" component={Main} />
         <Screen name="About" component={About}/>
-        <Screen name="Messages" component={Messages}/>
+        <Screen name="Messages" component={Messages} />
         <Screen name="Message" component={Message}/>
         <Screen name="LabAndWorkshop" component={LabAndWorkshop}/>
         <Screen name="Telemetry" component={Telemetry}/>
         <Screen name="MyRequirements" component={MyRequirements}/>
         <Screen name="NewRequirement" component={NewRequirement}/>
         <Screen name="Review" component={Review}/>
-        <Screen name="Settings" component={Settings}/>
+        <Screen 
+          name="Settings" 
+          component={Settings} 
+          initialParams={{darkMode, lightMode}}
+        />
         <Screen name="Profile" component={Profile}/>
         <Screen name="Information" component={Information}/>
         <Screen name="Notifications" component={Notifications}/>

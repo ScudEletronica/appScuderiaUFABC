@@ -16,7 +16,7 @@ export const Content = styled.View`
   height: 136px;
   align-items: center;
 
-  background: #FFFFFF;
+  background: ${props => props.theme.colors.background};
   border-radius: 36px;
   padding: 10px;
 `; 
@@ -28,7 +28,7 @@ export const Message = styled.Text`
   line-height: 21px;
   text-align: center;
 
-  color: #222222;
+  color: ${props => props.theme.colors.primaryText};
 `;
 
 export const Buttons = styled.View`
@@ -44,7 +44,7 @@ export const Button = styled(RectButton)`
   height: 30px;
   margin: 0 28px;
 
-  background: #222222;
+  background: ${props => props.theme.colors.secondaryButton};
   border-radius: 29px;
 `;
 
@@ -55,5 +55,5 @@ export const ButtonText = styled.Text`
   line-height: 22px;
   text-align: center;
 
-  color: #FFFFFF;
+  color: ${props => props.theme.colors.buttonText};
 `;

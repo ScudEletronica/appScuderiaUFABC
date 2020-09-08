@@ -28,11 +28,11 @@ export const SelectText = styled(ButtonText)`
 `
 
 export const NotSelect = styled(Select)`
-  background: #FFF;
+  background: ${props => props.theme.colors.background};
 `
 
 export const NotSelectText = styled(SelectText)`
-  color: #878787;
+  color: ${props => props.theme.colors.quaternaryText};
 `
 
 export const Meters = styled.View`
@@ -60,7 +60,7 @@ export const MeterName = styled.Text`
   margin-bottom: 14px;
   text-align: center;
 
-  color: #FFFFFF;
+  color: ${props => props.theme.colors.buttonText};
 `
 
 export const MeterValue = styled.Text`
@@ -69,5 +69,5 @@ export const MeterValue = styled.Text`
   font-size: 20px;
   line-height: 23px;
 
-  color: #000000;
+  color: #000;
 `
