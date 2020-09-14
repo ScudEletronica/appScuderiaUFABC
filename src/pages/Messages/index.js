@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import database from '@react-native-firebase/database';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { 
   Title, 
@@ -12,48 +14,35 @@ import Head from '~/components/Head';
 import MessageList from '~/components/MessageList'
 import Back from '~/components/Back';
 
-const text = `
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-  
-  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-`
+const reference = database().ref();
 
 const Messages = () => {
+  const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
+
+  useFocusEffect(() => {
+    const onValueChange =reference.on('value', snapshot => {
+      setMessages(snapshot.child('Messages').val())
+    })
+
+    return () => reference.off('value', onValueChange)
+  })
+
   return (
     <Container>
       <Head />
       <Scroll>
         <Content>
           <Title>RECADOS</Title>
-          <MessageList
-            title="Hello World"
-            date="8/16/2020"
-            content={text}
-          />
-          <MessageList
-            title="Goodbye World"
-            date="14/05/2021"
-            content={text}
-          />
-          <MessageList
-            title="Lorem Ipsum"
-            date="8/16/13"
-            content={text}
-          />
-          <MessageList
-            title="Lorem Ipsum"
-            date="8/16/13"
-            content={text}
-          />
-          <MessageList
-            title="Lorem Ipsum"
-            date="8/16/13"
-            content={text}
-          />
+          {Object.values(messages).map(message => {
+            return (
+              <MessageList 
+                key={message.id}
+                title={message.title}
+                date={message.date}
+                content={message.content}
+              />
+            )
+          })}
         </Content>
         <End>
           <Back />

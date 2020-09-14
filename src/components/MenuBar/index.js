@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { ThemeContext } from 'styled-components';
+import database from '@react-native-firebase/database'
+
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Icon2 from 'react-native-vector-icons/Ionicons'
 import Icon3 from 'react-native-vector-icons/Entypo'
@@ -14,16 +16,21 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 
 
-const MenuBar = (props) => {
-  const { colors } = useContext(ThemeContext)
-
-  const color = colors.secondaryIcon
+const MenuBar = ({props, user }) => {
+  
   const [picture, setPicture] = useState('');
   const [name, setName] = useState('');
+  
+  const { colors } = useContext(ThemeContext);
+  
+  const reference = database().ref(`Profile/${user}`)
+  const color = colors.secondaryIcon
 
   useFocusEffect(() => {
+    reference.on('value', snapshot => {
+      setName(snapshot.child('user').val());
+    })
     setPicture('../../../assets/Profile.png');
-    setName('Lorenzo');
   })
 
   return (

@@ -26,7 +26,6 @@ export const Intern = styled.View`
 export const Inline = styled.View`
   align-items: center;
   flex-direction: row;
-  justify-content: space-between;
   margin-bottom: 12px;
 `;
 
@@ -95,3 +94,16 @@ export const ButtonText = styled.Text`
   color: #FFF;
 `;
 
+export const Way = styled.View`
+`;
+
+export const WayTitle = styled.Text`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  margin: 11px 0 5px;
+
+  color: ${props => props.theme.colors.primaryText};
+`;

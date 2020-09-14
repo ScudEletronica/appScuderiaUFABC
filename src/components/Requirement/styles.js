@@ -1,12 +1,7 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
-export const Container = styled.View.attrs({
-  shadowColor: "rgba(0, 0, 0, 0.18)",
-  shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 6,
-  shadowOpacity: 1,
-  elevation: 6,
-})`
+export const Container = styled(RectButton)`
   width: 331px;
   height: 90px;
   justify-content: flex-start;
@@ -48,4 +43,27 @@ export const ValueTitle = styled(InformationTitle)`
 
 export const ValueText = styled(ValueTitle)`
   font-weight: normal;
+`;
+
+export const Cancel = styled(RectButton)`
+  width: 84px;
+  height: 29px;
+  background: #EB5757;
+  border-radius: 44px;
+
+  margin: 13px 0 15px;
+
+  align-items: center;
+  align-self: flex-end;
+  justify-content: center;
+  text-align: center;
+`;
+
+export const CancelText = styled.Text`
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #FFF;
 `;

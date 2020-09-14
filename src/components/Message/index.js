@@ -28,7 +28,7 @@ const Message = ({title, date, content}) => {
     >
       <Title>{title}</Title>
       <Date>{date}</Date>
-      <Content>{content.substring(1, 170)} ...</Content>
+      <Content>{content.substring(0, 170)} ...</Content>
     </Container>
   );
 }

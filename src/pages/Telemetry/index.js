@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import database from '@react-native-firebase/database'
 
 import { 
   Title, Buttons, Select, SelectText, NotSelect, NotSelectText, Meters, Meter, MetersLine, MeterName, MeterValue
@@ -7,8 +8,21 @@ import {
 import { Container, Scroll, Content } from '~/styles/global';
 
 import Head from '~/components/Head';
+import { useFocusEffect } from '@react-navigation/native';
+
+const reference = database().ref('Meters');
 
 const Telemetry = () => {
+  const [meters, setMeters] = useState([]);
+
+  useFocusEffect(() => {
+    const onChangeValue = reference.on('value', snapshot => {
+      setMeters(snapshot.val())
+    })
+
+    return () => reference.off('value', onChangeValue)
+  }, [reference])
+
   return (
     <Container>
       <Head />
@@ -29,38 +43,15 @@ const Telemetry = () => {
               <NotSelectText>Batéria</NotSelectText>
             </NotSelect>
           </Buttons>
-          <Meters>
-            <MetersLine>
+          <Meters 
+            data={Object.values(meters)}
+            renderItem={meter =>
               <Meter style={styles.velocimetro}>
                 <MeterName>Vehicle Speed</MeterName>
                 <MeterValue>100.00 m/s</MeterValue>
               </Meter>
-              <Meter style={styles.velocimetro}>
-                <MeterName>RPM</MeterName>
-                <MeterValue>100.00 RPM</MeterValue>
-              </Meter>
-            </MetersLine>
-            <MetersLine>
-              <Meter style={styles.termometro}>
-                <MeterName>Manifold air temperature</MeterName>
-                <MeterValue>100.00 ºC</MeterValue>
-              </Meter>
-              <Meter style={styles.pressao}>
-                <MeterName>Manifold air pressure</MeterName>
-                <MeterValue>100.00 kPa</MeterValue>
-              </Meter>
-            </MetersLine>
-            <MetersLine>
-              <Meter style={styles.termometro}>
-                <MeterName>Coolant temperature</MeterName>
-                <MeterValue>100.00 ºC</MeterValue>
-              </Meter>
-              <Meter style={styles.gear}>
-                <MeterName>Current gear selected</MeterName>
-                <MeterValue>N</MeterValue>
-              </Meter>
-            </MetersLine>
-          </Meters>
+            }
+          />
         </Content>
       </Scroll>
     </Container>

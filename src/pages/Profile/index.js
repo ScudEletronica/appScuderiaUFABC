@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import database from '@react-native-firebase/database'
 
 import { 
   Title, Avatar, AvatarImage, Cam, Fundo, Fundo9, Fundo10, Name, NameText, RA, RAText
@@ -14,17 +15,24 @@ import {
 import Head from '~/components/Head';
 import Back from '~/components/Back';
 
-const Profile = () => {
+const Profile = ({ route }) => {
+  
   const [name, setName] = useState(' ');
   const [ra, setRA] = useState(0);
   const [picture, setPicture] = useState(' ');
   
   const { colors } = useContext(ThemeContext);
+  const { user } = route.params
+
+  const reference = database().ref(`Profile/${user}`);
+
 
   useFocusEffect(() => {
-    setPicture('../../assets/Avatar.png');
-    setName('Lorenzo Cyriacope Fragassi');
-    setRA('11201811544');
+    reference.on("value", snapshot => {
+      setName(snapshot.child('name').val());
+      setRA(snapshot.child('ra').val());
+      setPicture('../../assets/Avatar.png');
+    })
   });
 
   return (

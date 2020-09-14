@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import database from '@react-native-firebase/database';
 
 import { 
   Title, Intern, Place, Status, SubTitle, Open, Close, Buttons, ButtonAsk, ButtonCancel, TextButton, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
@@ -14,11 +15,13 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Head from '~/components/Head';
 import AsktoOpen from '~/components/AsktoOpen';
 
-const LabAndWorkshop = () => {
-  const [labIsOpen, setLabIsOpen] = useState(true);
+const reference = database().ref();
+
+const LabAndWorkshop = ({ route }) => {
+  const [labIsOpen, setLabIsOpen] = useState(false);
   const [workshopIsOpen, setWorkshopIsOpen] = useState(false);
   const [notificationLabIsOn, setNotificationLabIsOn] = useState(false);
-  const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(true);
+  const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(false);
   const [totalHoursLab, setTotalHoursLab] = useState('');
   const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
   const [workshopKey, setWorkshopKey] = useState('');
@@ -26,16 +29,41 @@ const LabAndWorkshop = () => {
   const [labRedKey, setLabRedKey] = useState('');
 
   const { colors, images } = useContext(ThemeContext);
+  const { user } = route.params
 
   const color = colors.primaryIcon;
 
+  function hoursFormat(hours) {
+    if (hours < 60) {
+      return `${hours}min`
+    } else if (hours%60 == 0){
+      return `${hours/60}h`
+    } else {
+      return `${parseInt(hours/60)}h${hours%60}min`
+    }
+  }
+
   useFocusEffect(() => {
-    setTotalHoursLab('1h50min');
-    setTotalHoursWorkshop('2h30min');
-    setWorkshopKey('Segurança Bloco A');
-    setLabBlueKey('Segurança Bloco L');
-    setLabRedKey('Oficina');
-  })
+    const onChangeValue = reference.on('value', snapshot => {
+      setTotalHoursLab(
+        hoursFormat(
+          snapshot.child(`Profile/${user}/labhours`).val()
+        )
+      );
+      setTotalHoursWorkshop(
+        hoursFormat(
+          snapshot.child(`Profile/${user}/workshophours`).val()
+        )
+      );
+      setWorkshopKey(snapshot.child('Keys/workshop').val());
+      setLabBlueKey(snapshot.child('Keys/labblue').val());
+      setLabRedKey(snapshot.child('Keys/labred').val());
+      setLabIsOpen(snapshot.child('Status/Lab').val())
+      setWorkshopIsOpen(snapshot.child('Status/Workshop').val())
+    })
+
+    return () => reference.off('value', onChangeValue)
+  }, [reference])
 
   function toggleNotificationLab() {
     setNotificationLabIsOn(!notificationLabIsOn)

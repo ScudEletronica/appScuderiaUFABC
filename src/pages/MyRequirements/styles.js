@@ -30,29 +30,6 @@ export const MenuTitle = styled.Text`
   color: ${props => props.theme.colors.primaryText};
 `
 
-export const Cancel = styled(RectButton)`
-  width: 84px;
-  height: 29px;
-  background: #EB5757;
-  border-radius: 44px;
-
-  margin: 13px 0 15px;
-
-  align-items: center;
-  align-self: flex-end;
-  justify-content: center;
-  text-align: center;
-`;
-
-export const CancelText = styled.Text`
-  font-family: Roboto;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-
-  color: #FFF;
-`;
-
 export const New = styled(RectButton)`
   background: #37BF65;
   width: 220px;

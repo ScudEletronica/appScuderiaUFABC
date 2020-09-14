@@ -27,6 +27,7 @@ export default {
 
     primaryButton: '#222',
     secondaryButton: '#222',
+    tertiaryButton: '#FFF',
     buttonText: '#FFF',
   },
 

@@ -3,21 +3,19 @@ import { Dimensions } from "react-native";
 import { GreenTitle, Subtitle, ButtonText} from "~/styles/global";
 
 export const Fundo = styled.View`
-  position: absolute;
-  align-self: center;
   align-items: center;
-  top: 17px;
 `;
 
 export const Fundo7 = styled.ImageBackground`
-  position: absolute;
   width: 100%;
   height: ${279 + Dimensions.get('window').width - 360}px;
   left: 0px;
   top: 0px;
+  justify-content: center;
 `;
 
 export const Fundo8 = styled.ImageBackground`
+  position: absolute;
   width: 100%;
   height: ${208 + Dimensions.get('window').width - 360}px;
   left: 0px;
@@ -49,7 +47,7 @@ export const Status = styled.View`
   width: 70%;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin: 40px 0;
 `;
 
 export const Place = styled.View`

@@ -28,7 +28,7 @@ export const SelectText = styled(ButtonText)`
 `
 
 export const NotSelect = styled(Select)`
-  background: ${props => props.theme.colors.background};
+  background: ${props => props.theme.colors.tertiaryButton}; 
 `
 
 export const NotSelectText = styled(SelectText)`
@@ -42,7 +42,7 @@ export const MetersLine = styled.View`
   flex-direction: row;
 `
 
-export const Meter = styled.View`
+export const Meter = styled.FlatList`
   width: 147px;
   height: 97px;
 

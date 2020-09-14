@@ -1,0 +1,251 @@
+{
+  "Keys" : {
+    "labblue" : "Segurança Bloco L",
+    "labred" : "Oficina",
+    "workshop" : "Segurança Bloco A"
+  },
+  "Messages" : {
+    "\"1\"" : {
+      "content" : "Anet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. \n Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. \n Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. \n Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+      "date" : "8/16/13",
+      "id" : 1,
+      "title" : "Lorem Ipsum"
+    },
+    "\"2\"" : {
+      "content" : "Em busca de formas efetivas de medir o clima interno na equipe, identificar problemas e encontrar possíveis melhorias organizacionais na Scuderia, a ADM está introduzindo para nós um novo projeto: a pesquisa de clima organizacional. Convidamos todos os integrantes da equipe a responder o formulário e nos ajudar a alcançar os resultados mais concretos possíveis. Todas as respostas serão recebidas anonimamente, então fiquem tranquilos e preencham as informações com sinceridade. \n O formulário permanecerá aberto até domingo (30/08), não deixem pra última hora (: \n Vídeo introdutório do projeto: https://www.youtube.com/watch?v=ZHIzsSmzdsU&feature=youtu.be \n LINK DO FORMULÁRIO: http://bit.ly/scudclima",
+      "date" : "25/08/2020",
+      "id" : 2,
+      "title" : "PESQUISA DE CLIMA ORGANIZACIONAL"
+    }
+  },
+  "Profile" : {
+    "Lorenzo" : {
+      "coordinator" : false,
+      "field" : "Marketing",
+      "labhours" : 85,
+      "name" : "Lorenzo Cyriacope Fragassi",
+      "ra" : 11201811544,
+      "user" : "Lorenzo",
+      "workshophours" : 130
+    },
+    "Marcelo" : {
+      "coordinator" : false,
+      "field" : "Eletrônica",
+      "labhours" : 140,
+      "name" : "Marcelo Cecilio Fagundes da Silva Filho",
+      "ra" : 11201722880,
+      "user" : "Marcelo",
+      "workshophours" : 60
+    }
+  },
+  "Requirements" : {
+    "Lorem Ipsum" : {
+      "Ways" : {
+        "\"1\"" : {
+          "company" : "AliExpress",
+          "contact" : "Link do site de compra",
+          "correiosTax" : 15,
+          "id" : 1,
+          "unitaryprice" : 52.24
+        },
+        "\"2\"" : {
+          "company" : "Lorem",
+          "contact" : "Link do site de compra",
+          "correiosTax" : 14.25,
+          "id" : 2,
+          "unitaryprice" : 45
+        }
+      },
+      "accept" : true,
+      "amount" : 5,
+      "id" : 1,
+      "name" : "Marcelo Cecilio Fagundes da Silva Filho",
+      "product" : "Lorem Ipsum",
+      "value" : 10.5
+    }
+  },
+  "Status" : {
+    "Lab" : false,
+    "Workshop" : false
+  },
+  "Meters" : {
+    "ECU" : {
+      "aprox" : 2,
+      "name" : "Seconds ECU has been on",
+      "tag" : "ECU",
+      "value" : 60,
+      "page" : "Principal"
+    },
+    "adc" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Air density correction",
+      "tag" : "adc",
+      "value" : 100,
+      "page" : "Óleo"
+    },
+    "afc" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Average fuel consumption",
+      "tag" : "afc",
+      "value" : 100,
+      "page" : "Combustível"
+    },
+    "afr" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "AFR cyl#1",
+      "tag" : "afr",
+      "value" : 100,
+      "page" : "Combustível"
+    },
+    "bc" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Battery current (alternator system)",
+      "tag" : "bc",
+      "value" : 100,
+      "page" : "Batéria"
+    },
+    "bp" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Barometric pressure",
+      "tag" : "bp",
+      "value" : 100,
+      "page" : "Combustível"
+    },
+    "cgs" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Current gear selected",
+      "tag" : "cgs",
+      "value" : 100,
+      "page" : "Principal"
+    },
+    "clt" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Coolant temperature",
+      "tag" : "clt",
+      "value" : 100,
+      "page" : "Principal"
+    },
+    "fp" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Fuel pressure 1",
+      "tag" : "fp",
+      "value" : 100,
+      "page" : "Combustível"
+    },
+    "ita" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Injection Timing Angle (primary)",
+      "tag" : "ita",
+      "value" : 100,
+      "page" : "Combustível"
+    },
+    "load" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "'Load' used for fuel table lookup e.g. equals MAP",
+      "tag" : "load",
+      "value" : 100,
+      "page" : "Combustível"
+    },
+    "map" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Manifold air pressure",
+      "tag" : "map",
+      "value" : 100,
+      "page" : "Principal"
+    },
+    "mat" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Manifold air temperature",
+      "tag" : "mat",
+      "value" : 100,
+      "page" : "Principal"
+    },
+    "o2" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Voltage from O2",
+      "tag" : "o2",
+      "value" : 100,
+      "page" : "Batéria"
+    },
+    "rpm" : {
+      "aprox" : 2,
+      "max" : 7000,
+      "min" : 0,
+      "name" : "RPM",
+      "tag" : "rpm",
+      "value" : 250,
+      "page" : "Principal"
+    },
+    "ve1" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "VE value table/bank 1",
+      "tag" : "ve1",
+      "value" : 100,
+      "page" : "Óleo"
+    },
+    "ve2" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "VE value table/bank 2",
+      "tag" : "ve2",
+      "value" : 100,
+      "page" : "Óleo"
+    },
+    "velocidade" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Vehicle speed",
+      "tag" : "velocidade",
+      "value" : 100.8,
+      "page" : "Principal"
+    },
+    "voltagem" : {
+      "aprox" : 2,
+      "max" : 14.6,
+      "min" : 0,
+      "name" : "Battery voltage",
+      "tag" : "voltagem",
+      "value" : 12.5,
+      "page" : "Batéria"
+    },
+    "wc" : {
+      "aprox" : 2,
+      "max" : 120,
+      "min" : 0,
+      "name" : "Warmup correction",
+      "tag" : "wc",
+      "value" : 100,
+      "page" : "Óleo"
+    }
+  }
+}

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/AntDesign'
 
 import { 
-  Title, Subtitle, Intern, Inline, InlineTitle, InlineText, ValueTitle, ValueText, Edit, EditText, Cancel, Confirm, ButtonText
+  Title, Subtitle, Intern, Inline, InlineTitle, InlineText, ValueTitle, ValueText, Edit, EditText, Cancel, Confirm, ButtonText, Way, WayTitle
 } from './styles';
 
 import {
@@ -13,8 +14,10 @@ import {
 
 import Head from '~/components/Head';
 
-const Review = () => {
+const Review = ({ route }) => {
   const { navigate } = useNavigation()
+  const { requirement } = route.params;
+  const { colors } = useContext(ThemeContext)
 
   function handleCancel() {
     navigate('MyRequirements')
@@ -38,41 +41,50 @@ const Review = () => {
             <Subtitle>Dados do Pedido</Subtitle>
             <Inline>
               <InlineTitle>Nome: </InlineTitle>
-              <InlineText>Lorenzo Cyriacope Fragassi</InlineText>
+              <InlineText>{requirement.name}</InlineText>
             </Inline>
             <Inline>
               <InlineTitle>Produto: </InlineTitle>
-              <InlineText>Fixador Engate Rápido</InlineText>
+              <InlineText>{requirement.product}</InlineText>
             </Inline>
             <Inline>
               <InlineTitle>Quantidade: </InlineTitle>
-              <InlineText>1</InlineText>
+              <InlineText>{requirement.amount}</InlineText>
             </Inline>
             <Subtitle>Dados da Compra</Subtitle>
-            <Inline>
-              <InlineTitle>Empresa: </InlineTitle>
-              <InlineText>AliExpress</InlineText>
-            </Inline>
-            <Inline>
-              <InlineTitle>Contato: </InlineTitle>
-              <InlineText>Link do site de compra</InlineText>
-            </Inline>
-            <Inline>
-              <InlineTitle>Preço Unitário: </InlineTitle>
-              <InlineText>R$ 52,24</InlineText>
-            </Inline>
-            <Inline>
-              <InlineTitle>Taxa Correios: </InlineTitle>
-              <InlineText>R$ 15,00</InlineText>
-            </Inline>
+            {Object.values(requirement.Ways).map(ways => {
+              return (
+                <Way key={ways.id}>
+                  <WayTitle>{ways.id}ª Forma de Compra</WayTitle>
+                  <Inline>
+                    <InlineTitle>Empresa: </InlineTitle>
+                    <InlineText>{ways.company}</InlineText>
+                  </Inline>
+                  <Inline>
+                    <InlineTitle>Contato: </InlineTitle>
+                    <InlineText>{ways.contact}</InlineText>
+                  </Inline>
+                  <Inline>
+                    <InlineTitle>Preço Unitário: </InlineTitle>
+                    <InlineText>R$ {ways.unitaryprice.toFixed(2)}</InlineText>
+                  </Inline>
+                  <Inline>
+                    <InlineTitle>Taxa Correios: </InlineTitle>
+                    <InlineText>R$ {ways.correiosTax.toFixed(2)}</InlineText>
+                  </Inline>
+                </Way>
+              )
+            })}
             
             <Inline style={{marginTop: 28}}>
               <Inline style={{marginRight: "auto"}}>
                 <ValueTitle>Valor: </ValueTitle>
-                <ValueText>R$ 67,24</ValueText>
+                <ValueText>
+                  R$ {requirement.value.toFixed(2)}
+                </ValueText>
               </Inline>
               <Edit onPress={handleEdit}>
-                <Icon name="edit" size={32}/>
+                <Icon name="edit" size={32} color={colors.primaryIcon}/>
                 <EditText>Editar</EditText>
               </Edit>
             </Inline>

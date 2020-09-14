@@ -35,7 +35,7 @@ export const Fundo2 = styled.Image`
 
 export const Form = styled.View`
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0);
 `
 
@@ -82,7 +82,17 @@ export const Input = styled.TextInput.attrs({
 `;
 
 export const LoginBotao = styled(RectButton)`
+ align-self: flex-end;
 `
 
 export const LoginImage = styled.Image`
 `
+
+export const Warning = styled.Text`
+  font-family: Roboto;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #F00;
+  margin-bottom: 10px;
+`;

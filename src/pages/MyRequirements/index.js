@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ThemeContext } from 'styled-components';
+import { useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Icon2 from 'react-native-vector-icons/AntDesign'
+import database from '@react-native-firebase/database'
 
 import { 
-  Title, Menu, MenuHeader, MenuTitle, Cancel, CancelText, New, NewText
+  Title, Menu, MenuHeader, MenuTitle, New, NewText
 } from './styles';
 
 import {
@@ -16,9 +18,39 @@ import Head from '~/components/Head';
 import Requirement from '~/components/Requirement';
 import Back from '~/components/Back';
 
-const MyRequirements = ({ navigation }) => {
+const reference = database().ref(); 
+
+const MyRequirements = ({ navigation, route }) => {
+  const [pendingRequirements, setPendingRequirements] = useState([])
+  const [acceptRequirements, setAcceptRequirements] = useState([])
+
   const { colors } = useContext(ThemeContext);
 
+  const { user } = route.params;
+
+  useFocusEffect(() => {
+    const onChangeValue = reference.on('value', snapshot => {
+      var pending = [];
+      var accept = [];
+      const requirements = snapshot.child('Requirements').val()
+      const name = snapshot.child(`Profile/${user}/name`).val()
+
+      Object.values(requirements).forEach(element => {
+        
+        if (element.name = name) {
+          element.accept
+          ? accept.push(element)
+          : pending.push(element)
+        }
+      });
+      
+      setPendingRequirements(pending)
+      setAcceptRequirements(accept)
+    })
+
+    return () => reference.off('value', onChangeValue)
+  }, [reference])
+  
   function handleCreateNewRequirement() {
     navigation.navigate('NewRequirement')
   }
@@ -34,33 +66,34 @@ const MyRequirements = ({ navigation }) => {
               <Icon name="hourglass-outline" size={28} color={colors.primaryIcon}/>
               <MenuTitle>Pendentes</MenuTitle>
             </MenuHeader>
-            <Requirement 
-              product="Lorem Ipsum"
-              amount={5}
-              value={10}
-            />
-            <Cancel style={styles.button}>
-              <CancelText>Cancelar</CancelText>
-            </Cancel>
-            <Requirement 
-              product="Lorem Ipsum"
-              amount={5}
-              value={18}
-            />
-            <Cancel style={styles.button}>
-              <CancelText>Cancelar</CancelText>
-            </Cancel>
+            {pendingRequirements == []
+            ? <Requirement nothing/>
+            : pendingRequirements.map(pending => {
+                return (
+                  <Requirement 
+                    key={pending.id}
+                    requirement={pending}
+                    pending
+                  />
+                  )
+            })}
           </Menu>
+
           <Menu>
             <MenuHeader>
               <Icon2 name="checkcircle" size={28} color="#0f0"/>
               <MenuTitle>Aceitas</MenuTitle>
             </MenuHeader>
-            <Requirement 
-              product="Lorem Ipsum"
-              amount={1}
-              value={25}
-            />
+            {acceptRequirements == []
+            ? <Requirement nothing/>
+            : acceptRequirements.map(accept => {
+                return (
+                  <Requirement 
+                    key={accept.id}
+                    requirement={accept}
+                  />
+                )
+            })}
           </Menu>
         </Content>
         <End>
