@@ -1,0 +1,77 @@
+import React, { useContext } from 'react';
+import { StyleSheet } from 'react-native';
+import { ThemeContext } from 'styled-components';
+import { Button, Overlay } from 'react-native-elements';
+import database from '@react-native-firebase/database'
+
+import { 
+  Container, Message, Buttons
+} from './styles';
+
+const reference = database().ref('Messages')
+
+const Warning = ({text, cancel, confirm, visible}) => {
+  const { colors } = useContext(ThemeContext);
+
+  const styles = StyleSheet.create({
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 76,
+      height: 30,
+      marginRight: 28,
+      marginLeft: 28,
+  
+      backgroundColor: colors.secondaryButton,
+  
+      borderRadius: 29,
+    },
+    text: {
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',
+      fontSize: 19,
+      lineHeight: 22,
+      textAlign: 'center',
+
+      color: colors.buttonText,
+    },
+    overlay: {
+      borderRadius: 36,
+      width: 293,
+      height: 135,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }
+  })
+
+  return (
+    <Overlay
+    overlayStyle={styles.overlay}
+    isVisible={visible} 
+    onBackdropPress={cancel}
+    >
+      <Container>
+          <Message>{text}</Message>
+          <Buttons>
+            <Button 
+              title={'Sim'}
+              titleStyle={text}
+              buttonStyle={styles.button}
+              onPress={confirm}
+            />
+
+            <Button 
+              title={'Não'}
+              titleStyle={text}
+              buttonStyle={styles.button}
+              onPress={cancel}
+            />
+          </Buttons>
+      </Container>
+    </Overlay>
+  );
+}
+
+
+
+export default Warning;

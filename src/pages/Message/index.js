@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { ThemeContext } from 'styled-components';
+import Markdown from 'react-native-markdown-renderer'
+import Icon from 'react-native-vector-icons/AntDesign'
 
 import { 
-  Title, MessageView, MessageTitle, MessageDate, MessageText
+  Title, MessageView, MessageTitle, MessageDate, MessageText, Buttons, Delete, ButtonText, Edit, EditText
 } from './styles';
 
 import { 
@@ -12,18 +16,29 @@ import {
 import Head from '~/components/Head';
 import Back from '~/components/Back';
 
-const Message = ({route}) => {
+const Message = ({ route, navigation }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [content, setContent] = useState('');
 
-  const { mTitle, mDate, mText } = route.params;
+  const { message, coordinator, handleDelete } = route.params;
+  const { colors } = useContext(ThemeContext);
+
+  const markdown = StyleSheet.create({
+    text: {
+      color: colors.primaryText
+    }
+  })
 
   useFocusEffect(() =>{
-    setTitle(mTitle);
-    setDate(mDate);
-    setContent(mText);
+    setTitle(message.title);
+    setDate(message.date);
+    setContent(message.content);
   })
+
+  function handleEdit() {
+    navigation.navigate('NewMessage', { message, edit: true })
+  }
 
   return (
     <Container>
@@ -34,15 +49,40 @@ const Message = ({route}) => {
           <MessageView>
             <MessageTitle>{title}</MessageTitle>
             <MessageDate>{date}</MessageDate>
-            <MessageText>{content}</MessageText>
+            <Markdown style={markdown}>{content}</Markdown>
           </MessageView>
         </Content>
         <End>
           <Back />
+          {coordinator 
+            && 
+            <Buttons>
+              <Edit onPress={handleEdit}>
+                <Icon name="edit" size={32} color={colors.primaryIcon}/>
+                <EditText>Editar</EditText>
+              </Edit>
+              <Delete 
+                style={styles.button}
+                onPress={handleDelete}
+              >
+                <ButtonText>Deletar</ButtonText>
+              </Delete>
+            </Buttons>
+          }
         </End>
       </Scroll>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+  shadowColor: "rgba(0, 0, 0, 0.2)",
+  shadowOffset: { width: 0, height: 2 },
+  shadowRadius: 2,
+  shadowOpacity: 1,
+  elevation: 2,
+  }
+})
 
 export default Message;

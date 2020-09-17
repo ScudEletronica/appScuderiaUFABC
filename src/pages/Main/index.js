@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { Overlay } from 'react-native-elements';
 import database from '@react-native-firebase/database';
 
 import {
@@ -11,6 +12,7 @@ import { Container, Scroll, Content } from '~/styles/global';
 import Head from '~/components/Head';
 import Message from '~/components/Message';
 import Avatar from '~/assets/Picture.png'
+import Warning from '~/components/Warning';
 
 const reference = database().ref();
 
@@ -20,8 +22,11 @@ const Main = ({ route }) => {
   const [workshopIsOpen, setWorkshopIsOpen] = useState(false);
   const [name, setName] = useState(' ');
   const [ra, setRA] = useState();
+  const [coordinator, setCoordinator] = useState(' ');
   const [picture, setPicture] = useState(' ');
   const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
+  const [visible, setVisible] = useState(false);
+  const [id, setID] = useState();
 
   const { user } = route.params;
 
@@ -31,6 +36,7 @@ const Main = ({ route }) => {
       setWorkshopIsOpen(snapshot.child('Status/Workshop').val())
       setName(snapshot.child(`Profile/${user}/name`).val());
       setRA(snapshot.child(`Profile/${user}/ra`).val());
+      setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val());
       setMessages(snapshot.child('Messages').val())
       setPicture(Avatar);
     })
@@ -38,9 +44,28 @@ const Main = ({ route }) => {
     return () => reference.off('value', onValueChange)
   }, [reference]);
 
+  function toggleOverlay() {
+    setVisible(!visible);
+  }
+
+  function handleID(id) {
+    setID(id)
+  }
+
+  function handleDelete() {
+    reference.child(`Messages/${id}`).remove();
+
+    toggleOverlay();
+  }
 
   return (
     <Container>
+      <Warning
+        text="Tem certeza de que quer apagar esse recado?"
+        cancel={toggleOverlay}
+        confirm={handleDelete}
+        visible={visible}
+      />
       <Head />
       <Scroll>
         <Content>
@@ -86,9 +111,10 @@ const Main = ({ route }) => {
               return (
                 <Message 
                   key={message.id}
-                  title={message.title}
-                  date={message.date}
-                  content={message.content}
+                  message={message}
+                  coordinator={coordinator}
+                  toggleOverlay={toggleOverlay}
+                  handleID={handleID}
                 />
               )
             })}

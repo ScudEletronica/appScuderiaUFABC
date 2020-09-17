@@ -7,6 +7,7 @@ import Loading from '~/pages/Loading'
 import Main from '~/pages/Main'
 import About from '~/pages/About'
 import Messages from '~/pages/Messages'
+import NewMessage from '~/pages/NewMessage'
 import Message from '~/pages/Message'
 import LabAndWorkshop from '~/pages/LabAndWorkshop'
 import Telemetry from '~/pages/Telemetry'
@@ -36,12 +37,14 @@ function AppStack({darkMode, lightMode}) {
         <Screen name="Main" component={Main} />
         <Screen name="About" component={About} />
         <Screen name="Messages" component={Messages} />
+        <Screen name="NewMessage" component={NewMessage} />
         <Screen name="Message" component={Message} />
         <Screen name="LabAndWorkshop" component={LabAndWorkshop} />
         <Screen name="Telemetry" component={Telemetry} />
         <Screen name="MyRequirements" component={MyRequirements} />
         <Screen name="NewRequirement" component={NewRequirement} />
         <Screen name="Review" component={Review} />
+        <Screen name="Settings" component={Settings} />
         <Screen name="Information" component={Information} />
         <Screen name="Notifications" component={Notifications} />
         <Screen name="Profile" component={Profile} />

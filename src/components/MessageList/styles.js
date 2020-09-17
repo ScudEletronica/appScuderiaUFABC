@@ -17,7 +17,9 @@ export const Title = styled.Text`
   font-weight: bold;
   font-size: 18px;
   line-height: 21px;
-  text-align: center;
+  text-align: left;
+
+  width: 95%;
 
   color: ${props => props.theme.colors.primaryText};
 `;
@@ -42,3 +44,8 @@ export const Content = styled.Text`
   color: ${props => props.theme.colors.primaryText};
 `;
 
+export const Trash = styled(RectButton)`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+`;

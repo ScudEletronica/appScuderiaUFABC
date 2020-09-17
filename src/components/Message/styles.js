@@ -36,3 +36,8 @@ export const Content = styled(BlackText)`
   line-height: 20px;
 `;
 
+export const Trash = styled(RectButton)`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+`;

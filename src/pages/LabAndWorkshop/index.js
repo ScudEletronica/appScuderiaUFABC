@@ -13,7 +13,7 @@ import { Container, Scroll, Content } from "~/styles/global";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Head from '~/components/Head';
-import AsktoOpen from '~/components/AsktoOpen';
+import Warning from '~/components/Warning';
 
 const reference = database().ref();
 

@@ -28,10 +28,6 @@ const NewRequirement = () => {
         <Content>
           <Title>REQUISIÇÃO DE COMPRA</Title>
           <NewInput 
-            placeholder="Insira seu Nome" 
-            placeholderTextColor="#969696"
-          />
-          <NewInput 
             placeholder="Insira o Nome do Produto" 
             placeholderTextColor="#969696"
           />

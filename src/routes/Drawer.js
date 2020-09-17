@@ -4,6 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Main from '~/pages/Main'
 import About from '~/pages/About'
 import Messages from '~/pages/Messages'
+import NewMessage from '~/pages/NewMessage'
 import Message from '~/pages/Message'
 import LabAndWorkshop from '~/pages/LabAndWorkshop'
 import Telemetry from '~/pages/Telemetry'
@@ -37,6 +38,11 @@ function Drawer({route}) {
         <Screen 
           name="Messages" 
           component={Messages}
+          initialParams={{user}}
+        />
+        <Screen 
+          name="NewMessage" 
+          component={NewMessage} 
           initialParams={{user}}
         />
         <Screen name="Message" component={Message}/>
