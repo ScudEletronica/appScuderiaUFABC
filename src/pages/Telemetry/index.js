@@ -9,13 +9,16 @@ import { Container, Scroll, Content } from '~/styles/global';
 
 import Head from '~/components/Head';
 import { useFocusEffect } from '@react-navigation/native';
+import Warning from '~/components/Warning';
 
 const reference = database().ref('Meters');
 
-const Telemetry = () => {
+const Telemetry = ({navigation}) => {
   const [meters, setMeters] = useState([]);
+  const [visible, setVisible] = useState(true);
 
   useFocusEffect(() => {
+    setVisible(true);
     const onChangeValue = reference.on('value', snapshot => {
       setMeters(snapshot.val())
     })
@@ -23,8 +26,20 @@ const Telemetry = () => {
     return () => reference.off('value', onChangeValue)
   }, [reference])
 
+  function notInUse() {
+    setVisible(false);
+    navigation.goBack();
+  }
+
   return (
     <Container>
+      <Warning 
+        onlyOne
+        text="A telemetria não está em uso no momento espera até os teste ou a competição"
+        confirm={notInUse}
+        cancel={notInUse}
+        visible={visible}
+      />
       <Head />
       <Scroll>
         <Content>

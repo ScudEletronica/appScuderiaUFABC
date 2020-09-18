@@ -10,7 +10,7 @@ import {
 
 const reference = database().ref('Messages')
 
-const Warning = ({text, cancel, confirm, visible}) => {
+const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
   const { colors } = useContext(ThemeContext);
 
   const styles = StyleSheet.create({
@@ -52,21 +52,31 @@ const Warning = ({text, cancel, confirm, visible}) => {
     >
       <Container>
           <Message>{text}</Message>
-          <Buttons>
-            <Button 
-              title={'Sim'}
-              titleStyle={text}
-              buttonStyle={styles.button}
-              onPress={confirm}
-            />
+          {onlyOne
+            ? <Buttons>
+                <Button 
+                  title={'OK'}
+                  titleStyle={text}
+                  buttonStyle={styles.button}
+                  onPress={confirm}
+                />
+              </Buttons>
+            : <Buttons>
+                <Button 
+                  title={'Sim'}
+                  titleStyle={text}
+                  buttonStyle={styles.button}
+                  onPress={confirm}
+                />
 
-            <Button 
-              title={'Não'}
-              titleStyle={text}
-              buttonStyle={styles.button}
-              onPress={cancel}
-            />
-          </Buttons>
+                <Button 
+                  title={'Não'}
+                  titleStyle={text}
+                  buttonStyle={styles.button}
+                  onPress={cancel}
+                />
+              </Buttons>
+          }
       </Container>
     </Overlay>
   );
