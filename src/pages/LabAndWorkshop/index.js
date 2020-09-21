@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import { Button } from "react-native-elements";
 import database from '@react-native-firebase/database';
 
 import { 
@@ -24,14 +25,54 @@ const LabAndWorkshop = ({ route }) => {
   const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(false);
   const [totalHoursLab, setTotalHoursLab] = useState('');
   const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
-  const [workshopKey, setWorkshopKey] = useState('');
-  const [labBlueKey, setLabBlueKey] = useState('');
-  const [labRedKey, setLabRedKey] = useState('');
+  const [keys, setKeys] = useState({
+    workshop: '', labBlue: '', labRed: ''
+  })
+  const [visible, setVisible] = useState(false);
+  const [asked, setAsked] = useState({
+    lab: false, workshop: false
+  });
 
   const { colors, images } = useContext(ThemeContext);
   const { user } = route.params
 
   const color = colors.primaryIcon;
+
+  const styles = StyleSheet.create({
+    button: {
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 4,
+      elevation: 4,
+      marginTop: 7,
+      marginRight: 18,
+      marginLeft: 10,
+      marginBottom: 7
+    }, 
+    ask: {
+      width: 110,
+      height: 46,
+      textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.primaryButton,
+      borderRadius: 38,
+    },
+    cancel: {
+      width: 110,
+      height: 46,
+      textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.primaryButton,
+      borderRadius: 38,
+      backgroundColor: '#EB5757',
+    }
+  })
 
   function hoursFormat(hours) {
     if (hours < 60) {
@@ -45,6 +86,8 @@ const LabAndWorkshop = ({ route }) => {
 
   useFocusEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
+      setLabIsOpen(snapshot.child('Status/Lab').val())
+      setWorkshopIsOpen(snapshot.child('Status/Workshop').val())
       setTotalHoursLab(
         hoursFormat(
           snapshot.child(`Profile/${user}/labhours`).val()
@@ -55,11 +98,7 @@ const LabAndWorkshop = ({ route }) => {
           snapshot.child(`Profile/${user}/workshophours`).val()
         )
       );
-      setWorkshopKey(snapshot.child('Keys/workshop').val());
-      setLabBlueKey(snapshot.child('Keys/labblue').val());
-      setLabRedKey(snapshot.child('Keys/labred').val());
-      setLabIsOpen(snapshot.child('Status/Lab').val())
-      setWorkshopIsOpen(snapshot.child('Status/Workshop').val())
+      setKeys(snapshot.child('Keys').val());
     })
 
     return () => reference.off('value', onChangeValue)
@@ -73,10 +112,33 @@ const LabAndWorkshop = ({ route }) => {
     setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
   }
 
+  function toggleOverlay() {
+    setVisible(!visible);
+  }
+
+  function handleAsk() {
+    toggleOverlay();
+
+  }
+
+  function handleAskIntern() {
+    setAsked({lab: true, workshop: false});
+    toggleOverlay();
+  }
+
+  function handleCancel(lab, workshop) {
+    console.log('oi');
+  }
+
   return (
     <Container>
+      <Warning
+        text="Um dos coordenadores será notificado sobre esse pedido. Tem certeza que quer continuar?"
+        visible={visible}
+        confirm={handleAskIntern}
+        cancel={toggleOverlay}
+      />
       <Head />
-      {/* <AsktoOpen /> */}
       <Scroll>
         <Content>
           <Title>Status Lab/Oficina</Title>
@@ -93,10 +155,32 @@ const LabAndWorkshop = ({ route }) => {
               </Status>
 
               <Buttons>
-                <ButtonAsk style={styles.button}>
+                {asked.lab
+                ? <Button
+                    title="Cancelar"
+                    containerStyle={styles.button}
+                    buttonStyle={styles.cancel}
+                    onPress={
+                      handleCancel(!asked.lab, asked.workshop)
+                    }
+                    disabled={labIsOpen}
+                  />
+                : <Button
+                    title="Pedir para abrir"
+                    containerStyle={styles.button}
+                    buttonStyle={styles.ask}
+                    onPress={handleAsk}
+                    disabled={labIsOpen}
+                  />
+                }
+                
+                {/* <ButtonAsk 
+                  onPress={toggleOverlay}
+                  style={styles.button}
+                >
                   <TextButton>Pedir para</TextButton>
                   <TextButton>abrir</TextButton>
-                </ButtonAsk>
+                </ButtonAsk> */}
                 <NotificationText>Notificar quando o Lab abrir?</NotificationText>
                 <Toggle onPress={toggleNotificationLab}>
                   { notificationLabIsOn
@@ -150,17 +234,17 @@ const LabAndWorkshop = ({ route }) => {
 
               <Information>
                 <InformationTitle>Oficina:</InformationTitle>
-                <InformationContent>{workshopKey}</InformationContent>
+                <InformationContent>{keys.workshop}</InformationContent>
               </Information>
 
               <Information>
                 <InformationTitle>Lab Azul:</InformationTitle>
-                <InformationContent>{labBlueKey}</InformationContent>
+                <InformationContent>{keys.labBlue}</InformationContent>
               </Information>
 
               <Information>
                 <InformationTitle>Lab Vermelha:</InformationTitle>
-                <InformationContent>{labRedKey}</InformationContent>
+                <InformationContent>{keys.labRed}</InformationContent>
               </Information>
             </Keys>
           </Intern>
@@ -169,18 +253,5 @@ const LabAndWorkshop = ({ route }) => {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 4,
-  }
-})
 
 export default LabAndWorkshop;

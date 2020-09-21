@@ -56,7 +56,7 @@ const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
             ? <Buttons>
                 <Button 
                   title={'OK'}
-                  titleStyle={text}
+                  titleStyle={styles.text}
                   buttonStyle={styles.button}
                   onPress={confirm}
                 />
@@ -64,14 +64,14 @@ const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
             : <Buttons>
                 <Button 
                   title={'Sim'}
-                  titleStyle={text}
+                  titleStyle={styles.text}
                   buttonStyle={styles.button}
                   onPress={confirm}
                 />
 
                 <Button 
                   title={'Não'}
-                  titleStyle={text}
+                  titleStyle={styles.text}
                   buttonStyle={styles.button}
                   onPress={cancel}
                 />

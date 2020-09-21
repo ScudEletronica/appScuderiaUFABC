@@ -4,7 +4,7 @@ import database from '@react-native-firebase/database'
 import { useFocusEffect } from '@react-navigation/native';
 
 import { 
-  Title, NewInput, NormalText, MainText, BigInput, Buttons, Create, CreateText, Cancel, ButtonText
+  Title, NewInput, NormalText, BigInput, Buttons, Create, CreateText, Cancel, ButtonText
 } from './styles';
 
 import {
@@ -12,6 +12,7 @@ import {
 } from '~/styles/global'
 
 import Head from '~/components/Head';
+import Warning from '~/components/Warning';
 
 const reference = database().ref('Messages')
 
@@ -20,6 +21,8 @@ const NewMessage = ({navigation, route}) => {
   const [content, setContent] = useState();
   const [defaultTitle, setDefaultTitle] = useState('');
   const [defaultContent, setDefaultContent] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [textWarning, setTexWarning] = useState('');
 
   const { message, edit } = route.params;
 
@@ -29,22 +32,40 @@ const NewMessage = ({navigation, route}) => {
   }, [message]);
 
   function handleCancel() {
+    setVisible(false)
+    if(title || content){
+      toggleOverlay()
+      setTexWarning("Tem certeza que quer cancelar? Todas a suas alterações serão apagadas")
+    } else {
+      cancel();
+    }
+  }
+
+  function cancel() {
     setTitle();
     setContent();
 
     navigation.goBack();
   }
 
-  function handleConfirm() {
-    if(edit){
-      reference.child(message.id).update({title, content})
-      
-      const newMessage = {
-        id: message.id, date: message.date, title, content
-      }
+  function toggleOverlay() {
+    setVisible(!visible);
+  }
 
-      navigation.navigate('Message', {message: newMessage});
+  function handleConfirm() {
+    setVisible(false);
+    if(edit){
+      handleEdit()
     } else {
+      handleNew()
+    } 
+
+    setTitle();
+    setContent();
+  }
+
+  function handleNew() {
+    if (title && content) {
       var date = new Date();
       var dd = String(date.getDate()).padStart(2, '0');
       var mm = String(date.getMonth() + 1).padStart(2, '0');
@@ -58,14 +79,38 @@ const NewMessage = ({navigation, route}) => {
       NewReference.set({id, title, date, content})
   
       navigation.navigate("Messages");
+    } else {
+      setTexWarning("Digite Titulo e Conteúdo para continuar, ou deseja cancelar?");
+      toggleOverlay();
     }
+  }
 
-    setTitle();
-    setContent()
+  function handleEdit() {
+    if(title || content) {
+      reference.child(message.id).update({title, content});
+
+      var newMessage = {
+        id: message.id, date: message.date, title, content
+      }
+
+      title ? newMessage.title = title : newMessage.title = defaultTitle
+      content ? newMessage.content : newMessage.content = defaultContent
+          
+      navigation.navigate('Message', {message: newMessage});
+    } else {
+      setTexWarning("Nenhuma modificação feita, deseja continuar?");
+      toggleOverlay();
+    }
   }
 
   return (
     <Container>
+      <Warning
+        text={textWarning}
+        cancel={toggleOverlay}
+        confirm={cancel}
+        visible={visible}
+      />
       <Head />
       <Scroll>
         <Content>

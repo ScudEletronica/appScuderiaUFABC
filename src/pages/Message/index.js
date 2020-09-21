@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import database from "@react-native-firebase/database";
 import Markdown from 'react-native-markdown-renderer'
 import Icon from 'react-native-vector-icons/AntDesign'
 
@@ -15,13 +16,17 @@ import {
 
 import Head from '~/components/Head';
 import Back from '~/components/Back';
+import Warning from '~/components/Warning';
+
+const reference = database().ref()
 
 const Message = ({ route, navigation }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [content, setContent] = useState('');
+  const [visible, setVisible] = useState(false);
 
-  const { message, coordinator, handleDelete } = route.params;
+  const { message, coordinator } = route.params;
   const { colors } = useContext(ThemeContext);
 
   const markdown = StyleSheet.create({
@@ -40,8 +45,26 @@ const Message = ({ route, navigation }) => {
     navigation.navigate('NewMessage', { message, edit: true })
   }
 
+  function toggleOverlay() {
+    setVisible(!visible);
+  }
+
+  function handleDelete() {
+    reference.child(`Messages/${message.id}`).remove();
+
+    toggleOverlay();
+
+    navigation.navigate('Messages')
+  }
+
   return (
     <Container>
+      <Warning
+        text="Tem certeza de que quer apagar esse recado?"
+        cancel={toggleOverlay}
+        confirm={handleDelete}
+        visible={visible}
+      />
       <Head />
       <Scroll>
         <Content>
@@ -63,7 +86,7 @@ const Message = ({ route, navigation }) => {
               </Edit>
               <Delete 
                 style={styles.button}
-                onPress={handleDelete}
+                onPress={toggleOverlay}
               >
                 <ButtonText>Deletar</ButtonText>
               </Delete>

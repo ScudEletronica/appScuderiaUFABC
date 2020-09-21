@@ -25,7 +25,7 @@ const MessageList = ({
   }
   
   function handleNavigateToMessage() {
-    navigate("Message", {message, coordinator, handleDelete})
+    navigate("Message", {message, coordinator})
   }
   
   return (

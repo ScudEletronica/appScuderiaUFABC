@@ -18,7 +18,7 @@ const Message = ({
   const { colors } = useContext(ThemeContext);
 
   function handleNavigateToMessage() {
-    navigate("Message", {message, coordinator, handleDelete})
+    navigate("Message", {message, coordinator})
   }
   
   async function handleDelete() {

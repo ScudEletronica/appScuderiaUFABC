@@ -35,7 +35,7 @@ const Telemetry = ({navigation}) => {
     <Container>
       <Warning 
         onlyOne
-        text="A telemetria não está em uso no momento espera até os teste ou a competição"
+        text="A telemetria não está em uso no momento, espere até os teste ou a competição"
         confirm={notInUse}
         cancel={notInUse}
         visible={visible}
