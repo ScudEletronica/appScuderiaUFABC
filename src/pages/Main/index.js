@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Overlay } from 'react-native-elements';
 import database from '@react-native-firebase/database';
 
 import {
-  Fundo, Fundo7, Fundo8, Picture, Name, RA, Messages, MessagesTitle, Status, Place, PlaceTitle, Open, Close, StatusText
+  Fundo, Fundo7, Fundo8, Picture, Name, RA, Messages, MessagesTitle, Status, Place, PlaceTitle, Open, Request, Close, StatusText
 } from './styles';
 
 import { Container, Scroll, Content } from '~/styles/global';
@@ -18,8 +17,9 @@ const reference = database().ref();
 
 
 const Main = ({ route }) => {
-  const [labIsOpen, setLabIsOpen] = useState(false);
-  const [workshopIsOpen, setWorkshopIsOpen] = useState(false);
+  const [status, setStatus] = useState({
+    Lab: false, Workshop: false, labRequest: false, workshopRequest: false
+  });
   const [name, setName] = useState(' ');
   const [ra, setRA] = useState();
   const [coordinator, setCoordinator] = useState(' ');
@@ -32,8 +32,7 @@ const Main = ({ route }) => {
 
   useFocusEffect(() => {
     const onValueChange = reference.on('value', snapshot => {
-      setLabIsOpen(snapshot.child('Status/Lab').val())
-      setWorkshopIsOpen(snapshot.child('Status/Workshop').val())
+      setStatus(snapshot.child('Status').val())
       setName(snapshot.child(`Profile/${user}/name`).val());
       setRA(snapshot.child(`Profile/${user}/ra`).val());
       setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val());
@@ -83,24 +82,32 @@ const Main = ({ route }) => {
           <Status>
             <Place>
               <PlaceTitle>Laboratório</PlaceTitle>
-              { labIsOpen
+              { status.Lab
                 ? <Open>
                     <StatusText>Aberto</StatusText>
                   </Open>
-                : <Close>
-                  <StatusText>Fechado</StatusText>
-                </Close>
+                : status.labRequest
+                  ? <Request>
+                      <StatusText>Requisitado</StatusText>
+                    </Request>
+                  : <Close>
+                    <StatusText>Fechado</StatusText>
+                  </Close>
               }
             </Place>
             <Place>
               <PlaceTitle>Oficina</PlaceTitle>
-              { workshopIsOpen  
+              { status.Workshop
                 ? <Open>
                     <StatusText>Aberta</StatusText>
                   </Open>
-                : <Close>
-                  <StatusText>Fechada</StatusText>
-                </Close>
+                : status.workshopRequest
+                  ? <Request>
+                      <StatusText>Requisitado</StatusText>
+                    </Request>
+                  : <Close>
+                    <StatusText>Fechada</StatusText>
+                  </Close>
               }
             </Place>
           </Status>

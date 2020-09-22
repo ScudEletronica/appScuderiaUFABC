@@ -46,43 +46,20 @@ export const Open = styled.Text`
   font-weight: bold;
   font-size: 24px;
   line-height: 28px;
-  /* margin-left: auto; */
   color: #00FF00;
 `;
 
-export const Close = styled.Text`
-  font-family: Roboto;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 28px;
-
-
+export const Close = styled(Open)`
   color: #FF0000;
+`;
+
+export const Request = styled(Open)`
+  color: #F0F000;
 `;
 
 export const Buttons = styled.View`
   flex-direction: row;
   align-items: center;
-`
-
-export const ButtonAsk = styled(RectButton)`
-  width: 110px;
-  height: 46px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  background: ${props => props.theme.colors.primaryButton};
-  border-radius: 38px;
-  margin: 14px 18px 10px 0;
-`
-
-export const ButtonCancel = styled(ButtonAsk)`
-  background: #EB5757;
-`;
-
-export const TextButton = styled(ButtonText)`
-  font-size: 17px;
-  line-height: 20px;
 `
 
 export const NotificationText = styled.Text`

@@ -4,14 +4,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import { Button } from "react-native-elements";
 import database from '@react-native-firebase/database';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { 
-  Title, Intern, Place, Status, SubTitle, Open, Close, Buttons, ButtonAsk, ButtonCancel, TextButton, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
+  Title, Intern, Place, Status, SubTitle, Open, Close, Request, Buttons, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
 } from './styles';
 
 import { Container, Scroll, Content } from "~/styles/global";
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Head from '~/components/Head';
 import Warning from '~/components/Warning';
@@ -19,19 +18,23 @@ import Warning from '~/components/Warning';
 const reference = database().ref();
 
 const LabAndWorkshop = ({ route }) => {
-  const [labIsOpen, setLabIsOpen] = useState(false);
-  const [workshopIsOpen, setWorkshopIsOpen] = useState(false);
+  const [status, setStatus] = useState({
+    Lab: false, Workshop: false, labRequest: false, workshopRequest: false
+  });
   const [notificationLabIsOn, setNotificationLabIsOn] = useState(false);
   const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(false);
   const [totalHoursLab, setTotalHoursLab] = useState('');
   const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
+  const [coordinator, setCoordinator] = useState(false);
   const [keys, setKeys] = useState({
     workshop: '', labBlue: '', labRed: ''
   })
   const [visible, setVisible] = useState(false);
-  const [asked, setAsked] = useState({
-    lab: false, workshop: false
-  });
+  const [askedLab, setAskedLab] = useState(false);
+  const [askedWorkshop, setAskedWorkshop] = useState(false);
+  const [place, setPlace] = useState('');
+  const [confirm, setConfirm] = useState(false);
+  const [overlayText, setOverlayText] = useState('');
 
   const { colors, images } = useContext(ThemeContext);
   const { user } = route.params
@@ -68,9 +71,16 @@ const LabAndWorkshop = ({ route }) => {
       textAlign: 'center',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.primaryButton,
       borderRadius: 38,
       backgroundColor: '#EB5757',
+    },
+    text: {
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',
+      fontSize: 17,
+      lineHeight: 20,
+
+      color: colors.buttonText,
     }
   })
 
@@ -86,13 +96,13 @@ const LabAndWorkshop = ({ route }) => {
 
   useFocusEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
-      setLabIsOpen(snapshot.child('Status/Lab').val())
-      setWorkshopIsOpen(snapshot.child('Status/Workshop').val())
+      setStatus(snapshot.child('Status').val())
       setTotalHoursLab(
         hoursFormat(
           snapshot.child(`Profile/${user}/labhours`).val()
-        )
-      );
+          )
+          );
+      setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val())
       setTotalHoursWorkshop(
         hoursFormat(
           snapshot.child(`Profile/${user}/workshophours`).val()
@@ -116,26 +126,95 @@ const LabAndWorkshop = ({ route }) => {
     setVisible(!visible);
   }
 
+  function handleAction(actualPlace, action) {
+    setPlace(actualPlace);
+    setConfirm(action);
+    console.log(place);
+
+    coordinator
+    ? setOverlayText(`Tem certeza que quer continuar com essa ação?`)
+    : action
+      ? setOverlayText('Um dos coordenadores será notificado sobre esse pedido. Tem certeza que quer continuar?')
+      : setOverlayText('Certeza que quer cancelar seu pedido?')
+    toggleOverlay();
+  }
+
+  function handleConfirmOverlay() {
+    coordinator
+    ? confirm
+      ? handleOpen()
+      : handleClose()
+    : confirm
+      ? handleAsk()
+      : handleCancelRequest()
+  }
+
+  function handleOpen() {
+    if(place == 'Lab') {
+      setAskedLab(true);
+      reference
+        .child('Status/')
+        .update({Lab: true});
+    } else {
+      setAskedWorkshop(true);
+      reference
+        .child('Status')
+        .update({Workshop: true});
+    }
+    toggleOverlay();
+  }
+
   function handleAsk() {
+    if(place == 'Lab') {
+      setAskedLab(true);
+      reference
+        .child('Status/')
+        .update({labRequest: true});
+    } else {
+      setAskedWorkshop(true);
+      reference
+        .child('Status')
+        .update({workshopRequest: true});
+    }
     toggleOverlay();
-
   }
 
-  function handleAskIntern() {
-    setAsked({lab: true, workshop: false});
+  function handleClose() {
+    if(place == 'Lab') {
+      setAskedLab(false);
+      reference
+        .child('Status/')
+        .update({Lab: false});
+    } else {
+      setAskedWorkshop(false);
+      reference
+        .child('Status')
+        .update({Workshop: false});
+    }
     toggleOverlay();
   }
 
-  function handleCancel(lab, workshop) {
-    console.log('oi');
+  function handleCancelRequest() {
+    if(place == 'Lab') {
+      setAskedLab(false);
+      reference
+        .child('Status/')
+        .update({labRequest: false});
+    } else {
+      setAskedWorkshop(false);
+      reference
+        .child('Status')
+        .update({workshopRequest: false});
+    }
+    toggleOverlay();
   }
 
   return (
     <Container>
       <Warning
-        text="Um dos coordenadores será notificado sobre esse pedido. Tem certeza que quer continuar?"
+        text={overlayText}
         visible={visible}
-        confirm={handleAskIntern}
+        confirm={handleConfirmOverlay}
         cancel={toggleOverlay}
       />
       <Head />
@@ -148,39 +227,58 @@ const LabAndWorkshop = ({ route }) => {
             <Place>
               <Status>
                 <SubTitle>Laboratório</SubTitle>
-                { labIsOpen
+                { status.Lab
                   ? <Open>Aberto</Open>
-                  : <Close>Fechado</Close>
+                  : status.labRequest
+                    ? <Request>Requisitado</Request>
+                    : <Close>Fechado</Close>
                 } 
               </Status>
 
               <Buttons>
-                {asked.lab
-                ? <Button
-                    title="Cancelar"
-                    containerStyle={styles.button}
-                    buttonStyle={styles.cancel}
-                    onPress={
-                      handleCancel(!asked.lab, asked.workshop)
-                    }
-                    disabled={labIsOpen}
-                  />
-                : <Button
-                    title="Pedir para abrir"
-                    containerStyle={styles.button}
-                    buttonStyle={styles.ask}
-                    onPress={handleAsk}
-                    disabled={labIsOpen}
-                  />
+                {coordinator
+                ? askedLab || status.Lab
+                  ? <Button
+                      title="Fechar"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.ask}
+                      onPress={() => {
+                        handleAction('Lab', false);
+                      }}
+                      />
+                  : <Button
+                      title="Abrir"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.ask}
+                      onPress={() => {
+                        handleAction('Lab', true);
+                      }}
+                      disabled={status.Lab}
+                    />
+                : askedLab
+                  ? <Button
+                      title="Cancelar"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.cancel}
+                      onPress={() => {
+                        handleAction('Lab', false);
+                      }}
+                      disabled={status.Lab}
+                    />
+                  : <Button
+                      title="Pedir para abrir"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.ask}
+                      onPress={() => {
+                        handleAction('Lab', true)
+                      }}
+                      disabled={status.Lab || status.labRequest}
+                    />
                 }
-                
-                {/* <ButtonAsk 
-                  onPress={toggleOverlay}
-                  style={styles.button}
-                >
-                  <TextButton>Pedir para</TextButton>
-                  <TextButton>abrir</TextButton>
-                </ButtonAsk> */}
                 <NotificationText>Notificar quando o Lab abrir?</NotificationText>
                 <Toggle onPress={toggleNotificationLab}>
                   { notificationLabIsOn
@@ -200,16 +298,58 @@ const LabAndWorkshop = ({ route }) => {
             <Place>
               <Status>
                 <SubTitle>Oficina</SubTitle>
-                { workshopIsOpen
-                  ? <Open>Aberta</Open>
-                  : <Close>Fechada</Close>
+                { status.Workshop
+                  ? <Open>Aberto</Open>
+                  : status.workshopRequest
+                    ? <Request>Requisitado</Request>
+                    : <Close>Fechado</Close>
                 } 
               </Status>
 
               <Buttons>
-                <ButtonCancel>
-                  <TextButton>Cancelar</TextButton>
-                </ButtonCancel>
+              {coordinator
+                ? askedWorkshop || status.Workshop
+                  ? <Button
+                      title="Fechar"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.ask}
+                      onPress={() => {
+                        handleAction('Workshop', false);
+                      }}
+                      />
+                  : <Button
+                      title="Abrir"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.ask}
+                      onPress={() => {
+                        handleAction('Workshop', true);
+                      }}
+                      disabled={status.Workshop}
+                    />
+                : askedWorkshop
+                  ? <Button
+                      title="Cancelar"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.cancel}
+                      onPress={() => {
+                        handleAction('Workshop', false);
+                      }}
+                      disabled={status.Workshop}
+                    />
+                  : <Button
+                      title="Pedir para abrir"
+                      titleStyle={styles.text}
+                      containerStyle={styles.button}
+                      buttonStyle={styles.ask}
+                      onPress={() => {
+                        handleAction('Workshop', true)
+                      }}
+                      disabled={status.Workshop || status.workshopRequest}
+                    />
+                }
                 <NotificationText>Notificar quando a Oficina abrir?</NotificationText>
                 <Toggle onPress={toggleNotificationWorkShop}>
                   { notificationWorkshopIsOn

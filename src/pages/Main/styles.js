@@ -84,6 +84,10 @@ export const Close = styled(Open)`
   background: #FF6B6B;
 ` 
 
+export const Request = styled(Open)`
+  background: #FFFF6B
+`
+
 export const StatusText = styled(ButtonText)`
   font-size: 19px;
   line-height: 22px;
