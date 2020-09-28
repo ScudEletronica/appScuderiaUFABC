@@ -129,7 +129,6 @@ const LabAndWorkshop = ({ route }) => {
   function handleAction(actualPlace, action) {
     setPlace(actualPlace);
     setConfirm(action);
-    console.log(place);
 
     coordinator
     ? setOverlayText(`Tem certeza que quer continuar com essa ação?`)

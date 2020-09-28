@@ -8,6 +8,8 @@ export const Container = styled(RectButton)`
 
   padding: 3px 14px;
 
+  margin-bottom: 15px;
+
   background: ${props => props.theme.colors.fill};
 `;
 
@@ -45,18 +47,27 @@ export const ValueText = styled(ValueTitle)`
   font-weight: normal;
 `;
 
+export const Buttons = styled.View`
+  flex-direction: row;
+  align-self: flex-end;
+`
+
 export const Cancel = styled(RectButton)`
   width: 84px;
   height: 29px;
   background: #EB5757;
   border-radius: 44px;
 
-  margin: 13px 0 15px;
+  margin: 0 10px 15px 0;
 
   align-items: center;
   align-self: flex-end;
   justify-content: center;
   text-align: center;
+`;
+
+export const Accept = styled(Cancel)`
+  background: #57EB57;
 `;
 
 export const CancelText = styled.Text`

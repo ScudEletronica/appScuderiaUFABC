@@ -17,12 +17,19 @@ import {
 import Head from '~/components/Head';
 import Requirement from '~/components/Requirement';
 import Back from '~/components/Back';
+import Warning from '~/components/Warning';
 
 const reference = database().ref(); 
 
 const MyRequirements = ({ navigation, route }) => {
   const [pendingRequirements, setPendingRequirements] = useState([])
   const [acceptRequirements, setAcceptRequirements] = useState([])
+  const [name, setName] = useState('');
+  const [coordinator, setCoordinator] = useState(false);
+  const [id, setID] = useState('')
+  const [overlayText, setOverlayText] = useState('')
+  const [visible, setVisible] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   const { colors } = useContext(ThemeContext);
 
@@ -33,31 +40,82 @@ const MyRequirements = ({ navigation, route }) => {
       var pending = [];
       var accept = [];
       const requirements = snapshot.child('Requirements').val()
-      const name = snapshot.child(`Profile/${user}/name`).val()
+      setName(snapshot.child(`Profile/${user}/name`).val())
 
-      Object.values(requirements).forEach(element => {
-        
-        if (element.name = name) {
-          element.accept
-          ? accept.push(element)
-          : pending.push(element)
-        }
-      });
+      if(requirements){
+        Object.values(requirements).forEach(element => {
+          
+          if (element.name = name) {
+            element.accept
+            ? accept.push(element)
+            : pending.push(element)
+          }
+        });
+      }
       
       setPendingRequirements(pending)
       setAcceptRequirements(accept)
+      setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val())
     })
 
     return () => reference.off('value', onChangeValue)
   }, [reference])
   
   function handleCreateNewRequirement() {
-    navigation.navigate('NewRequirement')
+    navigation.navigate('NewRequirement', {
+      requirement: {
+        name,
+        product: '',
+        amount: 0,
+        id: '',
+        reason: '',
+        value: '',
+        ways: ''
+      },
+      edit: false
+    })
+  }
+
+  function toggleOverlay() {
+    setVisible(!visible);
+  }
+
+  function handleAction(id, action) {
+    setID(id);
+    setConfirm(action)
+    action
+    ? setOverlayText("Tem certeza de que quer aceitar essa requisição?")
+    : setOverlayText("Tem certeza de que quer cancelar essa requisição?")
+    toggleOverlay();
+  }
+
+  function handelConfirmOverlay() {
+    confirm
+    ? handleAccept()
+    : handleDelete()
+  }
+  
+  function handleDelete() {
+    reference.child(`Requirements/${id}`).remove();
+    
+    toggleOverlay();
+  }
+  
+  function handleAccept() {
+    reference.child(`Requirements/${id}`).update({accept: true})
+
+    toggleOverlay();
   }
 
   return (
     <Container>
       <Head />
+      <Warning 
+        text={overlayText}
+        cancel={toggleOverlay}
+        confirm={handelConfirmOverlay}
+        visible={visible}
+      />
       <Scroll>
         <Content>
           <Title>MINHAS REQUISIÇÕES</Title>
@@ -74,6 +132,8 @@ const MyRequirements = ({ navigation, route }) => {
                     key={pending.id}
                     requirement={pending}
                     pending
+                    coordinator={coordinator}
+                    action={handleAction}
                   />
                   )
             })}

@@ -7,12 +7,14 @@ import {
   Container
 } from './styles';
 
-function Back({different}) {
+function Back({different, cancel}) {
   const { goBack } = useNavigation();
   const { colors } = useContext(ThemeContext);
 
   function handleGoBack() {
-    goBack()
+    cancel
+    ? cancel()
+    : goBack()
   }
 
   return (

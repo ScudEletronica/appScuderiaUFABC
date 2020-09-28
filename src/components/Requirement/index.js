@@ -3,14 +3,24 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { 
-  Container, Information, InformationTitle, InformationText, Value, ValueTitle, ValueText, Cancel, CancelText
+  Container, Information, InformationTitle, InformationText, Value, ValueTitle, ValueText, Buttons,  Accept, Cancel, CancelText
 } from './styles';
 
-const Requirement = ({requirement, pending, nothing}) => {
+const Requirement = ({
+  requirement, pending, nothing, coordinator, action
+}) => {
   const { navigate } = useNavigation()
 
   function handleReview() {
-    navigate('Review', {requirement})
+    navigate('Review', {requirement, edit: true})
+  }
+
+  function handleAccept() {
+    action(requirement.id, true)
+  }
+
+  function handleDelete() {
+    action(requirement.id, false)
   }
 
   if (nothing) {
@@ -47,11 +57,24 @@ const Requirement = ({requirement, pending, nothing}) => {
           <ValueText>R$ {requirement.value.toFixed(2)}</ValueText>
         </Value>
       </Container>
+      <Buttons>
+      {coordinator && 
+        <Accept 
+          onPress={handleAccept}
+          style={styles.button}
+        >
+        <CancelText>Aceitar</CancelText>
+        </Accept>
+      }
       {pending && 
-        <Cancel style={styles.button}>
+        <Cancel 
+          onPress={handleDelete}
+          style={styles.button}
+        >
           <CancelText>Cancelar</CancelText>
         </Cancel>
       }
+      </Buttons>
     </>
   );
 }

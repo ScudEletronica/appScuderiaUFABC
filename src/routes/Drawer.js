@@ -58,7 +58,11 @@ function Drawer({route}) {
           component={MyRequirements}
           initialParams={{user}}
         />
-        <Screen name="NewRequirement" component={NewRequirement}/>
+        <Screen 
+          name="NewRequirement" 
+          component={NewRequirement}
+          initialParams={{user}}
+        />
         <Screen name="Review" component={Review}/>
         <Screen 
           name="Settings" 

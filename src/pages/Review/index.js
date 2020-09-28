@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/AntDesign'
+import database from '@react-native-firebase/database'
 
 import { 
   Title, Subtitle, Intern, Inline, InlineTitle, InlineText, ValueTitle, ValueText, Edit, EditText, Cancel, Confirm, ButtonText, Way, WayTitle
@@ -14,9 +15,11 @@ import {
 
 import Head from '~/components/Head';
 
+const reference = database().ref('Requirements');
+
 const Review = ({ route }) => {
-  const { navigate } = useNavigation()
-  const { requirement } = route.params;
+  const { navigate } = useNavigation();
+  const { requirement, edit } = route.params;
   const { colors } = useContext(ThemeContext)
 
   function handleCancel() {
@@ -24,11 +27,43 @@ const Review = ({ route }) => {
   }
   
   function handleConfirm() {
+    edit
+    ? handleUpdate()
+    : handleNew()
+  }
+
+  function handleNew() {
+    const NewReference = reference.push();
+    const id = NewReference.key;
+
+    NewReference.set({
+      name: requirement.name, 
+      product: requirement.product, 
+      amount: requirement.amount, 
+      reason: requirement.reason, 
+      ways: requirement.ways, 
+      value: requirement.value,
+      id
+    })
+
+    navigate('MyRequirements')
+  }
+
+  function handleUpdate() {
+    reference.child(requirement.id).update({
+      name: requirement.name, 
+      product: requirement.product, 
+      amount: requirement.amount, 
+      reason: requirement.reason, 
+      ways: requirement.ways, 
+      value: requirement.value,
+    })
+
     navigate('MyRequirements')
   }
   
   function handleEdit() {
-    navigate('NewRequirement')
+    navigate('NewRequirement', { requirement, edit: true })
   }
 
   return (
@@ -51,26 +86,28 @@ const Review = ({ route }) => {
               <InlineTitle>Quantidade: </InlineTitle>
               <InlineText>{requirement.amount}</InlineText>
             </Inline>
+            <InlineTitle>Razão da compra: </InlineTitle>
+            <InlineText>{requirement.reason}</InlineText>
             <Subtitle>Dados da Compra</Subtitle>
-            {Object.values(requirement.Ways).map(ways => {
+            {Object.values(requirement.ways).map(way => {
               return (
-                <Way key={ways.id}>
-                  <WayTitle>{ways.id}ª Forma de Compra</WayTitle>
+                <Way key={way.id}>
+                  <WayTitle>{way.id}ª Forma de Compra</WayTitle>
                   <Inline>
                     <InlineTitle>Empresa: </InlineTitle>
-                    <InlineText>{ways.company}</InlineText>
+                    <InlineText>{way.company}</InlineText>
                   </Inline>
                   <Inline>
                     <InlineTitle>Contato: </InlineTitle>
-                    <InlineText>{ways.contact}</InlineText>
+                    <InlineText>{way.contact}</InlineText>
                   </Inline>
                   <Inline>
                     <InlineTitle>Preço Unitário: </InlineTitle>
-                    <InlineText>R$ {ways.unitaryprice.toFixed(2)}</InlineText>
+                    <InlineText>R$ {way.unitaryPrice.toFixed(2)}</InlineText>
                   </Inline>
                   <Inline>
                     <InlineTitle>Taxa Correios: </InlineTitle>
-                    <InlineText>R$ {ways.correiosTax.toFixed(2)}</InlineText>
+                    <InlineText>R$ {way.correiosTax.toFixed(2)}</InlineText>
                   </Inline>
                 </Way>
               )

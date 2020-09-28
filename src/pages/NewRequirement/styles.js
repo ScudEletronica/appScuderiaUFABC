@@ -97,7 +97,7 @@ export const Mean = styled.View`
   
 `;
 
-export const MeanTilte = styled(BlackTitle)`
+export const MeanTitle = styled(BlackTitle)`
   font-weight: 500;
   font-size: 24px;
   line-height: 28px;
