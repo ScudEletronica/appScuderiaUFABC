@@ -153,12 +153,12 @@ const LabAndWorkshop = ({ route }) => {
       setAskedLab(true);
       reference
         .child('Status/')
-        .update({Lab: true});
+        .update({Lab: true, labRequest: false});
     } else {
       setAskedWorkshop(true);
       reference
         .child('Status')
-        .update({Workshop: true});
+        .update({Workshop: true, workshopRequest: false});
     }
     toggleOverlay();
   }
