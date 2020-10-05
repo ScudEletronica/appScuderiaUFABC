@@ -14,22 +14,48 @@ import {
 } from '~/styles/global'
 
 import Head from '~/components/Head';
+import Warning from '~/components/Warning';
 
 const reference = database().ref('Requirements');
 
 const Review = ({ route }) => {
+  const [overlayText, setOverlayText] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+
   const { navigate } = useNavigation();
   const { requirement, edit } = route.params;
-  const { colors } = useContext(ThemeContext)
+  const { colors } = useContext(ThemeContext);
+
+  function toggleOverlay() {
+    setVisible(!visible);
+  }
 
   function handleCancel() {
-    navigate('MyRequirements')
+    setOverlayText("Deseja mesmo voltar? Dessa forma irá perder os dados já preenchidos");
+    setConfirm(false)
+    toggleOverlay();
   }
   
   function handleConfirm() {
+    setConfirm(true);
     edit
-    ? handleUpdate()
-    : handleNew()
+    ? setOverlayText("Certeza que quer editar essa requisição?")
+    : setOverlayText("Certeza que quer fazer essa requisição?");
+    toggleOverlay()
+  }
+  
+  function handleConfirmOverlay() {
+    confirm
+    ? edit
+      ? handleUpdate()
+      : handleNew()
+    : cancel()
+  }
+
+  function cancel() {
+    setVisible(false);
+    navigate('MyRequirements')
   }
 
   function handleNew() {
@@ -46,6 +72,7 @@ const Review = ({ route }) => {
       id
     })
 
+    setVisible(false);
     navigate('MyRequirements')
   }
 
@@ -59,15 +86,24 @@ const Review = ({ route }) => {
       value: requirement.value,
     })
 
+    setVisible(false);
     navigate('MyRequirements')
   }
   
   function handleEdit() {
-    navigate('NewRequirement', { requirement, edit: true })
+    edit
+    ? navigate('NewRequirement', { requirement, edit: true })
+    : navigate('NewRequirement', { requirement, edit: false })
   }
 
   return (
     <Container>
+      <Warning 
+        text={overlayText}
+        cancel={toggleOverlay}
+        confirm={handleConfirmOverlay}
+        visible={visible}
+      />
       <Head />
       <Scroll>
         <Content>

@@ -6202,6 +6202,11 @@ react-native-markdown-renderer@^3.2.8:
     prop-types "^15.5.10"
     react-native-fit-image "^1.5.2"
 
+react-native-push-notification@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-6.1.1.tgz#58bc2e3619e79a2bc93078cb0b761ff8d7bbb2e9"
+  integrity sha512-PiBmogOloztUqpSlNsB8i27wZ84CXXhC4GGvrG7Eev7OP9iA3PoQ3+AWtW3dBfWzXlRJzFg39x1jlhvvMWNN0Q==
+
 react-native-ratings@^7.2.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-7.3.0.tgz#32e11e4ed944ba8adbbc995d601df3f131619b6f"

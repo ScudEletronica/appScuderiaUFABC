@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign'
 import { StyleSheet } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import database from '@react-native-firebase/database'
 
 import { 
@@ -25,7 +25,7 @@ const NewRequirement = ({ route }) => {
   const [amount, setAmount] = useState(0);
   const [reason, setReason] = useState('');
   const [ways, setWays] = useState([]);
-  const [id, setID] = useState(1);
+  const [id, setID] = useState(0);
   const [textWarning, setTextWarning] = useState('');
   const [visible, setVisible] = useState(false);
   const [onlyOne, setOnlyOne] = useState(false);
@@ -34,28 +34,42 @@ const NewRequirement = ({ route }) => {
   const { navigate, goBack } = useNavigation();
   const { user, requirement, edit } = route.params;
 
+  useFocusEffect(() => {
+    setDefaultRequirement(requirement);
+  })
+  
   useEffect(() => {
+    setID(0);
     reference
       .child(`Profile/${user}/name`)
       .once('value')
       .then(snapshot => { setName(snapshot.val()) })
-    setDefaultRequirement(requirement);
-  }, []);
+    
+    setProduct(requirement.product);
+    setAmount(requirement.amount);
+    setReason(requirement.reason);
+    setWays(requirement.ways);
+  }, [defaultRequirement]);
 
   function toggleOverlay() {
     setVisible(!visible);
   }
 
-  function newWay() {
-    const newID = id + 1;
-    setID(newID)
+  function handleNewWay() {
+    var newID;
+    ways.length > 0
+    ? newID = ways[ways.length - 1].id+1
+    : newID = id + 1
+ 
     var way = {
       company: '',
       contact: '',
       correiosTax: 0,
-      id,
+      id: newID,
       unitaryPrice: 0,
     }
+
+    setID(newID);
 
     ways.push(way);
   }
@@ -101,7 +115,8 @@ const NewRequirement = ({ route }) => {
     for (const key in newRequirement) {
       if (newRequirement.hasOwnProperty(key)) {
         const element = newRequirement[key];
-        if(element != 0 || element != ''){
+        const initial = defaultRequirement[key];
+        if(element != initial){
           return true;
         }
       }
@@ -158,14 +173,14 @@ const NewRequirement = ({ route }) => {
       var value = ways[0].unitaryPrice * amount + ways[0].correiosTax;
       ways.forEach(way => {
         const testValue = 
-          way.unitaryPrice * amount + way.correiosTax;
+        way.unitaryPrice * amount + way.correiosTax;
         if (testValue < value) {
           value = testValue;
         }
       })
-
+      
       newRequirement = {
-        name, product, amount, reason, value, ways
+        id: defaultRequirement.id, name, product, amount, reason, value, ways
       }
 
       edit
@@ -177,6 +192,7 @@ const NewRequirement = ({ route }) => {
       toggleOverlay();
       setConfirm(true);
     }
+    
   }
 
   function handleEditRequirement(requirement) {
@@ -202,7 +218,6 @@ const NewRequirement = ({ route }) => {
           <Title>REQUISIÇÃO DE COMPRA</Title>
           <NewInput 
             value={product}
-            defaultValue={defaultRequirement.product}
             onChangeText={text => setProduct(text)}
             placeholder="Insira o Nome do Produto" 
             placeholderTextColor="#969696"
@@ -211,7 +226,6 @@ const NewRequirement = ({ route }) => {
             <NormalText>Quantidade Requisitada</NormalText>
             <QuantityInput 
               value={amount}
-              defaultValue={defaultRequirement.amount}
               onChangeText={text => setAmount(Number(text))}
               keyboardType={'numeric'}
               placeholder="Nº" 
@@ -222,7 +236,6 @@ const NewRequirement = ({ route }) => {
             <NormalText>Razão da Compra</NormalText>
             <BigInput 
               value={reason}
-              defaultValue={defaultRequirement.reason}
               onChangeText={text => setReason(text)}
               placeholder="Insira a motivação da compra" 
               placeholderTextColor="#969696"
@@ -277,7 +290,7 @@ const NewRequirement = ({ route }) => {
             )
           })}
           <New 
-            onPress={newWay}
+            onPress={handleNewWay}
             style={styles.button}
           >
             <Icon name="plus" size={16}/>

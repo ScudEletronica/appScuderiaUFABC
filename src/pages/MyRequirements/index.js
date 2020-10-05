@@ -66,11 +66,11 @@ const MyRequirements = ({ navigation, route }) => {
       requirement: {
         name,
         product: '',
-        amount: 0,
-        id: '',
+        amount: '',
+        id: 1,
         reason: '',
         value: '',
-        ways: ''
+        ways: []
       },
       edit: false
     })
@@ -89,7 +89,7 @@ const MyRequirements = ({ navigation, route }) => {
     toggleOverlay();
   }
 
-  function handelConfirmOverlay() {
+  function handleConfirmOverlay() {
     confirm
     ? handleAccept()
     : handleDelete()
@@ -113,7 +113,7 @@ const MyRequirements = ({ navigation, route }) => {
       <Warning 
         text={overlayText}
         cancel={toggleOverlay}
-        confirm={handelConfirmOverlay}
+        confirm={handleConfirmOverlay}
         visible={visible}
       />
       <Scroll>
