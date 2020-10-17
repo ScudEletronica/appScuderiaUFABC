@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import database from '@react-native-firebase/database';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 import {
   Fundo, Fundo7, Fundo8, Picture, Name, RA, Messages, MessagesTitle, Status, Place, PlaceTitle, Open, Request, Close, StatusText
@@ -71,9 +72,10 @@ const Main = ({ route }) => {
           <Fundo7 source={require('../../assets/Fundo8.png')}>
             <Fundo8 source={require('../../assets/Fundo7.png')}/>
               <Fundo>
-                <Picture 
+                {/* <Picture 
                   source={picture} 
-                />
+                /> */}
+                <Icon name={"person-circle-outline"} size={100}/>
                 <Name>{name}</Name>
                 <RA>{ra}</RA>
               </Fundo>

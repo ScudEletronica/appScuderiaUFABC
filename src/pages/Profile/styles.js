@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { Dimensions } from "react-native";
-import { GreenTitle } from '~/styles/global';
+import { GreenTitle, Content } from '~/styles/global';
 
 export const Title = styled(GreenTitle)`
   font-size: 30px;
@@ -18,6 +18,10 @@ export const AvatarImage = styled.Image`
 export const Cam = styled.View`
   align-self: flex-end;
   bottom: 25px;
+`;
+
+export const TotalSpace = styled(Content)`
+  height: ${Dimensions.get('window').height};
 `;
 
 export const Fundo = styled.View`

@@ -26,7 +26,6 @@ export const Fundo8 = styled.ImageBackground`
 export const Picture = styled.Image`
   width: 106px;
   height: 106px;
-  margin-bottom: 15px;
 `;
 
 export const Name = styled.Text`
@@ -34,13 +33,14 @@ export const Name = styled.Text`
   font-size: 18px;
   line-height: 21px;
   text-align: center;
-  margin-bottom: 10px;
+  margin: 15px 0 10px;
 
   color: #222;
 `;
 
 export const RA = styled(Name)`
   font-weight: bold;
+  margin-top: 0px;
 `;
 
 export const Status = styled.View`

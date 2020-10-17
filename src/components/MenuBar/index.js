@@ -3,12 +3,12 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { ThemeContext } from 'styled-components';
 import database from '@react-native-firebase/database'
 
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import Icon2 from 'react-native-vector-icons/Ionicons'
-import Icon3 from 'react-native-vector-icons/Entypo'
-import Icon4 from 'react-native-vector-icons/MaterialCommunityIcons'
-import Icon5 from 'react-native-vector-icons/Fontisto'
-import Icon6 from 'react-native-vector-icons/AntDesign'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import Entypo from 'react-native-vector-icons/Entypo'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Fontisto from 'react-native-vector-icons/Fontisto'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import { 
   Container, Header, Less, Settings, Profile, ProfileImage, ProfileText, Options,  Option, OptionText
@@ -38,10 +38,10 @@ const MenuBar = ({props, user }) => {
       <DrawerContentScrollView>
         <Header>
           <Less onPress={props.navigation.closeDrawer}>
-            <Icon name="more-vert" size={20} color={color}/>
+            <MaterialIcons name="more-vert" size={20} color={color}/>
           </Less>
           <Settings onPress={() => props.navigation.navigate('Settings')}>
-            <Icon2 name="settings-outline" size={20} color={color}/>
+            <Ionicons name="settings-outline" size={20} color={color}/>
           </Settings>
         </Header>
         <Options>
@@ -50,7 +50,8 @@ const MenuBar = ({props, user }) => {
               <ProfileText>{name}</ProfileText>
             }
             icon={() =>
-              <ProfileImage source={require('../../assets/Profile.png')}/>
+              // <ProfileImage source={require('../../assets/Profile.png')}/>
+              <Ionicons name="person-circle-outline" size={65} />
             }
             onPress={() => props.navigation.navigate('Profile')}
           />
@@ -60,7 +61,7 @@ const MenuBar = ({props, user }) => {
               <OptionText>Home</OptionText>
             }
             icon={() => 
-              <Icon name="home" size={29} color={color}/>
+              <MaterialIcons name="home" size={29} color={color}/>
             }
             onPress={() => props.navigation.navigate('Main')}
           />
@@ -70,7 +71,7 @@ const MenuBar = ({props, user }) => {
               <OptionText>Sobre</OptionText>
             }
             icon={() => 
-              <Icon3 name="info-with-circle" size={29} color={color}/>
+              <Entypo name="info-with-circle" size={29} color={color}/>
             }
             onPress={() => props.navigation.navigate('About')}
           />
@@ -80,7 +81,7 @@ const MenuBar = ({props, user }) => {
               <OptionText>Recados</OptionText>
             }
             icon={() => 
-              <Icon4 
+              <MaterialCommunityIcons 
                 name="newspaper-variant-outline" 
                 size={29} 
                 color={color}
@@ -94,7 +95,7 @@ const MenuBar = ({props, user }) => {
               <OptionText>Lab/Oficina</OptionText>
             }
             icon={() => 
-              <Icon5 name="laboratory" size={29} color={color}/>
+              <Fontisto name="laboratory" size={29} color={color}/>
             }
             onPress={() => props.navigation.navigate('LabAndWorkshop')}
           />
@@ -104,7 +105,7 @@ const MenuBar = ({props, user }) => {
               <OptionText>Telemetria</OptionText>
             }
             icon={() => 
-              <Icon6 name="dashboard" size={29} color={color}/>
+              <AntDesign name="dashboard" size={29} color={color}/>
             }
             onPress={() => props.navigation.navigate('Telemetry')}
           />
@@ -114,7 +115,7 @@ const MenuBar = ({props, user }) => {
               <OptionText>Requisição</OptionText>
             }
             icon={() => 
-              <Icon name="shopping-cart" size={29} color={color}/>
+              <MaterialIcons name="shopping-cart" size={29} color={color}/>
             }
             onPress={() => props.navigation.navigate('MyRequirements')}
           />

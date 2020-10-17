@@ -55,7 +55,9 @@ const MyRequirements = ({ navigation, route }) => {
       
       setPendingRequirements(pending)
       setAcceptRequirements(accept)
-      setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val())
+      snapshot.child(`Profile/${user}/field`).val() == 'Administração'
+      ? setCoordinator(true)
+      : setCoordinator(false);
     })
 
     return () => reference.off('value', onChangeValue)
@@ -157,13 +159,15 @@ const MyRequirements = ({ navigation, route }) => {
           </Menu>
         </Content>
         <End>
-          <New 
-            style={styles.button} 
-            onPress={handleCreateNewRequirement}
-          >
-            <Icon2 name="plus" size={16}/>
-            <NewText>Adicionar Requisição</NewText>
-          </New>
+          {!coordinator &&
+            <New 
+              style={styles.button} 
+              onPress={handleCreateNewRequirement}
+            >
+              <Icon2 name="plus" size={16}/>
+              <NewText>Adicionar Requisição</NewText>
+            </New>
+          }
           <Back />
         </End>
       </Scroll>

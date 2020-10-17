@@ -22,12 +22,12 @@ const App = () => {
   }
 
   return (
-  <ThemeProvider theme={theme}>
-    <AppStack 
-      darkMode={handleStartDarkMode} 
-      lightMode={handleStartLightMode}
-    />
-  </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <AppStack 
+        darkMode={handleStartDarkMode} 
+        lightMode={handleStartLightMode}
+      />
+    </ThemeProvider>
   )
 }
 

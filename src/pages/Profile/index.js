@@ -2,14 +2,15 @@ import React, { useState, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon2 from 'react-native-vector-icons/Ionicons'
 import database from '@react-native-firebase/database'
 
 import { 
-  Title, Avatar, AvatarImage, Cam, Fundo, Fundo9, Fundo10, Name, NameText, RA, RAText
+  Title, Avatar, AvatarImage, Cam, Fundo, Fundo9, Fundo10, Name, NameText, RA, RAText, TotalSpace
 } from './styles';
 
 import {
-  Container, Content, End
+  Container, End, Scroll
 } from '~/styles/global'
 
 import Head from '~/components/Head';
@@ -38,10 +39,12 @@ const Profile = ({ route }) => {
   return (
     <Container>
       <Head />
-        <Content>
+      <Scroll>
+        <TotalSpace>
           <Title>PERFIL</Title>
           <Avatar>
-            <AvatarImage resizeMode="contain" source={require('../../assets/Avatar.png')} />
+            {/* <AvatarImage resizeMode="contain" source={require('../../assets/Avatar.png')} /> */}
+            <Icon2 name="person-circle-outline" size={212} />
             <Cam>
               <Icon 
                 name="camera-plus" 
@@ -49,7 +52,7 @@ const Profile = ({ route }) => {
                 color={colors.primaryIcon}/>
             </Cam>
           </Avatar>
-        </Content>
+        </TotalSpace>
         <Fundo>
           <Fundo10 source={require('../../assets/Fundo10.png')}>
             <Fundo9 source={require('../../assets/Fundo9.png')}>
@@ -68,6 +71,7 @@ const Profile = ({ route }) => {
             <Back different/>
           </End>
         </Fundo>
+      </Scroll>
     </Container>
   );
 }
