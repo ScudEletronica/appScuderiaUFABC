@@ -40,24 +40,35 @@ const MyRequirements = ({ navigation, route }) => {
       var pending = [];
       var accept = [];
       const requirements = snapshot.child('Requirements').val()
-      setName(snapshot.child(`Profile/${user}/name`).val())
+      snapshot.child(`Profile/${user}/field`).val() == 'Administração'
+      ? setCoordinator(true)
+      : setCoordinator(false);
 
-      if(requirements){
-        Object.values(requirements).forEach(element => {
-          
-          if (element.name = name) {
+      if(coordinator == true) {
+        if(requirements){
+          Object.values(requirements).forEach(element => {
             element.accept
             ? accept.push(element)
             : pending.push(element)
-          }
-        });
+          });
+        }
+      } else {
+        setName(snapshot.child(`Profile/${user}/name`).val())
+  
+        if(requirements) {
+          Object.values(requirements).forEach(element => {
+            
+            if (element.name == name) {
+              element.accept
+              ? accept.push(element)
+              : pending.push(element)
+            }
+          });
+        }
       }
       
       setPendingRequirements(pending)
       setAcceptRequirements(accept)
-      snapshot.child(`Profile/${user}/field`).val() == 'Administração'
-      ? setCoordinator(true)
-      : setCoordinator(false);
     })
 
     return () => reference.off('value', onChangeValue)

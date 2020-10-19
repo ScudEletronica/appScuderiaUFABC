@@ -44,7 +44,11 @@ const Profile = ({ route }) => {
           <Title>PERFIL</Title>
           <Avatar>
             {/* <AvatarImage resizeMode="contain" source={require('../../assets/Avatar.png')} /> */}
-            <Icon2 name="person-circle-outline" size={212} />
+            <Icon2 
+              name="person-circle-outline" 
+              size={212} 
+              color={colors.primaryIcon}
+            />
             <Cam>
               <Icon 
                 name="camera-plus" 

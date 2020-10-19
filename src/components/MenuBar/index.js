@@ -51,7 +51,11 @@ const MenuBar = ({props, user }) => {
             }
             icon={() =>
               // <ProfileImage source={require('../../assets/Profile.png')}/>
-              <Ionicons name="person-circle-outline" size={65} />
+              <Ionicons 
+                name="person-circle-outline" 
+                size={65} 
+                color={color}
+              />
             }
             onPress={() => props.navigation.navigate('Profile')}
           />

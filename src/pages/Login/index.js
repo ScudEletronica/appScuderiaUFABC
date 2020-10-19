@@ -8,6 +8,7 @@ import {
 } from './styles';
 
 import { Scroll } from "~/styles/global"; 
+import AsyncStorage from '@react-native-community/async-storage';
 
 const reference = database().ref('Profile');
 
@@ -21,7 +22,18 @@ export default function Login() {
   const { navigate } = useNavigation();
   const { images } = useContext(ThemeContext);
 
-  
+  const getData = async () => {
+    const user = await AsyncStorage.getItem('user');
+    const ra = await AsyncStorage.getItem('ra');
+    if(user && ra) navigate("Drawer", {user, ra})
+  }
+
+  const storeData = async () => {
+    await AsyncStorage.setItem('user', user)
+    await AsyncStorage.setItem('ra', ra)
+    navigate("Drawer", {user, ra})
+  }
+
   function handleSubmit() {
     reference.child(`${user}/ra`).on("value", snapshot => {
       setRaFirebase(snapshot.val());
@@ -30,16 +42,16 @@ export default function Login() {
     setNothing(false)
     setWrong(false)
 
-    // if (ra != '') {
-    // ra == raFirebase
-    // ? navigate("Drawer", {user, ra})
-    // :  setWrong(true);
-    // } else {
-    //   setNothing(true)
-    // }
-
-    navigate("Drawer", {user: 'Marcelo', ra})
+    if (ra != '') {
+      ra == raFirebase
+      ? storeData()
+      :  setWrong(true);
+    } else {
+      setNothing(true)
+    }
   }
+
+  getData()
 
   return (
     <Scroll>

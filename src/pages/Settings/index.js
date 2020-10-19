@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import Icon from 'react-native-vector-icons/FontAwesome5'
-import Icon2 from 'react-native-vector-icons/Ionicons'
-import Icon3 from 'react-native-vector-icons/Entypo'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import Entypo from 'react-native-vector-icons/Entypo'
 
 import { 
   Title, Modes, LightMode, LightModeText, DarkMode, DarkModeText,Options, Option, OptionTitle
@@ -14,6 +14,7 @@ import { Container, Scroll, Content, End } from '~/styles/global';
 
 import Head from '~/components/Head';
 import Back from '~/components/Back';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Settings = ({ route }) => {
   const { navigate } = useNavigation();
@@ -33,6 +34,12 @@ const Settings = ({ route }) => {
   
   function handleNavigateToInformation() {
     navigate('Information');
+  }
+
+  function handleLogout() {
+    AsyncStorage.removeItem('user');
+    AsyncStorage.removeItem('ra');
+    navigate('Login')
   }
 
   return (
@@ -57,7 +64,7 @@ const Settings = ({ route }) => {
               </DarkMode>
             </Modes>
             <Option onPress={handleNavigateToProfile}>
-              <Icon2 
+              <Ionicons 
                 name="ios-person-circle-outline" 
                 size={40} 
                 color={color}
@@ -65,7 +72,7 @@ const Settings = ({ route }) => {
               <OptionTitle>Perfil</OptionTitle>
             </Option>
             <Option onPress={handleNavigateToNotifications}>
-              <Icon 
+              <FontAwesome5 
                 name="bell" 
                 size={40} 
                 color={color}
@@ -73,12 +80,20 @@ const Settings = ({ route }) => {
               <OptionTitle>Notificações</OptionTitle>
             </Option>
             <Option onPress={handleNavigateToInformation}>
-              <Icon3 
+              <Entypo 
                 name="info-with-circle" 
                 size={40} 
                 color={color}
               />
               <OptionTitle>Informações</OptionTitle>
+            </Option>
+            <Option onPress={handleLogout}>
+              <Entypo 
+                name="log-out" 
+                size={40} 
+                color={color}
+              />
+              <OptionTitle>Sair</OptionTitle>
             </Option>
           </Options>
         </Content>
