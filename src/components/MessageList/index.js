@@ -42,7 +42,7 @@ const MessageList = ({
       }
       <Title>{message.title}</Title>
       <Date>{message.date}</Date>
-      <Content>{message.content.substring(0, 170)} ...</Content>
+      <Content>{message.content.substring(0, 170).replace(/\r?\n|\r/g, ' ')} ...</Content>
     </Container>
   );
 }
