@@ -123,6 +123,3 @@ export const Key = styled.Image`
   height: 44px;
   margin-right: 19px;
 `
-
-
-

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import database from '@react-native-firebase/database';

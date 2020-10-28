@@ -14,6 +14,7 @@ import { Container, Scroll, Content } from "~/styles/global";
 
 import Head from '~/components/Head';
 import Warning from '~/components/Warning';
+import PushNotification from 'react-native-push-notification';
 
 const reference = database().ref();
 
@@ -113,6 +114,16 @@ const LabAndWorkshop = ({ route }) => {
 
     return () => reference.off('value', onChangeValue)
   }, [reference])
+
+  useFocusEffect(() => {
+    if (status.Lab == true) {
+      setAskedLab(false)
+    }
+    
+    if (status.Workshop == true) {
+      setAskedWorkshop(false)
+    }
+  }, [status])
 
   function toggleNotificationLab() {
     setNotificationLabIsOn(!notificationLabIsOn)

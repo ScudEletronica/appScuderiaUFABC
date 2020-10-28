@@ -21,7 +21,7 @@ export const Cam = styled.View`
 `;
 
 export const TotalSpace = styled(Content)`
-  height: ${Dimensions.get('window').height};
+  height: ${Dimensions.get('window').height}px;
 `;
 
 export const Fundo = styled.View`
