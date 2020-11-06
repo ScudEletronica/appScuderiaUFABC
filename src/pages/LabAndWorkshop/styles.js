@@ -106,6 +106,17 @@ export const InformationContent = styled.Text`
   color: ${props => props.theme.colors.tertiaryText};
 `
 
+export const InputKey = styled.TextInput`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+
+  color: ${props => props.theme.colors.tertiaryText};
+`
+
 export const Keys = styled.View`
   align-items: flex-start;
   margin-top: 9px;
@@ -117,6 +128,28 @@ export const KeyTitle = styled.View`
   align-items: center;
   margin-bottom: 12px;
 `
+
+export const Create = styled(RectButton)`
+  background: #4F81BC;
+  width: 215px;
+  height: 44px;
+  border-radius: 80px;
+  margin-right: 24px;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  align-self: flex-end;
+`;
+
+export const CreateText = styled.Text`
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+
+  color: ${props => props.theme.colors.buttonText};
+`;
 
 export const Key = styled.Image`
   width: 44px;

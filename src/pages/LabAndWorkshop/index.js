@@ -7,14 +7,13 @@ import database from '@react-native-firebase/database';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { 
-  Title, Intern, Place, Status, SubTitle, Open, Close, Request, Buttons, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key
+  Title, Intern, Place, Status, SubTitle, Open, Close, Request, Buttons, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key, InputKey, Create, CreateText
 } from './styles';
 
 import { Container, Scroll, Content } from "~/styles/global";
 
 import Head from '~/components/Head';
 import Warning from '~/components/Warning';
-import PushNotification from 'react-native-push-notification';
 
 const reference = database().ref();
 
@@ -28,6 +27,9 @@ const LabAndWorkshop = ({ route }) => {
   const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
   const [coordinator, setCoordinator] = useState(false);
   const [keys, setKeys] = useState({
+    workshop: null, labBlue: null, labRed: null
+  })
+  const [defaultKeys, setDefaultKeys] = useState({
     workshop: '', labBlue: '', labRed: ''
   })
   const [visible, setVisible] = useState(false);
@@ -109,7 +111,7 @@ const LabAndWorkshop = ({ route }) => {
           snapshot.child(`Profile/${user}/workshophours`).val()
         )
       );
-      setKeys(snapshot.child('Keys').val());
+      setDefaultKeys(snapshot.child('Keys').val());
     })
 
     return () => reference.off('value', onChangeValue)
@@ -219,6 +221,29 @@ const LabAndWorkshop = ({ route }) => {
     toggleOverlay();
   }
 
+  function handleKey () {
+    var updateKeys = keys;
+
+    for (const key in keys) {
+      if (!keys[key]) {
+        updateKeys[key] = defaultKeys[key]
+      }
+    }
+
+    reference.child("Keys").update({
+      labBlue: updateKeys.labBlue,
+      labRed: updateKeys.labRed,
+      workshop: updateKeys.workshop
+    });
+  }
+
+  function setKeyValue(field, value) {
+    const updateKeys = keys;
+    updateKeys[field] = value;
+
+    setKeys(updateKeys);
+  }
+
   return (
     <Container>
       <Warning
@@ -309,10 +334,10 @@ const LabAndWorkshop = ({ route }) => {
               <Status>
                 <SubTitle>Oficina</SubTitle>
                 { status.Workshop
-                  ? <Open>Aberto</Open>
+                  ? <Open>Aberta</Open>
                   : status.workshopRequest
                     ? <Request>Requisitado</Request>
-                    : <Close>Fechado</Close>
+                    : <Close>Fechada</Close>
                 } 
               </Status>
 
@@ -381,21 +406,52 @@ const LabAndWorkshop = ({ route }) => {
                 <Key source={images.key}/>
                 <SubTitle>Chaves</SubTitle>
               </KeyTitle>
-
               <Information>
                 <InformationTitle>Oficina:</InformationTitle>
-                <InformationContent>{keys.workshop}</InformationContent>
+                {coordinator
+                  ? <InputKey 
+                      defaultValue={defaultKeys.workshop}
+                    value={keys.workshop}
+                    onChangeText={text => 
+                      setKeyValue('workshop', text)}
+                  />
+                  : <InformationContent>{keys.workshop}</InformationContent>
+                }
               </Information>
 
               <Information>
                 <InformationTitle>Lab Azul:</InformationTitle>
-                <InformationContent>{keys.labBlue}</InformationContent>
+                {coordinator
+                  ? <InputKey 
+                      defaultValue={defaultKeys.labBlue}
+                      value={keys.labBlue}
+                      onChangeText={text => 
+                        setKeyValue('labBlue', text)}
+                    />
+                  : <InformationContent>{keys.labBlue}</InformationContent>
+                }
               </Information>
 
               <Information>
                 <InformationTitle>Lab Vermelha:</InformationTitle>
-                <InformationContent>{keys.labRed}</InformationContent>
+                {coordinator
+                  ? <InputKey 
+                      defaultValue={defaultKeys.labRed}
+                    value={keys.labRed}
+                    onChangeText={text => 
+                      setKeyValue('labRed', text)}
+                  />
+                  : <InformationContent>{keys.labRed}</InformationContent>
+                }
               </Information>
+              {coordinator &&
+                <Create 
+                  style={styles.button}
+                  onPress={handleKey}
+                >
+                  <CreateText>Atualizar Chaves</CreateText>
+                </Create>
+              }
             </Keys>
           </Intern>
         </Content>
