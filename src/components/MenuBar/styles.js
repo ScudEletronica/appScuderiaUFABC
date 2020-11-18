@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { DrawerItem } from '@react-navigation/drawer';
 import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View.attrs({
@@ -43,7 +42,7 @@ export const Options = styled.View`
   margin-top: 20px;
 `
 
-export const Profile = styled(DrawerItem)`
+export const Profile = styled(RectButton)`
   flex-direction: row;
   align-items: center;
   width: 200px;
@@ -57,19 +56,21 @@ export const ProfileText = styled.Text`
   font-weight: 500;
   font-size: 20px;
   line-height: 23px;
+  margin-left: 20px;
 
   color: ${props => props.theme.colors.quaternaryText};
 `
 
-export const Option = styled(DrawerItem)`
+export const Option = styled(RectButton)`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 20px;
+  margin: 20px;
   width: 170px;
 `
 
 export const OptionText = styled(ProfileText)`
   font-size: 18px;
   line-height: 21px;
+  margin-left: 20px;
 `

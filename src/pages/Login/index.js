@@ -2,13 +2,14 @@ import React, { useContext, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import database from '@react-native-firebase/database';
+import AsyncStorage from '@react-native-community/async-storage';
+import { storeJSON, storeString } from "~/utils/store";
 
 import { 
   Container, Fundo, Logo, Fundo1, Fundo2, Form, Title, Subtitle, Input, LoginBotao, LoginImage, Warning
 } from './styles';
 
 import { Scroll } from "~/styles/global"; 
-import AsyncStorage from '@react-native-community/async-storage';
 
 const reference = database().ref('Profile');
 
@@ -17,6 +18,7 @@ export default function Login() {
   const [ra, setRA] = useState('');
   const [raFirebase, setRaFirebase] = useState('');
   const [wrong, setWrong] = useState(false);
+  const [coordinator, setCoordinator] = useState(false);
   const [nothing, setNothing] = useState(false);
 
   const { navigate } = useNavigation();
@@ -24,19 +26,30 @@ export default function Login() {
 
   const getData = async () => {
     const user = await AsyncStorage.getItem('user');
+    global.user = user;
     const ra = await AsyncStorage.getItem('ra');
+    reference.child(user).on("value", snapshot => {
+      global.coordinator = snapshot.child('coordinator').val()
+      snapshot.child('field').val() == 'Administração'
+      ? global.requirements.admin = true
+      : global.requirements.admin = false
+    })
     if(user && ra) navigate("Drawer", {user, ra})
   }
 
   const storeData = async () => {
-    await AsyncStorage.setItem('user', user)
-    await AsyncStorage.setItem('ra', ra)
+    storeString('user', user)
+    storeString('ra', ra)
+    storeJSON(coordinator)
+
+    global.coordinator = coordinator;
     navigate("Drawer", {user, ra})
   }
 
   function handleSubmit() {
-    reference.child(`${user}/ra`).on("value", snapshot => {
-      setRaFirebase(snapshot.val());
+    reference.child(user).on("value", snapshot => {
+      setRaFirebase(snapshot.child('ra').val());
+      setCoordinator(snapshot.child('coordinator').val())
     })
 
     setNothing(false)

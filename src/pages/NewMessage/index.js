@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import database from '@react-native-firebase/database'
 import { useFocusEffect } from '@react-navigation/native';
+import { storeJSON } from '~/utils/store';
+import database from '@react-native-firebase/database'
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { 
   Title, NewInput, NormalText, BigInput, Buttons, Create, CreateText, Cancel, ButtonText
@@ -15,9 +17,11 @@ import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 
 const reference = database().ref('Messages')
+const status = database().ref('Status')
 
 const NewMessage = ({navigation, route}) => {
   const [title, setTitle] = useState();
+  const [amount, setAmount] = useState(0);
   const [content, setContent] = useState();
   const [defaultTitle, setDefaultTitle] = useState('');
   const [defaultContent, setDefaultContent] = useState('');
@@ -29,6 +33,11 @@ const NewMessage = ({navigation, route}) => {
   useFocusEffect(() => {
     setDefaultTitle(message.title);
     setDefaultContent(message.content);
+    const onValueChange = status.on('value', snapshot => {
+      setAmount(snapshot.child("amountMessages").val())
+    })
+
+    return () => reference.off('value', onValueChange)
   }, [message]);
 
   function handleCancel() {
@@ -77,6 +86,10 @@ const NewMessage = ({navigation, route}) => {
       const id = NewReference.key;
   
       NewReference.set({id, title, date, content})
+      
+      status.update({amountMessages: amount + 1});
+      storeJSON('messages', amount + 1);
+      global.messages = amount + 1;
   
       navigation.navigate("Messages");
     } else {
@@ -88,7 +101,7 @@ const NewMessage = ({navigation, route}) => {
   function handleEdit() {
     if(title || content) {
       reference.child(message.id).update({title, content});
-
+      
       var newMessage = {
         id: message.id, date: message.date, title, content
       }

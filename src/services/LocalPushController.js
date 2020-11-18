@@ -6,7 +6,12 @@ PushNotification.configure({
     console.log('LOCAL NOTIFICATION ==>', notification)
   },
   popInitialNotification: true,
-  requestPermissions: true
+  requestPermissions: true,
+  permissions: {
+    alert: true,
+    badge: true,
+    sound: true,
+  },
 })
 
 export const LabNotification = (status) => {
@@ -19,6 +24,7 @@ export const LabNotification = (status) => {
       message: 'Lab Aberto',
       vibrate: true,
       vibration: 300,
+      foreground: true
     })
   } else {
     PushNotification.localNotification({
@@ -29,8 +35,22 @@ export const LabNotification = (status) => {
       message: 'Lab Fechado',
       vibrate: true,
       vibration: 300,
+      foreground: true
     })
   }
+}
+
+export const LabRequestNotification = () => {
+  PushNotification.localNotification({
+    bigText:
+      'Alguém solicitou que o Lab fosse aberto',
+    subText: 'Lab Requisitado',
+    title: 'Lab Requisitado',
+    message: 'Lab Requisitado',
+    vibrate: true,
+    vibration: 300,
+    foreground: true
+  })
 }
 
 export const WorkshopNotification = (status) => {
@@ -43,6 +63,7 @@ export const WorkshopNotification = (status) => {
       message: 'Oficina Aberta',
       vibrate: true,
       vibration: 300,
+      foreground: true
     })
   } else {
     PushNotification.localNotification({
@@ -53,6 +74,59 @@ export const WorkshopNotification = (status) => {
       message: 'Oficina Fechada',
       vibrate: true,
       vibration: 300,
+      foreground: true
     })
   }
+}
+
+export const WorkshopRequestNotification = () => {
+    PushNotification.localNotification({
+    bigText:
+      'Alguém solicitou que a Oficina fosse aberta',
+    subText: 'Oficina Requisitada',
+    title: 'Oficina Requisitada',
+    message: 'Oficina Requisitada',
+    vibrate: true,
+    vibration: 300,
+    foreground: true
+  })
+}
+
+export const MessageNotification = () => {
+  PushNotification.localNotification({
+    bigText:
+      'Um novo recado foi adicionado',
+    subText: 'Novo Recado',
+    title: 'Novo Recado',
+    message: 'Novo Recado',
+    vibrate: true,
+    vibration: 300,
+    foreground: true
+  })
+}
+
+export const PendingNotification = () => {
+  PushNotification.localNotification({
+    bigText:
+      'Uma nova requisição foi adicionada',
+    subText: 'Nova Requisição',
+    title: 'Nova Requisição',
+    message: 'Nova Requisição',
+    vibrate: true,
+    vibration: 300,
+    foreground: true
+  })
+}
+
+export const AcceptNotification = () => {
+  PushNotification.localNotification({
+    bigText:
+      'Uma de suas requisições foi aceita',
+    subText: 'Requisição Aceita',
+    title: 'Requisição Aceita',
+    message: 'Requisição Aceita',
+    vibrate: true,
+    vibration: 300,
+    foreground: true
+  })
 }

@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useState, useContext } from 'react';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { ThemeContext } from 'styled-components';
@@ -13,7 +14,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { 
   Container, Header, Less, Settings, Profile, ProfileImage, ProfileText, Options,  Option, OptionText
 } from './styles';
-import { useFocusEffect } from '@react-navigation/native';
 
 
 const MenuBar = ({props, user }) => {
@@ -46,83 +46,61 @@ const MenuBar = ({props, user }) => {
         </Header>
         <Options>
           <Profile
-            label={() =>
-              <ProfileText>{name}</ProfileText>
-            }
-            icon={() =>
-              // <ProfileImage source={require('../../assets/Profile.png')}/>
-              <Ionicons 
-                name="person-circle-outline" 
-                size={65} 
-                color={color}
-              />
-            }
             onPress={() => props.navigation.navigate('Profile')}
-          />
+          >
+            <Ionicons 
+              name="person-circle-outline" 
+              size={65} 
+              color={color}
+            />
+            <ProfileText>{name}</ProfileText>
+          </Profile>
         
-          <Option 
-            label={() => 
-              <OptionText>Home</OptionText>
-            }
-            icon={() => 
-              <MaterialIcons name="home" size={29} color={color}/>
-            }
+          <Option
             onPress={() => props.navigation.navigate('Main')}
-          />
-        
-          <Option 
-            label={() =>
-              <OptionText>Sobre</OptionText>
-            }
-            icon={() => 
-              <Entypo name="info-with-circle" size={29} color={color}/>
-            }
+          >
+            <MaterialIcons name="home" size={29} color={color}/>
+            <OptionText>Home</OptionText>
+          </Option>
+
+          <Option
             onPress={() => props.navigation.navigate('About')}
-          />
-        
+          >
+            <Entypo name="info-with-circle" size={29} color={color}/>
+            <OptionText>Sobre</OptionText>
+          </Option>
+
           <Option 
-            label={() =>
-              <OptionText>Recados</OptionText>
-            }
-            icon={() => 
-              <MaterialCommunityIcons 
-                name="newspaper-variant-outline" 
-                size={29} 
-                color={color}
-              />
-            }
             onPress={() => props.navigation.navigate('Messages')}
-          />
+          >
+            <MaterialCommunityIcons 
+              name="newspaper-variant-outline" 
+              size={29} 
+              color={color}
+            />
+            <OptionText>Recados</OptionText>
+          </Option>
         
           <Option 
-            label={() =>
-              <OptionText>Lab/Oficina</OptionText>
-            }
-            icon={() => 
-              <Fontisto name="laboratory" size={29} color={color}/>
-            }
             onPress={() => props.navigation.navigate('LabAndWorkshop')}
-          />
+          >
+            <Fontisto name="laboratory" size={29} color={color}/>
+            <OptionText>Lab/Oficina</OptionText>
+          </Option>
         
           <Option 
-            label={() =>
-              <OptionText>Telemetria</OptionText>
-            }
-            icon={() => 
-              <AntDesign name="dashboard" size={29} color={color}/>
-            }
             onPress={() => props.navigation.navigate('Telemetry')}
-          />
+          >
+            <AntDesign name="dashboard" size={29} color={color}/>
+            <OptionText>Telemetria</OptionText>
+          </Option>
         
           <Option 
-            label={() =>
-              <OptionText>Requisição</OptionText>
-            }
-            icon={() => 
-              <MaterialIcons name="shopping-cart" size={29} color={color}/>
-            }
             onPress={() => props.navigation.navigate('MyRequirements')}
-          />
+          >
+            <MaterialIcons name="shopping-cart" size={29} color={color}/>
+            <OptionText>Requisição</OptionText>
+          </Option>
         </Options>
       </DrawerContentScrollView>
     </Container>

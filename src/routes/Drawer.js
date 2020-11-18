@@ -20,7 +20,7 @@ import MenuBar from "~/components/MenuBar";
 const { Navigator, Screen } = createDrawerNavigator()
 
 function Drawer({route}) {
-  const { darkMode, lightMode, user } = route.params;
+  const { darkMode, lightMode, user} = route.params;
 
   return (
     <>
@@ -79,7 +79,10 @@ function Drawer({route}) {
           component={Information}
           initialParams={{user}}
         />
-        <Screen name="Notifications" component={Notifications}/>
+        <Screen 
+          name="Notifications" 
+          component={Notifications}
+        />
         <Screen 
           name="MenuBar" 
           component={MenuBar}

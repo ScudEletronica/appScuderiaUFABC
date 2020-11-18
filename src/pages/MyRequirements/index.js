@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ThemeContext } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native';
+import { storeJSON } from '~/utils/store';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Icon2 from 'react-native-vector-icons/AntDesign'
 import database from '@react-native-firebase/database'
@@ -30,6 +31,7 @@ const MyRequirements = ({ navigation, route }) => {
   const [overlayText, setOverlayText] = useState('')
   const [visible, setVisible] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [amount, setAmount] = useState(0);
 
   const { colors } = useContext(ThemeContext);
 
@@ -69,6 +71,7 @@ const MyRequirements = ({ navigation, route }) => {
       
       setPendingRequirements(pending)
       setAcceptRequirements(accept)
+      setAmount(snapshot.child('Status/pendingRequirements').val())
     })
 
     return () => reference.off('value', onChangeValue)
@@ -110,14 +113,36 @@ const MyRequirements = ({ navigation, route }) => {
   
   function handleDelete() {
     reference.child(`Requirements/${id}`).remove();
+    lowPending();
     
     toggleOverlay();
   }
   
   function handleAccept() {
-    reference.child(`Requirements/${id}`).update({accept: true})
+    reference.child(`Requirements/${id}`).update({accept: true});
+    lowPending();
+    reference.once('value')
+    .then(snapshot => { 
+      const requirement = snapshot.child(`Requirements/${id}`).val()
+      Object.values(snapshot.child('Profile').val())
+        .forEach(element => {
+          if (element.name == requirement.name) {
+            reference.child(`Profile/${element.user}`)
+              .update({
+                acceptRequirements: element.acceptRequirements + 1
+              });
+          }
+        });
+    })
 
     toggleOverlay();
+  }
+
+  function lowPending() {
+    reference.child('Status')
+      .update({pendingRequirements: amount - 1})
+      global.requirements.pending = amount - 1
+      storeJSON('requirements', global.requirements)
   }
 
   return (

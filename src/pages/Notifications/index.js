@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ThemeContext } from 'styled-components';
+import { useFocusEffect } from '@react-navigation/native';
+import { storeJSON } from '~/utils/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { 
@@ -13,30 +15,44 @@ import {
 import Head from '~/components/Head';
 import Back from '~/components/Back';
 
-const Notifications = () => {
+const Notifications = ({ route }) => {
   const [notificationLabIsOn, setNotificationLabIsOn] = useState(false);
-  const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(true);
+  const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(false);
   const [notificationNewMessage, setNotificationNewMessage] = useState(false);
-  const [notificationAcceptRequirement, setNotificationAcceptRequirement] = useState(true);
+  const [notificationAcceptRequirement, setNotificationAcceptRequirement] = useState(false);
 
   const { colors } = useContext(ThemeContext);
 
   const color = colors.primaryIcon;
+  useFocusEffect(() => {
+    setNotificationLabIsOn(global.notifications.labOpen)
+    setNotificationWorkshopIsOn(global.notifications.workshopOpen)
+    setNotificationNewMessage(global.notifications.messages)
+    setNotificationAcceptRequirement(global.notifications.requirements)
+  })
 
   function toggleNotificationLab() {
     setNotificationLabIsOn(!notificationLabIsOn)
+    global.notifications.labOpen = !global.notifications.labOpen
+    storeJSON('notifications', global.notifications)
   }
-
+  
   function toggleNotificationWorkShop() {
     setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
+    global.notifications.workshopOpen = !global.notifications.workshopOpen
+    storeJSON('notifications', global.notifications)
   }
 
   function toggleNotificationMessage() {
     setNotificationNewMessage(!notificationNewMessage)
+    global.notifications.messages = !global.notifications.messages
+    storeJSON('notifications', global.notifications)
   }
 
   function toggleNotificationRequirement() {
     setNotificationAcceptRequirement(!notificationAcceptRequirement)
+    global.notifications.requirements = !global.notifications.requirements
+    storeJSON('notifications', global.notifications)
   }
 
   return (

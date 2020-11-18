@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import { storeJSON } from '~/utils/store';
 import database from "@react-native-firebase/database";
 import Markdown from 'react-native-markdown-renderer'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -24,6 +25,7 @@ const Message = ({ route, navigation }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [content, setContent] = useState('');
+  const [amount, setAmount] = useState(0);
   const [visible, setVisible] = useState(false);
 
   const { message, coordinator } = route.params;
@@ -39,6 +41,11 @@ const Message = ({ route, navigation }) => {
     setTitle(message.title);
     setDate(message.date);
     setContent(message.content);
+    const onValueChange = reference.on('value', snapshot => {
+      setAmount(snapshot.child("Status/amountMessages").val())
+    })
+
+    return () => reference.off('value', onValueChange)
   })
 
   function handleEdit() {
@@ -51,6 +58,12 @@ const Message = ({ route, navigation }) => {
 
   function handleDelete() {
     reference.child(`Messages/${message.id}`).remove();
+    reference
+      .child("Status")
+      .update({amountMessages: amount - 1});
+    
+    storeJSON('messages', amount - 1)
+    global.messages = amount - 1
 
     toggleOverlay();
 
