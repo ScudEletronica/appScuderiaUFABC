@@ -1,4 +1,4 @@
-import React, { useContext, useState} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import database from '@react-native-firebase/database';
@@ -19,6 +19,7 @@ export default function Login() {
   const [raFirebase, setRaFirebase] = useState('');
   const [wrong, setWrong] = useState(false);
   const [coordinator, setCoordinator] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const [nothing, setNothing] = useState(false);
 
   const { navigate } = useNavigation();
@@ -40,7 +41,7 @@ export default function Login() {
   const storeData = async () => {
     storeString('user', user)
     storeString('ra', ra)
-    storeJSON(coordinator)
+    storeJSON('coordinator', coordinator)
 
     global.coordinator = coordinator;
     navigate("Drawer", {user, ra})
@@ -54,15 +55,23 @@ export default function Login() {
 
     setNothing(false)
     setWrong(false)
-
-    if (ra != '') {
-      ra == raFirebase
-      ? storeData()
-      :  setWrong(true);
-    } else {
-      setNothing(true)
-    }
+    
+    ra != ''
+    ? setSubmit(!submit) : setNothing(true)
   }
+
+  useEffect(() => {
+    if (!nothing && ra != '') {
+      if(ra == raFirebase) {
+        storeData() 
+        setWrong(false)
+        setRA('')
+        setUser('')
+      } else {
+        setWrong(true);
+      }
+    }
+  }, [submit, raFirebase])
 
   getData()
 
