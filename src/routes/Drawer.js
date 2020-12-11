@@ -15,6 +15,7 @@ import Settings from '~/pages/Settings'
 import Profile from '~/pages/Profile'
 import Information from '~/pages/Information';
 import Notifications from '~/pages/Notifications';
+import NewUsers from "~/pages/NewUsers";
 import MenuBar from "~/components/MenuBar";
 
 const { Navigator, Screen } = createDrawerNavigator()
@@ -88,6 +89,7 @@ function Drawer({route}) {
           component={MenuBar}
           initialParams={{user}}
         />
+        <Screen name="NewUsers" component={NewUsers} />
       </Navigator>
     </>
   )

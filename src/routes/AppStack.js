@@ -18,6 +18,7 @@ import Settings from '~/pages/Settings'
 import Profile from '~/pages/Profile'
 import Information from '~/pages/Information';
 import Notifications from '~/pages/Notifications';
+import NewUsers from '~/pages/NewUsers';
 import Drawer from './Drawer';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -50,6 +51,7 @@ function AppStack({darkMode, lightMode}) {
         <Screen name="Settings" component={Settings} />
         <Screen name="Information" component={Information} />
         <Screen name="Notifications" component={Notifications} />
+        <Screen name="NewUsers" component={NewUsers} />
         <Screen name="Profile" component={Profile} />
       </Navigator>
     </NavigationContainer>

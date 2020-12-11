@@ -35,11 +35,15 @@ const Settings = ({ route }) => {
   function handleNavigateToInformation() {
     navigate('Information');
   }
-
+  
   function handleLogout() {
     AsyncStorage.removeItem('user');
     AsyncStorage.removeItem('ra');
     navigate('Login')
+  }
+  
+  function handleNewUsers() {
+    navigate('NewUsers');
   }
 
   return (
@@ -87,6 +91,16 @@ const Settings = ({ route }) => {
               />
               <OptionTitle>Informações</OptionTitle>
             </Option>
+            {global.coordinator &&
+              <Option onPress={handleNewUsers}>
+                <Entypo 
+                  name="add-user" 
+                  size={40} 
+                  color={color}
+                />
+                <OptionTitle>Novos Usuários</OptionTitle>
+              </Option>
+            }
             <Option onPress={handleLogout}>
               <Entypo 
                 name="log-out" 
