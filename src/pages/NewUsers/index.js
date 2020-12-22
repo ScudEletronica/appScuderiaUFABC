@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Linking } from "react-native";
-import { StyleSheet } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import database from '@react-native-firebase/database'
 import qs from 'qs'
@@ -67,7 +66,7 @@ const NewUsers = ({}) => {
     // Create email link query
     const query = qs.stringify({
         subject: "Inscrição no app Scuderia UFABC",
-        body: "Você foi aceito no app da Scuderia UFABC baixe o app pelo link: https://play.google.com/store/apps/details?id=com.scuderia.ufabc",
+        body: "Você foi aceito no app da Scuderia UFABC baixe o app usando um dos links abaixo: \n Web: https://play.google.com/apps/testing/com.scuderia.ufabc \n PlayStore: https://play.google.com/store/apps/details?id=com.scuderia.ufabc"
     });
 
     if (query.length) {
@@ -136,15 +135,5 @@ const NewUsers = ({}) => {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-    elevation: 2,
-  }
-})
 
 export default NewUsers;

@@ -1,4 +1,4 @@
-package com.scuderiaufabc;
+package com.scuderia.ufabc;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

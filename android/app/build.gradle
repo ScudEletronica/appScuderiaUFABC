@@ -129,12 +129,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.scuderiaufabc"
+        applicationId "com.scuderia.ufabc"
         multiDexEnabled true 
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "2.0"
+        versionCode 5
+        versionName "5.0"
     }
     splits {
         abi {

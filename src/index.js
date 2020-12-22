@@ -36,8 +36,9 @@ const App = () => {
   useEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
       setStatus(snapshot.child('Status').val())
-      if (global.user != '') {
-        setProfile(snapshot.child(`Profile/${global.user}`).val())
+      const newProfile = snapshot.child(`Profile/${global.user}`).val()
+      if (newProfile) {
+        setProfile(newProfile)
       }
     })
 
@@ -71,7 +72,6 @@ const App = () => {
   useEffect(() => {
     if (global.notifications.messages) {
       if (global.messages < status.amountMessages) {
-        console.log(global.messages, status.amountMessages)
         MessageNotification()
         global.messages = status.amountMessages
         storeJSON('messages', global.messages)
@@ -86,7 +86,6 @@ const App = () => {
   useEffect(() => {
     if (global.requirements.admin) {
       if (global.requirements.pending < status.pendingRequirements) {
-        console.log(global.requirements.pending, status.pendingRequirements)
         PendingNotification()
         global.requirements.pending = status.pendingRequirements
       }
@@ -94,7 +93,6 @@ const App = () => {
     if (global.requirements.pending > status.pendingRequirements) {
       global.requirements.pending = status.pendingRequirements
     }
-    console.log(global.requirements.admin)
     storeJSON('requirements', global.requirements)
   }, [status.pendingRequirements])
   
@@ -112,7 +110,6 @@ const App = () => {
       global.requirements.accept = profile.acceptRequirements
     }
     storeJSON('requirement', global.requirements)
-    console.log('Accept', global.requirements.accept, profile.acceptRequirements)
   }, [profile.acceptRequirements])
 
   const getData = async () => {
@@ -131,7 +128,6 @@ const App = () => {
 
     archived = await AsyncStorage.getItem('requirements')
     if(archived) global.requirements = JSON.parse(archived);
-    console.log(global.requirements)
     
     archived = await AsyncStorage.getItem('user')
     if(archived) global.user = archived;

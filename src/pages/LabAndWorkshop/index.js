@@ -1,19 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import { Button } from "react-native-elements";
+import { storeJSON } from '~/utils/store';
 import database from '@react-native-firebase/database';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { 
-  Title, Intern, Place, Status, SubTitle, Open, Close, Request, Buttons, NotificationText, Toggle,Information, InformationTitle, InformationContent, Keys, KeyTitle, Key, InputKey, Create, CreateText
+  Title, Intern, SubTitle, Information, InformationTitle, InformationContent, Keys, KeyTitle, Key, InputKey, Create, CreateText
 } from './styles';
 
 import { Container, Scroll, Content } from "~/styles/global";
 
 import Head from '~/components/Head';
 import Warning from '~/components/Warning';
+import Place from '~/components/Place';
 
 const reference = database().ref();
 
@@ -26,12 +26,9 @@ const LabAndWorkshop = ({ route }) => {
   const [totalHoursLab, setTotalHoursLab] = useState('');
   const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
   const [coordinator, setCoordinator] = useState(false);
-  const [keys, setKeys] = useState({
-    workshop: null, labBlue: null, labRed: null
-  })
-  const [defaultKeys, setDefaultKeys] = useState({
-    workshop: '', labBlue: '', labRed: ''
-  })
+  const [keyWorkshop, setKeyWorkshop] = useState('');
+  const [keyLabBlue, setKeyLabBlue] = useState('');
+  const [keyLabRed, setKeyLabRed] = useState('');
   const [visible, setVisible] = useState(false);
   const [askedLab, setAskedLab] = useState(false);
   const [askedWorkshop, setAskedWorkshop] = useState(false);
@@ -43,6 +40,11 @@ const LabAndWorkshop = ({ route }) => {
   const { user } = route.params
 
   const color = colors.primaryIcon;
+
+  useFocusEffect(() => {
+    setNotificationLabIsOn(global.notifications.labOpen)
+    setNotificationWorkshopIsOn(global.notifications.workshopOpen)
+  })
 
   const styles = StyleSheet.create({
     button: {
@@ -59,32 +61,6 @@ const LabAndWorkshop = ({ route }) => {
       marginLeft: 10,
       marginBottom: 7
     }, 
-    ask: {
-      width: 110,
-      height: 46,
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: colors.primaryButton,
-      borderRadius: 38,
-    },
-    cancel: {
-      width: 110,
-      height: 46,
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 38,
-      backgroundColor: '#EB5757',
-    },
-    text: {
-      fontFamily: 'Roboto',
-      fontWeight: 'bold',
-      fontSize: 17,
-      lineHeight: 20,
-
-      color: colors.buttonText,
-    }
   })
 
   function hoursFormat(hours) {
@@ -111,11 +87,20 @@ const LabAndWorkshop = ({ route }) => {
           snapshot.child(`Profile/${user}/workshophours`).val()
         )
       );
-      setDefaultKeys(snapshot.child('Keys').val());
     })
 
     return () => reference.off('value', onChangeValue)
-  }, [reference])
+  }, [user])
+
+  useEffect(() => {
+    const onChangeValue = reference.on('value', snapshot => {
+      setKeyWorkshop(snapshot.child('Keys/workshop').val())
+      setKeyLabBlue(snapshot.child('Keys/labBlue').val())
+      setKeyLabRed(snapshot.child('Keys/labRed').val())
+    })
+
+    return () => reference.off('value', onChangeValue)
+  }, [user])
 
   useFocusEffect(() => {
     if (status.Lab == true) {
@@ -129,10 +114,14 @@ const LabAndWorkshop = ({ route }) => {
 
   function toggleNotificationLab() {
     setNotificationLabIsOn(!notificationLabIsOn)
+    global.notifications.labOpen = !global.notifications.labOpen
+    storeJSON('notifications', global.notifications)
   }
-
+  
   function toggleNotificationWorkShop() {
     setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
+    global.notifications.workshopOpen = !global.notifications.workshopOpen
+    storeJSON('notifications', global.notifications)
   }
 
   function toggleOverlay() {
@@ -222,26 +211,11 @@ const LabAndWorkshop = ({ route }) => {
   }
 
   function handleKey () {
-    var updateKeys = keys;
-
-    for (const key in keys) {
-      if (!keys[key]) {
-        updateKeys[key] = defaultKeys[key]
-      }
-    }
-
     reference.child("Keys").update({
-      labBlue: updateKeys.labBlue,
-      labRed: updateKeys.labRed,
-      workshop: updateKeys.workshop
+      labBlue: keyLabBlue,
+      labRed: keyLabRed,
+      workshop: keyWorkshop
     });
-  }
-
-  function setKeyValue(field, value) {
-    const updateKeys = keys;
-    updateKeys[field] = value;
-
-    setKeys(updateKeys);
   }
 
   return (
@@ -259,146 +233,30 @@ const LabAndWorkshop = ({ route }) => {
 
           <Intern>
             {/* Laboratório */}
-            <Place>
-              <Status>
-                <SubTitle>Laboratório</SubTitle>
-                { status.Lab
-                  ? <Open>Aberto</Open>
-                  : status.labRequest
-                    ? <Request>Requisitado</Request>
-                    : <Close>Fechado</Close>
-                } 
-              </Status>
-
-              <Buttons>
-                {coordinator
-                ? askedLab || status.Lab
-                  ? <Button
-                      title="Fechar"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.ask}
-                      onPress={() => {
-                        handleAction('Lab', false);
-                      }}
-                      />
-                  : <Button
-                      title="Abrir"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.ask}
-                      onPress={() => {
-                        handleAction('Lab', true);
-                      }}
-                      disabled={status.Lab}
-                    />
-                : askedLab
-                  ? <Button
-                      title="Cancelar"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.cancel}
-                      onPress={() => {
-                        handleAction('Lab', false);
-                      }}
-                      disabled={status.Lab}
-                    />
-                  : <Button
-                      title="Pedir para abrir"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.ask}
-                      onPress={() => {
-                        handleAction('Lab', true)
-                      }}
-                      disabled={status.Lab || status.labRequest}
-                    />
-                }
-                <NotificationText>Notificar quando o Lab abrir?</NotificationText>
-                <Toggle onPress={toggleNotificationLab}>
-                  { notificationLabIsOn
-                    ? <Icon name="toggle-on" size={35} color={color}/>
-                    : <Icon name="toggle-off" size={35} color={color}/>
-                  }
-                </Toggle>
-              </Buttons>
-
-              <Information>
-                <InformationTitle>Horas:</InformationTitle>
-                <InformationContent>{totalHoursLab}</InformationContent>
-              </Information>
-            </Place>
+            <Place 
+              name="Laboratório"
+              isOpen={status.Lab}
+              request={status.labRequest}
+              asked={askedLab}
+              hours={totalHoursLab}
+              toggle={toggleNotificationLab}
+              notification={notificationLabIsOn}
+              coordinator={coordinator}
+              action={handleAction}
+            />
 
             {/* Oficina */}
-            <Place>
-              <Status>
-                <SubTitle>Oficina</SubTitle>
-                { status.Workshop
-                  ? <Open>Aberta</Open>
-                  : status.workshopRequest
-                    ? <Request>Requisitado</Request>
-                    : <Close>Fechada</Close>
-                } 
-              </Status>
-
-              <Buttons>
-              {coordinator
-                ? askedWorkshop || status.Workshop
-                  ? <Button
-                      title="Fechar"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.ask}
-                      onPress={() => {
-                        handleAction('Workshop', false);
-                      }}
-                      />
-                  : <Button
-                      title="Abrir"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.ask}
-                      onPress={() => {
-                        handleAction('Workshop', true);
-                      }}
-                      disabled={status.Workshop}
-                    />
-                : askedWorkshop
-                  ? <Button
-                      title="Cancelar"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.cancel}
-                      onPress={() => {
-                        handleAction('Workshop', false);
-                      }}
-                      disabled={status.Workshop}
-                    />
-                  : <Button
-                      title="Pedir para abrir"
-                      titleStyle={styles.text}
-                      containerStyle={styles.button}
-                      buttonStyle={styles.ask}
-                      onPress={() => {
-                        handleAction('Workshop', true)
-                      }}
-                      disabled={status.Workshop || status.workshopRequest}
-                    />
-                }
-                <NotificationText>Notificar quando a Oficina abrir?</NotificationText>
-                <Toggle onPress={toggleNotificationWorkShop}>
-                  { notificationWorkshopIsOn
-                    ? <Icon name="toggle-on" size={35} color={color}/>
-                    : <Icon name="toggle-off" size={35} color={color}/>
-                  }
-                </Toggle>
-              </Buttons>
-
-              <Information>
-                <InformationTitle>Horas:</InformationTitle>
-                <InformationContent>{totalHoursWorkshop}</InformationContent>
-              </Information>
-            </Place>
+            <Place 
+              name="Oficina"
+              isOpen={status.Workshop}
+              request={status.workshopRequest}
+              asked={askedWorkshop}
+              hours={totalHoursWorkshop}
+              toggle={toggleNotificationWorkShop}
+              notification={notificationWorkshopIsOn}
+              coordinator={coordinator}
+              action={handleAction}
+            />
 
             {/* Chaves */}
             <Keys>
@@ -410,12 +268,11 @@ const LabAndWorkshop = ({ route }) => {
                 <InformationTitle>Oficina:</InformationTitle>
                 {coordinator
                   ? <InputKey 
-                      defaultValue={defaultKeys.workshop}
-                    value={keys.workshop}
-                    onChangeText={text => 
-                      setKeyValue('workshop', text)}
-                  />
-                  : <InformationContent>{keys.workshop}</InformationContent>
+                      value={keyWorkshop}
+                      onChangeText={text => 
+                        setKeyWorkshop(text)}
+                    />
+                  : <InformationContent>{keyWorkshop}</InformationContent>
                 }
               </Information>
 
@@ -423,12 +280,11 @@ const LabAndWorkshop = ({ route }) => {
                 <InformationTitle>Lab Azul:</InformationTitle>
                 {coordinator
                   ? <InputKey 
-                      defaultValue={defaultKeys.labBlue}
-                      value={keys.labBlue}
+                      value={keyLabBlue}
                       onChangeText={text => 
-                        setKeyValue('labBlue', text)}
+                        setKeyLabBlue(text)}
                     />
-                  : <InformationContent>{keys.labBlue}</InformationContent>
+                  : <InformationContent>{keyLabBlue}</InformationContent>
                 }
               </Information>
 
@@ -436,12 +292,11 @@ const LabAndWorkshop = ({ route }) => {
                 <InformationTitle>Lab Vermelha:</InformationTitle>
                 {coordinator
                   ? <InputKey 
-                      defaultValue={defaultKeys.labRed}
-                    value={keys.labRed}
-                    onChangeText={text => 
-                      setKeyValue('labRed', text)}
+                      value={keyLabRed}
+                      onChangeText={text => 
+                      setKeyLabRed(text)}
                   />
-                  : <InformationContent>{keys.labRed}</InformationContent>
+                  : <InformationContent>{keyLabRed}</InformationContent>
                 }
               </Information>
               {coordinator &&

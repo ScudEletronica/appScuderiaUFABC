@@ -10,6 +10,9 @@ target 'ScuderiaUFABC' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+
+  pod 'RNBackgroundFetch', :path => '../node_modules/react-native-background-fetch'
+
   target 'ScuderiaUFABCTests' do
     inherit! :complete
     # Pods for testing
