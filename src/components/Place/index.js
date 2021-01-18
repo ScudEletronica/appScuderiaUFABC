@@ -9,7 +9,7 @@ import {
 } from './styles';
 
 const Place = ({
-  name, isOpen, request, asked, hours, toggle, notification, coordinator, action
+  name, place, isOpen, request, asked, hours, toggle, notification, coordinator, action
 }) => {
   const { colors } = useContext(ThemeContext);
   const color = colors.primaryIcon;
@@ -78,7 +78,7 @@ const Place = ({
               containerStyle={styles.button}
               buttonStyle={styles.ask}
               onPress={() => {
-                action('Workshop', false);
+                action(place, false);
               }}
               />
           : <Button
@@ -87,7 +87,7 @@ const Place = ({
               containerStyle={styles.button}
               buttonStyle={styles.ask}
               onPress={() => {
-                action('Workshop', true);
+                action(place, true);
               }}
               disabled={isOpen}
             />
@@ -98,7 +98,7 @@ const Place = ({
               containerStyle={styles.button}
               buttonStyle={styles.cancel}
               onPress={() => {
-                action('Workshop', false);
+                action(place, false);
               }}
               disabled={isOpen}
             />
@@ -108,7 +108,7 @@ const Place = ({
               containerStyle={styles.button}
               buttonStyle={styles.ask}
               onPress={() => {
-                action('Workshop', true)
+                action(place, true)
               }}
               disabled={isOpen || request}
             />
