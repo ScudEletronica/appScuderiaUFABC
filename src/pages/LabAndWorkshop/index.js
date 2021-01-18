@@ -235,6 +235,7 @@ const LabAndWorkshop = ({ route }) => {
             {/* Laboratório */}
             <Place 
               name="Laboratório"
+              place="Lab"
               isOpen={status.Lab}
               request={status.labRequest}
               asked={askedLab}
@@ -248,6 +249,7 @@ const LabAndWorkshop = ({ route }) => {
             {/* Oficina */}
             <Place 
               name="Oficina"
+              place="Workshop"
               isOpen={status.Workshop}
               request={status.workshopRequest}
               asked={askedWorkshop}

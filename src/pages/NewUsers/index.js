@@ -98,7 +98,11 @@ const NewUsers = ({}) => {
         workshophours: 0
       })
 
-      sendEmail(newUser.email)
+      try {
+        sendEmail(newUser.email)
+      } catch (error) {
+        console.log(error)
+      }
     })
 
     handleDelete()
