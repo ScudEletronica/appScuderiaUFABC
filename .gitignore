@@ -63,7 +63,7 @@ buck-out/
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode
 
 ### VisualStudioCode ###
-.vscode/settings.json
+.vscode
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
