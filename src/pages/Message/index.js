@@ -41,11 +41,6 @@ const Message = ({ route, navigation }) => {
     setTitle(message.title);
     setDate(message.date);
     setContent(message.content);
-    const onValueChange = reference.on('value', snapshot => {
-      setAmount(snapshot.child("Status/amountMessages").val())
-    })
-
-    return () => reference.off('value', onValueChange)
   })
 
   function handleEdit() {
@@ -58,12 +53,6 @@ const Message = ({ route, navigation }) => {
 
   function handleDelete() {
     reference.child(`Messages/${message.id}`).remove();
-    reference
-      .child("Status")
-      .update({amountMessages: amount - 1});
-    
-    storeJSON('messages', amount - 1)
-    global.messages = amount - 1
 
     toggleOverlay();
 

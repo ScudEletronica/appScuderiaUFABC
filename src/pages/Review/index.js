@@ -4,7 +4,6 @@ import {
   useFocusEffect, useNavigation 
 } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import { storeJSON } from '~/utils/store';
 import Icon from 'react-native-vector-icons/AntDesign'
 import database from '@react-native-firebase/database'
 
@@ -20,27 +19,15 @@ import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 
 const reference = database().ref('Requirements');
-const others = database().ref();
 
 const Review = ({ route }) => {
   const [overlayText, setOverlayText] = useState('');
   const [visible, setVisible] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [amount, setAmount] = useState(0);
-  const [profiles, setProfiles] = useState('')
 
   const { navigate } = useNavigation();
   const { requirement, edit } = route.params;
   const { colors } = useContext(ThemeContext);
-
-  useFocusEffect(() => {
-    const onValueChange = others.on('value', snapshot => {
-      setAmount(snapshot.child("Status/pendingRequirements").val())
-      setProfiles(snapshot.child("Profile").val())
-    })
-
-    return () => reference.off('value', onValueChange)
-  }, [others]);
 
   function toggleOverlay() {
     setVisible(!visible);
@@ -86,11 +73,6 @@ const Review = ({ route }) => {
       value: requirement.value,
       id
     })
-
-    others.child('Status')
-      .update({pendingRequirements: amount + 1});
-      global.requirements.pending = amount + 1;
-      storeJSON('requirements', global.requirements);
 
     setVisible(false);
     navigate('MyRequirements')

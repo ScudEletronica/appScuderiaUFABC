@@ -25,7 +25,6 @@ const Messages = ({navigation, route}) => {
   const [coordinator, setCoordinator] = useState(false)
   const [visible, setVisible] = useState(false);
   const [id, setID] = useState();
-  const [amount, setAmount] = useState(0);
 
   const { user } = route.params
 
@@ -33,7 +32,6 @@ const Messages = ({navigation, route}) => {
     const onValueChange =reference.on('value', snapshot => {
       setMessages(snapshot.child('Messages').val())
       setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val());
-      setAmount(snapshot.child("Status/amountMessages").val())
     })
 
     return () => reference.off('value', onValueChange)
@@ -55,12 +53,6 @@ const Messages = ({navigation, route}) => {
 
   function handleDelete() {
     reference.child(`Messages/${id}`).remove();
-    reference
-      .child("Status")
-      .update({amountMessages: amount - 1});
-    
-    storeJSON('messages', amount - 1)
-    global.messages = amount - 1
 
     toggleOverlay();
   }

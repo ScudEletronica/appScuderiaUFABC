@@ -1320,6 +1320,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@notifee/react-native@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@notifee/react-native/-/react-native-1.1.1.tgz#02fc07f594434d83e6fd96866f80d9e24c3172ea"
+  integrity sha512-1WDrYwKPxyOiZlIFylAUicalmfJIL04caqEM+hn2lxVcp7Id8Z2DWeO8Ap3Ul36HQml39RDD6a0EMtzXLhcwcw==
+
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz#9b8b0cc663d669a7d8f6f5d0893a14d348f30fbf"
@@ -1516,13 +1521,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
   integrity sha512-rk4sWFsmtOw8oyx8SD3KSvawwaK7gRBSEIy2TAwURyGt+3TizssXP1r8nx3zY+R7v2vYYHXZ+k2/GULAT/bcaQ==
 
-"@react-native-community/push-notification-ios@^1.0.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.7.1.tgz#87602867fc0d597aa8c325f32e89ca0ea333a429"
-  integrity sha512-cx535+qyGbGTkx5GEHcF+Yd3fT9k1L114VeqQ5hkDYwU8unkKAiItjQz7Utvj/mcffwhqvPFU2FI3eKM3R1VYw==
-  dependencies:
-    invariant "^2.2.4"
-
 "@react-native-firebase/app@^8.4.1":
   version "8.4.7"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-8.4.7.tgz#7393ba7af36bd815bd5af7c64a20b0dd8a7e3341"
@@ -1540,6 +1538,11 @@
   version "10.8.1"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/functions/-/functions-10.8.1.tgz#26780af3ff1afd8c473b0eed81a80a707a99083d"
   integrity sha512-g0WXUzeRLsNkgVkhHzHE1xsJZFScMz+9ZioO1GdQCqJ47hVa6IHquch3geF1X1ahqKDmbXgoIYUpBd1pHmFwyw==
+
+"@react-native-firebase/messaging@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-11.0.0.tgz#21c93acb5899399b0ca28fd3a6f4c7c5555b6c95"
+  integrity sha512-d1lnVyqwQ7Jzy6S4Nyn6OJ551WTF1vjaHscoh16o5Lj78UhyVMgTvz9RxdJIWlYz7W1SAvdIM3rPuwQK/qtF/g==
 
 "@react-navigation/bottom-tabs@^5.8.0":
   version "5.10.2"
@@ -7340,13 +7343,6 @@ react-native-markdown-renderer@^3.2.8:
     markdown-it "^8.4.0"
     prop-types "^15.5.10"
     react-native-fit-image "^1.5.2"
-
-react-native-push-notification@3.1.9:
-  version "3.1.9"
-  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-3.1.9.tgz#760ee06e743fef74fc9fcb672dac40794fdc4c47"
-  integrity sha512-YpEg9AYBjNgJtHRgHKR0xPB7kk3Gj0uSjUxd0feOIvd7wrfR+zeiBM4NZonGmjlAG6thaE37dfAG5qcsONFM7w==
-  dependencies:
-    "@react-native-community/push-notification-ios" "^1.0.1"
 
 react-native-ratings@^7.2.0:
   version "7.3.0"

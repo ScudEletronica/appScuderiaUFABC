@@ -33,9 +33,6 @@ const NewMessage = ({navigation, route}) => {
   useFocusEffect(() => {
     setDefaultTitle(message.title);
     setDefaultContent(message.content);
-    const onValueChange = status.on('value', snapshot => {
-      setAmount(snapshot.child("amountMessages").val())
-    })
 
     return () => reference.off('value', onValueChange)
   }, [message]);
@@ -86,10 +83,6 @@ const NewMessage = ({navigation, route}) => {
       const id = NewReference.key;
   
       NewReference.set({id, title, date, content})
-      
-      status.update({amountMessages: amount + 1});
-      storeJSON('messages', amount + 1);
-      global.messages = amount + 1;
   
       navigation.navigate("Messages");
     } else {

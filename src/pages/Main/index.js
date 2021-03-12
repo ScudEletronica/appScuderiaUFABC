@@ -26,7 +26,6 @@ const Main = ({ route }) => {
   const [ra, setRA] = useState();
   const [coordinator, setCoordinator] = useState(' ');
   const [picture, setPicture] = useState(' ');
-  const [amount, setAmount] = useState(0);
   const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
   const [visible, setVisible] = useState(false);
   const [id, setID] = useState();
@@ -40,7 +39,6 @@ const Main = ({ route }) => {
       setRA(snapshot.child(`Profile/${user}/ra`).val());
       setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val());
       setMessages(snapshot.child('Messages').val())
-      setAmount(snapshot.child("Status/amountMessages").val())
       setPicture(Avatar);
     })
 
@@ -57,13 +55,7 @@ const Main = ({ route }) => {
 
   function handleDelete() {
     reference.child(`Messages/${id}`).remove();
-    reference
-      .child("Status")
-      .update({amountMessages: amount - 1});
     
-    storeJSON('messages', amount - 1)
-    global.messages = amount - 1
-
     toggleOverlay();
   }
 

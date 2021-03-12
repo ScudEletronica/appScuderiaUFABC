@@ -14,6 +14,7 @@ import {
 
 import Head from '~/components/Head';
 import Back from '~/components/Back';
+import messaging from '@react-native-firebase/messaging';
 
 const Notifications = ({ route }) => {
   const [notificationLabIsOn, setNotificationLabIsOn] = useState(false);
@@ -35,24 +36,36 @@ const Notifications = ({ route }) => {
     setNotificationLabIsOn(!notificationLabIsOn)
     global.notifications.labOpen = !global.notifications.labOpen
     storeJSON('notifications', global.notifications)
+    notificationLabIsOn
+    ? messaging().unsubscribeFromTopic("Lab")
+    : messaging().subscribeToTopic("Lab")
   }
   
   function toggleNotificationWorkShop() {
     setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
     global.notifications.workshopOpen = !global.notifications.workshopOpen
     storeJSON('notifications', global.notifications)
+    notificationWorkshopIsOn
+    ? messaging().unsubscribeFromTopic("Workshop")
+    : messaging().subscribeToTopic("Workshop")
   }
 
   function toggleNotificationMessage() {
     setNotificationNewMessage(!notificationNewMessage)
     global.notifications.messages = !global.notifications.messages
     storeJSON('notifications', global.notifications)
+    notificationNewMessage
+    ? messaging().unsubscribeFromTopic("Message")
+    : messaging().subscribeToTopic("Message")
   }
 
   function toggleNotificationRequirement() {
     setNotificationAcceptRequirement(!notificationAcceptRequirement)
     global.notifications.requirements = !global.notifications.requirements
     storeJSON('notifications', global.notifications)
+    notificationAcceptRequirement
+    ? messaging().unsubscribeFromTopic("Requirement")
+    : messaging().subscribeToTopic("Requirement")
   }
 
   return (

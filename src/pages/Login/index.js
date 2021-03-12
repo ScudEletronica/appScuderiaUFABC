@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import database from '@react-native-firebase/database';
 import AsyncStorage from '@react-native-community/async-storage';
+import database from '@react-native-firebase/database';
+import messaging from '@react-native-firebase/messaging';
+
 import { storeJSON, storeString } from "~/utils/store";
 
 import { 
@@ -27,13 +29,18 @@ export default function Login() {
 
   const getData = async () => {
     const user = await AsyncStorage.getItem('user');
-    global.user = user;
     const ra = await AsyncStorage.getItem('ra');
     reference.child(user).on("value", snapshot => {
       global.coordinator = snapshot.child('coordinator').val()
+      
+      global.coordinator
+      ? messaging().subscribeToTopic("Request")
+      : messaging().unsubscribeFromTopic("Request")
+
+
       snapshot.child('field').val() == 'Administração'
-      ? global.requirements.admin = true
-      : global.requirements.admin = false
+      ? messaging().subscribeToTopic("Requirement")
+      : messaging().unsubscribeFromTopic("Requirement")
     })
     if(user && ra) navigate("Drawer", {user, ra})
   }

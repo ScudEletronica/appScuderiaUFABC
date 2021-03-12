@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import { storeJSON } from '~/utils/store';
 import database from '@react-native-firebase/database';
+import messaging from '@react-native-firebase/messaging';
 
 import { 
   Title, Intern, SubTitle, Information, InformationTitle, InformationContent, Keys, KeyTitle, Key, InputKey, Create, CreateText
@@ -116,12 +117,18 @@ const LabAndWorkshop = ({ route }) => {
     setNotificationLabIsOn(!notificationLabIsOn)
     global.notifications.labOpen = !global.notifications.labOpen
     storeJSON('notifications', global.notifications)
+    notificationLabIsOn
+    ? messaging().unsubscribeFromTopic("Lab")
+    : messaging().subscribeToTopic("Lab")
   }
   
   function toggleNotificationWorkShop() {
     setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
     global.notifications.workshopOpen = !global.notifications.workshopOpen
     storeJSON('notifications', global.notifications)
+    notificationWorkshopIsOn
+    ? messaging().unsubscribeFromTopic("Workshop")
+    : messaging().subscribeToTopic("Workshop")
   }
 
   function toggleOverlay() {
