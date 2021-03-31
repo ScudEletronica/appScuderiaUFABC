@@ -25,7 +25,8 @@ const MyRequirements = ({ navigation, route }) => {
   const [pendingRequirements, setPendingRequirements] = useState([])
   const [acceptRequirements, setAcceptRequirements] = useState([])
   const [name, setName] = useState('');
-  const [coordinator, setCoordinator] = useState(false);
+  const [admin, setAdmin] = useState(false);
+  const [manager, setManager] = useState(false);
   const [id, setID] = useState('')
   const [overlayText, setOverlayText] = useState('')
   const [visible, setVisible] = useState(false);
@@ -35,21 +36,33 @@ const MyRequirements = ({ navigation, route }) => {
 
   const { user } = route.params;
 
+  function isAllowed(newField, field, set) {
+    const answer = newField == field ? true : false;
+    set(answer)
+  }
+
   useFocusEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
       var pending = [];
       var accept = [];
       const requirements = snapshot.child('Requirements').val()
-      snapshot.child(`Profile/${user}/field`).val() == 'Administração'
-      ? setCoordinator(true)
-      : setCoordinator(false);
+      var field = snapshot.child(`Profile/${user}/field`).val()
+      isAllowed(field, "Administração", setAdmin)
+      isAllowed(field, "Gerência", setManager)
 
-      if(coordinator == true) {
+      if(manager == true) {
         if(requirements){
           Object.values(requirements).forEach(element => {
-            element.accept
+            element.acceptManager
             ? accept.push(element)
             : pending.push(element)
+          });
+        }
+      } else if(admin == true) {
+        if(requirements){
+          Object.values(requirements).forEach(element => {
+            if(element.acceptAdmin) accept.push(element)
+            else if(element.acceptManager) pending.push(element)
           });
         }
       } else {
@@ -59,7 +72,7 @@ const MyRequirements = ({ navigation, route }) => {
           Object.values(requirements).forEach(element => {
             
             if (element.name == name) {
-              element.accept
+              element.acceptAdmin
               ? accept.push(element)
               : pending.push(element)
             }
@@ -115,20 +128,23 @@ const MyRequirements = ({ navigation, route }) => {
   }
   
   function handleAccept() {
-    reference.child(`Requirements/${id}`).update({accept: true});
-    reference.once('value')
-    .then(snapshot => { 
-      const requirement = snapshot.child(`Requirements/${id}`).val()
-      Object.values(snapshot.child('Profile').val())
-        .forEach(element => {
-          if (element.name == requirement.name) {
-            reference.child(`Profile/${element.user}`)
-              .update({
-                acceptRequirements: element.acceptRequirements + 1
-              });
-          }
-        });
-    })
+    manager
+    ? reference.child(`Requirements/${id}`).update({acceptManager: true})
+    : reference.child(`Requirements/${id}`).update({acceptAdmin: true})
+    
+    // reference.once('value')
+    // .then(snapshot => { 
+    //   const requirement = snapshot.child(`Requirements/${id}`).val()
+    //   Object.values(snapshot.child('Profile').val())
+    //     .forEach(element => {
+    //       if (element.name == requirement.name) {
+    //         reference.child(`Profile/${element.user}`)
+    //           .update({
+    //             acceptRequirements: element.acceptRequirements + 1
+    //           });
+    //       }
+    //     });
+    // })
 
     toggleOverlay();
   }
@@ -158,7 +174,7 @@ const MyRequirements = ({ navigation, route }) => {
                     key={pending.id}
                     requirement={pending}
                     pending
-                    coordinator={coordinator}
+                    allowed={manager || admin}
                     action={handleAction}
                   />
                   )
@@ -183,7 +199,7 @@ const MyRequirements = ({ navigation, route }) => {
           </Menu>
         </Content>
         <End>
-          {!coordinator &&
+          {!(manager || admin) &&
             <New 
               style={styles.button} 
               onPress={handleCreateNewRequirement}

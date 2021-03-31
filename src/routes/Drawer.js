@@ -20,78 +20,74 @@ import MenuBar from "~/components/MenuBar";
 
 const { Navigator, Screen } = createDrawerNavigator()
 
-function Drawer({route}) {
-  const { darkMode, lightMode, user} = route.params;
+function Drawer({lightMode, darkMode, route}) {
+  const {user} = route.params;
 
   return (
-    <>
-      <Navigator 
-        initialRouteName="Main"
-        drawerContent={props => <MenuBar user={user} props={props} />}
-        drawerStyle={{width: 217}}
-      >
-        <Screen 
-          name="Main" 
-          component={Main} 
-          initialParams={{user}}
-        />
-        <Screen name="About" component={About} />
-        <Screen 
-          name="Messages" 
-          component={Messages}
-          initialParams={{user}}
-        />
-        <Screen 
-          name="NewMessage" 
-          component={NewMessage} 
-          initialParams={{user}}
-        />
-        <Screen name="Message" component={Message}/>
-        <Screen 
-          name="LabAndWorkshop" 
-          component={LabAndWorkshop}
-          initialParams={{user}}
-        />
-        <Screen name="Telemetry" component={Telemetry}
-        />
-        <Screen 
-          name="MyRequirements" 
-          component={MyRequirements}
-          initialParams={{user}}
-        />
-        <Screen 
-          name="NewRequirement" 
-          component={NewRequirement}
-          initialParams={{user}}
-        />
-        <Screen name="Review" component={Review}/>
-        <Screen 
-          name="Settings" 
-          component={Settings} 
-          initialParams={{darkMode, lightMode}}
-        />
-        <Screen 
-          name="Profile" 
-          component={Profile}
-          initialParams={{user}}
-        />
-        <Screen 
-          name="Information" 
-          component={Information}
-          initialParams={{user}}
-        />
-        <Screen 
-          name="Notifications" 
-          component={Notifications}
-        />
-        <Screen 
-          name="MenuBar" 
-          component={MenuBar}
-          initialParams={{user}}
-        />
-        <Screen name="NewUsers" component={NewUsers} />
-      </Navigator>
-    </>
+    <Navigator 
+      initialRouteName="Main"
+      drawerContent={props => <MenuBar user={user} props={props} />}
+      drawerStyle={{width: 217}}
+    >
+      <Screen 
+        name="Main" 
+        component={Main} 
+        initialParams={{user}}
+      />
+      <Screen name="About" component={About} />
+      <Screen 
+        name="Messages" 
+        component={Messages}
+        initialParams={{user}}
+      />
+      <Screen 
+        name="NewMessage" 
+        component={NewMessage} 
+        initialParams={{user}}
+      />
+      <Screen name="Message" component={Message}/>
+      <Screen 
+        name="LabAndWorkshop" 
+        component={LabAndWorkshop}
+        initialParams={{user}}
+      />
+      <Screen name="Telemetry" component={Telemetry}
+      />
+      <Screen 
+        name="MyRequirements" 
+        component={MyRequirements}
+        initialParams={{user}}
+      />
+      <Screen 
+        name="NewRequirement" 
+        component={NewRequirement}
+        initialParams={{user}}
+      />
+      <Screen name="Review" component={Review}/>
+      <Screen name="Settings">
+        {(props) => <Settings darkMode={darkMode} lightMode={lightMode} {...props}/>}
+      </Screen>
+      <Screen 
+        name="Profile" 
+        component={Profile}
+        initialParams={{user}}
+      />
+      <Screen 
+        name="Information" 
+        component={Information}
+        initialParams={{user}}
+      />
+      <Screen 
+        name="Notifications" 
+        component={Notifications}
+      />
+      <Screen 
+        name="MenuBar" 
+        component={MenuBar}
+        initialParams={{user}}
+      />
+      <Screen name="NewUsers" component={NewUsers} />
+    </Navigator>
   )
 }
 

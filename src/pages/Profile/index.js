@@ -49,12 +49,12 @@ const Profile = ({ route }) => {
               size={212} 
               color={colors.primaryIcon}
             />
-            <Cam>
+            {/* <Cam>
               <Icon 
                 name="camera-plus" 
                 size={40} 
                 color={colors.primaryIcon}/>
-            </Cam>
+            </Cam> */}
           </Avatar>
         </TotalSpace>
         <Fundo>

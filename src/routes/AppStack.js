@@ -25,6 +25,10 @@ const { Navigator, Screen } = createStackNavigator();
 
 function AppStack({darkMode, lightMode}) {
 
+  function DrawerHandle() {
+    return <Drawer darkMode={darkMode} lightMode={lightMode}/>
+  }
+
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false }}>
@@ -33,11 +37,9 @@ function AppStack({darkMode, lightMode}) {
           component={Login} 
         />
         <Screen name="Loading" component={Loading} /> 
-        <Screen 
-          name="Drawer" 
-          component={Drawer} 
-          initialParams={{darkMode, lightMode}}
-        />
+        <Screen name="Drawer">
+          {(props) => <Drawer darkMode={darkMode} lightMode={lightMode} {...props}/>}
+        </Screen>
         <Screen name="Main" component={Main} />
         <Screen name="About" component={About} />
         <Screen name="Messages" component={Messages} />

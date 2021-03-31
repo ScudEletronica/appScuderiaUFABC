@@ -7,7 +7,7 @@ import {
 } from './styles';
 
 const Requirement = ({
-  requirement, pending, nothing, coordinator, action
+  requirement, pending, nothing, allowed, action
 }) => {
   const { navigate } = useNavigation()
 
@@ -58,7 +58,7 @@ const Requirement = ({
         </Value>
       </Container>
       <Buttons>
-      {coordinator && 
+      {allowed && 
         <Accept 
           onPress={handleAccept}
           style={styles.button}

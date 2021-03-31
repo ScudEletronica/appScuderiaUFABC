@@ -122,10 +122,10 @@ const Place = ({
         </Toggle>
       </Buttons>
 
-      <Information>
+      {/* <Information>
         <InformationTitle>Horas:</InformationTitle>
         <InformationContent>{hours}</InformationContent>
-      </Information>
+      </Information> */}
     </Content>
   );
 }

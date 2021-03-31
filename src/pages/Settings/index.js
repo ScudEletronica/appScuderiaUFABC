@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, useColorScheme, ColorSchemeName } from 'react-native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -16,13 +16,11 @@ import Head from '~/components/Head';
 import Back from '~/components/Back';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const Settings = ({ route }) => {
+const Settings = ({darkMode, lightMode}) => {
   const { navigate } = useNavigation();
   const { colors } = useContext(ThemeContext);
 
   const color = colors.primaryIcon;
-
-  const { darkMode, lightMode } = route.params;
   
   function handleNavigateToProfile() {
     navigate('Profile');

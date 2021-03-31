@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { storeJSON } from '~/utils/store';
 import database from '@react-native-firebase/database'
-import AsyncStorage from '@react-native-community/async-storage';
 
 import { 
   Title, NewInput, NormalText, BigInput, Buttons, Create, CreateText, Cancel, ButtonText
@@ -33,8 +31,6 @@ const NewMessage = ({navigation, route}) => {
   useFocusEffect(() => {
     setDefaultTitle(message.title);
     setDefaultContent(message.content);
-
-    return () => reference.off('value', onValueChange)
   }, [message]);
 
   function handleCancel() {

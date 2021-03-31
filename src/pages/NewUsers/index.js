@@ -54,8 +54,8 @@ const NewUsers = ({}) => {
     : handleDelete()
   }
   
-  function handleDelete() {
-    reference.child(`NewUsers/${id}`).remove();
+  async function handleDelete() {
+    await reference.child(`NewUsers/${id}`).remove();
     
     toggleOverlay();
   }
@@ -65,8 +65,8 @@ const NewUsers = ({}) => {
   
     // Create email link query
     const query = qs.stringify({
-        subject: "Inscrição no app Scuderia UFABC",
-        body: "Você foi aceito no app da Scuderia UFABC baixe o app usando um dos links abaixo: \n Web: https://play.google.com/apps/testing/com.scuderia.ufabc \n PlayStore: https://play.google.com/store/apps/details?id=com.scuderia.ufabc"
+      subject: "Inscrição no app Scuderia UFABC",
+      body: "Você foi aceito no app da Scuderia UFABC baixe o app usando um dos links abaixo: \n Web: https://play.google.com/apps/testing/com.scuderia.ufabc \n PlayStore: https://play.google.com/store/apps/details?id=com.scuderia.ufabc"
     });
 
     if (query.length) {
@@ -83,8 +83,8 @@ const NewUsers = ({}) => {
     return Linking.openURL(url);
   }
   
-  function handleAccept() {
-    reference.once('value')
+  async function handleAccept() {
+    await reference.once('value')
     .then(snapshot => { 
       const newUser = snapshot.child(`NewUsers/${id}`).val()
       reference.child(`Profile/${newUser.user}`).set({
@@ -97,15 +97,15 @@ const NewUsers = ({}) => {
         user: newUser.user,
         workshophours: 0
       })
-
-      try {
-        sendEmail(newUser.email)
-      } catch (error) {
-        console.log(error)
-      }
+      if (snapshot.child(`Profile/${id}`)) {
+        try {
+          sendEmail(newUser.email)
+        } catch (error) {
+          console.log(error)
+        }
+        handleDelete()
+      } 
     })
-
-    handleDelete()
   }
 
   return (

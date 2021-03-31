@@ -78,12 +78,12 @@ const App = () => {
     if(archived) global.notifications = JSON.parse(archived);
   }
 
-  function handleStartLightMode() {
+  const handleStartLightMode = () => {
     storeJSON('theme', light)
     setTheme(light)
   }
 
-  function handleStartDarkMode() {
+  const handleStartDarkMode = () => {
     storeJSON('theme', dark)
     setTheme(dark)
   }
