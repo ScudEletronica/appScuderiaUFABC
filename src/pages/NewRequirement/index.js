@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign'
 import { StyleSheet } from "react-native";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import database from '@react-native-firebase/database'
 
 import { 
   Title, NewInput, Inline, NormalText, QuantityInput, Reason, BigInput, New, NewText, Mean, MeanTitle, PriceInput, Create, CreateText, 
@@ -15,8 +14,6 @@ import {
 import Head from '~/components/Head';
 import Back from '~/components/Back';
 import Warning from '~/components/Warning';
-
-const reference = database().ref();
 
 const NewRequirement = ({ route }) => {
   const [defaultRequirement, setDefaultRequirement] = useState('')
@@ -40,11 +37,7 @@ const NewRequirement = ({ route }) => {
   
   useEffect(() => {
     setID(0);
-    reference
-      .child(`Profile/${user}/name`)
-      .once('value')
-      .then(snapshot => { setName(snapshot.val()) })
-    
+    setName(requirement.name);
     setProduct(requirement.product);
     setAmount(requirement.amount);
     setReason(requirement.reason);

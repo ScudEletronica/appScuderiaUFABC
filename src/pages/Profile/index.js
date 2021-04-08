@@ -18,20 +18,16 @@ import Back from '~/components/Back';
 
 const Profile = ({ route }) => {
   
-  const [name, setName] = useState(' ');
-  const [ra, setRA] = useState(0);
   const [picture, setPicture] = useState(' ');
   
   const { colors } = useContext(ThemeContext);
-  const { user } = route.params
+  const { user, name, ra } = route.params
 
   const reference = database().ref(`Profile/${user}`);
 
 
   useFocusEffect(() => {
     reference.on("value", snapshot => {
-      setName(snapshot.child('name').val());
-      setRA(snapshot.child('ra').val());
       setPicture('../../assets/Avatar.png');
     })
   });

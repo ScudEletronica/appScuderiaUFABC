@@ -16,10 +16,8 @@ import {
 } from './styles';
 
 
-const MenuBar = ({props, user }) => {
-  
+const MenuBar = ({props, user}) => {  
   const [picture, setPicture] = useState('');
-  const [name, setName] = useState('');
   
   const { colors } = useContext(ThemeContext);
   
@@ -27,9 +25,6 @@ const MenuBar = ({props, user }) => {
   const color = colors.secondaryIcon
 
   useFocusEffect(() => {
-    reference.on('value', snapshot => {
-      setName(snapshot.child('user').val());
-    })
     setPicture('../../../assets/Profile.png');
   })
 
@@ -53,7 +48,7 @@ const MenuBar = ({props, user }) => {
               size={65} 
               color={color}
             />
-            <ProfileText>{name}</ProfileText>
+            <ProfileText>{user}</ProfileText>
           </Profile>
         
           <Option

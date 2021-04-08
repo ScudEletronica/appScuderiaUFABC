@@ -16,9 +16,10 @@ import Head from '~/components/Head';
 import Back from '~/components/Back';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const Settings = ({darkMode, lightMode}) => {
+const Settings = ({darkMode, lightMode, route}) => {
   const { navigate } = useNavigation();
   const { colors } = useContext(ThemeContext);
+  const { coordinator } = route.params
 
   const color = colors.primaryIcon;
   
@@ -89,7 +90,7 @@ const Settings = ({darkMode, lightMode}) => {
               />
               <OptionTitle>Informações</OptionTitle>
             </Option>
-            {global.coordinator &&
+            {coordinator &&
               <Option onPress={handleNewUsers}>
                 <Entypo 
                   name="add-user" 

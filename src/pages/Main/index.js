@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { storeJSON } from '~/utils/store';
 import database from '@react-native-firebase/database';
@@ -17,27 +17,20 @@ import Warning from '~/components/Warning';
 
 const reference = database().ref();
 
-
-const Main = ({ route }) => {
+const Main = ({ route, navigation }) => {
   const [status, setStatus] = useState({
     Lab: false, Workshop: false, labRequest: false, workshopRequest: false
   });
-  const [name, setName] = useState(' ');
-  const [ra, setRA] = useState();
-  const [coordinator, setCoordinator] = useState(' ');
   const [picture, setPicture] = useState(' ');
   const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
   const [visible, setVisible] = useState(false);
   const [id, setID] = useState();
 
-  const { user } = route.params;
+  const { user, ra, name, coordinator } = route.params;
 
   useFocusEffect(() => {
     const onValueChange = reference.on('value', snapshot => {
       setStatus(snapshot.child('Status').val())
-      setName(snapshot.child(`Profile/${user}/name`).val());
-      setRA(snapshot.child(`Profile/${user}/ra`).val());
-      setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val());
       setMessages(snapshot.child('Messages').val())
       setPicture(Avatar);
     })

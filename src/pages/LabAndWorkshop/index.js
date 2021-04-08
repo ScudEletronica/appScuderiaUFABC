@@ -26,7 +26,6 @@ const LabAndWorkshop = ({ route }) => {
   const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(false);
   const [totalHoursLab, setTotalHoursLab] = useState('');
   const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
-  const [coordinator, setCoordinator] = useState(false);
   const [keyWorkshop, setKeyWorkshop] = useState('');
   const [keyLabBlue, setKeyLabBlue] = useState('');
   const [keyLabRed, setKeyLabRed] = useState('');
@@ -38,7 +37,7 @@ const LabAndWorkshop = ({ route }) => {
   const [overlayText, setOverlayText] = useState('');
 
   const { colors, images } = useContext(ThemeContext);
-  const { user } = route.params
+  const { user, coordinator } = route.params
 
   const color = colors.primaryIcon;
 
@@ -82,7 +81,6 @@ const LabAndWorkshop = ({ route }) => {
           snapshot.child(`Profile/${user}/labhours`).val()
           )
           );
-      setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val())
       setTotalHoursWorkshop(
         hoursFormat(
           snapshot.child(`Profile/${user}/workshophours`).val()

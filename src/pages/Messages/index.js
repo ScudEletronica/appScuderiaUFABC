@@ -22,16 +22,14 @@ const reference = database().ref();
 
 const Messages = ({navigation, route}) => {
   const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
-  const [coordinator, setCoordinator] = useState(false)
   const [visible, setVisible] = useState(false);
   const [id, setID] = useState();
 
-  const { user } = route.params
+  const { coordinator } = route.params
 
   useFocusEffect(() => {
     const onValueChange =reference.on('value', snapshot => {
       setMessages(snapshot.child('Messages').val())
-      setCoordinator(snapshot.child(`Profile/${user}/coordinator`).val());
     })
 
     return () => reference.off('value', onValueChange)

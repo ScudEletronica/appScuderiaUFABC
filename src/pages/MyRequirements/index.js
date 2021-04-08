@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ThemeContext } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native';
@@ -24,7 +24,6 @@ const reference = database().ref();
 const MyRequirements = ({ navigation, route }) => {
   const [pendingRequirements, setPendingRequirements] = useState([])
   const [acceptRequirements, setAcceptRequirements] = useState([])
-  const [name, setName] = useState('');
   const [admin, setAdmin] = useState(false);
   const [manager, setManager] = useState(false);
   const [id, setID] = useState('')
@@ -34,21 +33,23 @@ const MyRequirements = ({ navigation, route }) => {
 
   const { colors } = useContext(ThemeContext);
 
-  const { user } = route.params;
+  const { user, field, name } = route.params;
 
   function isAllowed(newField, field, set) {
     const answer = newField == field ? true : false;
     set(answer)
   }
 
+  useEffect(() => {
+    isAllowed(field, "Administração", setAdmin)
+    isAllowed(field, "Gerência", setManager)
+  })
+
   useFocusEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
       var pending = [];
       var accept = [];
       const requirements = snapshot.child('Requirements').val()
-      var field = snapshot.child(`Profile/${user}/field`).val()
-      isAllowed(field, "Administração", setAdmin)
-      isAllowed(field, "Gerência", setManager)
 
       if(manager == true) {
         if(requirements){
@@ -66,8 +67,6 @@ const MyRequirements = ({ navigation, route }) => {
           });
         }
       } else {
-        setName(snapshot.child(`Profile/${user}/name`).val())
-  
         if(requirements) {
           Object.values(requirements).forEach(element => {
             

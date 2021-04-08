@@ -27,22 +27,32 @@ export default function Login() {
   const { navigate } = useNavigation();
   const { images } = useContext(ThemeContext);
 
-  const getData = async () => {
-    const user = await AsyncStorage.getItem('user');
-    const ra = await AsyncStorage.getItem('ra');
+  function Login(user, ra) {
+    var field, coordinator, name
     reference.child(user).on("value", snapshot => {
+      coordinator = snapshot.child('coordinator').val()
+      name = snapshot.child('name').val()
+
       global.coordinator = snapshot.child('coordinator').val()
-      
       global.coordinator
       ? messaging().subscribeToTopic("Request")
       : messaging().unsubscribeFromTopic("Request")
 
-
-      snapshot.child('field').val() == 'Administração'
+      field = snapshot.child('field').val() 
+      field == 'Administração' || field == "Gerência"
       ? messaging().subscribeToTopic("Requirement")
       : messaging().unsubscribeFromTopic("Requirement")
+      navigate("Drawer", {
+        user, ra, field, coordinator, name
+      })
     })
-    if(user && ra) navigate("Drawer", {user, ra})
+  }
+
+  const getData = async () => {
+    const user = await AsyncStorage.getItem('user');
+    const ra = await AsyncStorage.getItem('ra');
+    
+    if(user && ra) Login(user, ra)
   }
 
   const storeData = async () => {
@@ -51,11 +61,11 @@ export default function Login() {
     storeJSON('coordinator', coordinator)
 
     global.coordinator = coordinator;
-    navigate("Drawer", {user, ra})
+    Login(user, ra)
   }
 
   function handleSubmit() {
-    reference.child(user).on("value", snapshot => {
+    reference.child(user).on("value", async snapshot => {
       setRaFirebase(snapshot.child('ra').val());
       setCoordinator(snapshot.child('coordinator').val())
     })

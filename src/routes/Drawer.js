@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import Main from '~/pages/Main'
@@ -20,8 +20,8 @@ import MenuBar from "~/components/MenuBar";
 
 const { Navigator, Screen } = createDrawerNavigator()
 
-function Drawer({lightMode, darkMode, route}) {
-  const {user} = route.params;
+function Drawer({lightMode, darkMode, route, navigation}) {
+  const { user, ra, field, coordinator, name } = route.params;
 
   return (
     <Navigator 
@@ -32,31 +32,30 @@ function Drawer({lightMode, darkMode, route}) {
       <Screen 
         name="Main" 
         component={Main} 
-        initialParams={{user}}
+        initialParams={{user, name, ra, coordinator}}
       />
       <Screen name="About" component={About} />
       <Screen 
         name="Messages" 
         component={Messages}
-        initialParams={{user}}
+        initialParams={{coordinator}}
       />
       <Screen 
         name="NewMessage" 
         component={NewMessage} 
-        initialParams={{user}}
       />
       <Screen name="Message" component={Message}/>
       <Screen 
         name="LabAndWorkshop" 
         component={LabAndWorkshop}
-        initialParams={{user}}
+        initialParams={{user, coordinator}}
       />
       <Screen name="Telemetry" component={Telemetry}
       />
       <Screen 
         name="MyRequirements" 
         component={MyRequirements}
-        initialParams={{user}}
+        initialParams={{user, name, field}}
       />
       <Screen 
         name="NewRequirement" 
@@ -64,18 +63,19 @@ function Drawer({lightMode, darkMode, route}) {
         initialParams={{user}}
       />
       <Screen name="Review" component={Review}/>
-      <Screen name="Settings">
-        {(props) => <Settings darkMode={darkMode} lightMode={lightMode} {...props}/>}
+      <Screen name="Settings" initialParams={{coordinator}}>
+        {(props) => <Settings 
+        darkMode={darkMode} lightMode={lightMode} {...props}/>}
       </Screen>
       <Screen 
         name="Profile" 
         component={Profile}
-        initialParams={{user}}
+        initialParams={{user, name, ra}}
       />
       <Screen 
         name="Information" 
         component={Information}
-        initialParams={{user}}
+        initialParams={{user, field}}
       />
       <Screen 
         name="Notifications" 
