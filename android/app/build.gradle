@@ -1,6 +1,14 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+def MYAPP_UPLOAD_STORE_FILE = properties.getProperty('MYAPP_UPLOAD_STORE_FILE')
+def MYAPP_UPLOAD_KEY_ALIAS = properties.getProperty('MYAPP_UPLOAD_KEY_ALIAS')
+def MYAPP_UPLOAD_STORE_PASSWORD = properties.getProperty('MYAPP_UPLOAD_STORE_PASSWORD')
+def MYAPP_UPLOAD_KEY_PASSWORD = properties.getProperty('MYAPP_UPLOAD_KEY_PASSWORD')
+
 import com.android.build.OutputFile
 
 /**
@@ -147,12 +155,10 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-            }
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD
         }
         debug {
             storeFile file('debug.keystore')
