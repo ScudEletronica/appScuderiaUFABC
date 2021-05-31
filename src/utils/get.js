@@ -1,10 +1,12 @@
 import AsyncStorage from "@react-native-community/async-storage"
 
+// Carrega um JSON da memória do aparelho
 export const getJSON = async (key) => {
   const archived = await AsyncStorage.getItem(key)
   if(archived) return JSON.parse(archived);
 }
 
+// Carrega uma string da memória do aparelho
 export const getString = async (key) => {
-  await AsyncStorage.setItem(key, value)
+  return await AsyncStorage.setItem(key, value)
 }

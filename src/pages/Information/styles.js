@@ -2,17 +2,20 @@ import styled from 'styled-components/native';
 import { GreenTitle } from '~/styles/global';
 import { RectButton } from 'react-native-gesture-handler';
 
+// Titulo da Pagina
 export const Title = styled(GreenTitle)`
   font-size: 30px;
   line-height: 35px;
   margin: 30px 0 69px;
 `;
 
+// Margin interna
 export const Intern = styled.View`
   width: 80%;
   align-items: center;
 `;
 
+// Conteúdo em Linha
 export const Inline = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -22,6 +25,7 @@ export const Inline = styled.View`
   margin-bottom: 48px;
 `;
 
+// Botão para abrir um link
 export const Link = styled(RectButton)`
   flex: 1;
   height: 42px;
@@ -30,16 +34,19 @@ export const Link = styled(RectButton)`
   align-items: center;
 `;
 
+// Logo da mídia
 export const Logo = styled.Image`
   width: 40px;
   height: 35px;
   margin-right: 10px;
 `;
 
+// Area contendo o texto da mídia
 export const TextArea = styled.View`
   flex-direction: column;
 `;
 
+// Nome da mídia
 export const LinkText = styled.Text`
   font-family: Roboto;
   font-weight: 500;
@@ -51,7 +58,8 @@ export const LinkText = styled.Text`
   color: ${props => props.theme.colors.tertiaryText};
 `
 
-export const Subtitle = styled.Text`
+// Titulo da Senha
+export const PasswordTitle = styled.Text`
   font-family: Roboto;
   font-weight: bold;
   font-size: 20px;
@@ -63,7 +71,8 @@ export const Subtitle = styled.Text`
   color: ${props => props.theme.colors.primaryText};
 `;
 
-export const TextInfo = styled.Text`
+// Valor da Senha
+export const PasswordText = styled.Text`
   font-family: Roboto;
   font-size: 18px;
   line-height: 21px;

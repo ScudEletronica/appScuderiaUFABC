@@ -7,7 +7,8 @@ import {
   Container, ScudHeader, More
 } from './styles';
 
-function Head({ navigation }) {
+// Cabeçalho de todas as páginas
+function Head() {
   const { openDrawer } = useNavigation()
   const { colors, images } = useContext(ThemeContext);
 
@@ -17,6 +18,7 @@ function Head({ navigation }) {
 
   return (
     <Container >
+      {/* Botão para abrir o menu lateral */}
       <More onPress={handleOpenMenuBar}>
         <Icon 
           name="more-horiz" 
@@ -24,6 +26,7 @@ function Head({ navigation }) {
           color={colors.primaryIcon}
         />
       </More>
+      {/* Simbolo da Scuderia UFABC */}
       <ScudHeader source={images.header} />
     </Container>
   );

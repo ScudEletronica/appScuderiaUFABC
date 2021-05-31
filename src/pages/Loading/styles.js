@@ -1,31 +1,37 @@
 import styled from 'styled-components/native';
-import { Animated, Dimensions } from "react-native";
+import { height } from '~/utils/dimensions';
 
-
+// Todo o conteúdo do Pagina
 export const Container = styled.View`
   flex: 1;
   background: ${props => props.theme.colors.background};
   align-items: center;
 `;
 
-export const Fundo = styled.View`
+// Imagens de Fundo
+export const Background = styled.View`
   flex-direction: row;
 `
 
-export const Fundo1 = styled.Image`
+// Imagem de fundo maior
+export const Background1 = styled.Image`
   position: absolute;
   width: 100%;
-  height: ${82 + Dimensions.get('window').width - 360}px;
+  height: ${height(82)}px;
 `
-export const Fundo2 = styled.Image`
+
+// Imagem de fundo menor
+export const Background2 = styled.Image`
   width: 100%;
-  height: ${96 + Dimensions.get('window').width - 360}px;
+  height: ${height(96)}px;
   margin-bottom: 0;
 `
 
-export const Carro = styled.Image`
+// Imagem do carro
+export const Car = styled.Image`
 `
 
+// Titulo da Pagina
 export const Title = styled.Text`
   font-family: Roboto;
   font-style: normal;
@@ -37,6 +43,7 @@ export const Title = styled.Text`
   color: ${props => props.theme.colors.secondaryText};
 `
 
+// Gif de carregamento
 export const GIF = styled.Image`
   
 `

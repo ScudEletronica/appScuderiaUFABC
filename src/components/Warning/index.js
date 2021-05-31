@@ -2,14 +2,12 @@ import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import { Button, Overlay } from 'react-native-elements';
-import database from '@react-native-firebase/database'
 
 import { 
   Container, Message, Buttons
 } from './styles';
 
-const reference = database().ref('Messages')
-
+// Modelo para avisos
 const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
   const { colors } = useContext(ThemeContext);
 
@@ -46,12 +44,17 @@ const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
 
   return (
     <Overlay
-    overlayStyle={styles.overlay}
-    isVisible={visible} 
-    onBackdropPress={cancel}
+      overlayStyle={styles.overlay}
+      isVisible={visible} 
+      onBackdropPress={cancel}
     >
       <Container>
           <Message>{text}</Message>
+          {/*
+            Escolhe entre duas opções:
+            Apenas uma opção "Ok"
+            Duas opções "Sim" e "Não"
+          */}
           {onlyOne
             ? <Buttons>
                 <Button 
@@ -81,7 +84,5 @@ const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
     </Overlay>
   );
 }
-
-
 
 export default Warning;

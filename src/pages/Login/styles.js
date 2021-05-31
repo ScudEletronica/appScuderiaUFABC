@@ -1,44 +1,52 @@
 import styled from 'styled-components/native';
-import { Dimensions } from "react-native";
+import { Dimensions } from 'react-native';
+import { height } from '~/utils/dimensions';
 import { RectButton } from 'react-native-gesture-handler';
 
+// Todo o conteúdo da pagina
 export const Container = styled.View`
   flex: 1;
   background: ${props => props.theme.colors.background};
   align-items: center;
 `;
 
-export const Fundo = styled.View`
+// Imagens de Fundo
+export const Background = styled.View`
   flex-direction: row;
 `
 
+// Logo da Scuderia
 export const Logo = styled.Image`
   position: absolute;
   width: ${Dimensions.get('window').width - 10}px;
-  height: ${160 + Dimensions.get('window').width - 360}px;
+  height: ${height(160)}px;
   left: 10px;
   top: 12px;
 `
 
-export const Fundo1 = styled.Image`
+// Imagem de fundo maior
+export const Background1 = styled.Image`
   position: absolute;
   width: 100%;
-  height: ${217 + Dimensions.get('window').width - 360}px;
+  height: ${height(217)}px;
 `
 
-export const Fundo2 = styled.Image`
+// Imagem de fundo menor
+export const Background2 = styled.Image`
   width: 100%;
-  height: ${208 + Dimensions.get('window').width - 360}px;
+  height: ${height(208)}px;
   top: 21px;
   margin-bottom: 31px;
 `
 
+// Formulário para fazer Login
 export const Form = styled.View`
   justify-content: space-between;
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
 `
 
+// Titulo da Pagina
 export const Title = styled.Text`
   width: 290px;
   height: 39px;
@@ -55,6 +63,7 @@ export const Title = styled.Text`
   color: ${props => props.theme.colors.tertiaryText};
 `
 
+// Subtitulo da Pagina
 export const Subtitle = styled(Title)`
   font-weight: normal;
   font-size: 16px;
@@ -62,6 +71,7 @@ export const Subtitle = styled(Title)`
   margin-bottom: 37px;
 `
 
+// Entrada de texto
 export const Input = styled.TextInput.attrs({
   shadowColor: "rgba(0, 0, 0, 0.25)",
   shadowOffset: {
@@ -81,13 +91,16 @@ export const Input = styled.TextInput.attrs({
   padding-left: 15px;
 `;
 
+// Botão de Login
 export const LoginBotao = styled(RectButton)`
  align-self: flex-end;
 `
 
+// Imagem do botão de Login
 export const LoginImage = styled.Image`
 `
 
+// Texto para avisar quando o login não foi feito com sucessos
 export const Warning = styled.Text`
   font-family: Roboto;
   font-size: 16px;

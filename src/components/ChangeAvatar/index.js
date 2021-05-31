@@ -7,6 +7,7 @@ import {
   Container, Save, Content, Avatar, Options, Option, OptionText, ChangePhoto
 } from './styles';
 
+// Pagina de mudança da foto de perfil
 const ChangeAvatar = () => {
   const { colors } = useContext(ThemeContext);
 
@@ -17,6 +18,7 @@ const ChangeAvatar = () => {
             <Icon name="save" size={40}/>
           </Save>
           <Avatar source={require('../../assets/Avatar.png')}/>
+          {/* Opções de editar e mudar a foto */}
           <Options>
             <Option>
               <Icon2 name="edit" size={27} color={colors.primaryIcon}/>

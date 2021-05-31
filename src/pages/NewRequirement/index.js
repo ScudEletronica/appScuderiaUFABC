@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { 
-  Title, NewInput, Inline, NormalText, QuantityInput, Reason, BigInput, New, NewText, Mean, MeanTitle, PriceInput, Create, CreateText, 
+  Title, NewInput, Inline, InputTitle, QuantityInput, Reason, BigInput, New, NewText, Way, WayTitle, PriceInput, Create, CreateText, styles
 } from './styles';
 
 import {
@@ -15,28 +15,31 @@ import Head from '~/components/Head';
 import Back from '~/components/Back';
 import Warning from '~/components/Warning';
 
+// Nova Requisição
 const NewRequirement = ({ route }) => {
-  const [defaultRequirement, setDefaultRequirement] = useState('')
-  const [name, setName] = useState('')
-  const [product, setProduct] = useState('');
-  const [amount, setAmount] = useState(0);
-  const [reason, setReason] = useState('');
-  const [ways, setWays] = useState([]);
-  const [id, setID] = useState(0);
-  const [textWarning, setTextWarning] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [onlyOne, setOnlyOne] = useState(false);
-  const [confirm, setConfirm] = useState(false);
+  const [defaultRequirement, setDefaultRequirement] = useState('') // Requisição inicial
+  const [name, setName] = useState('') // Nome do usuário
+  const [product, setProduct] = useState(''); // Nome do produto
+  const [amount, setAmount] = useState(0); // Quantidade necessária
+  const [reason, setReason] = useState(''); // Razão da compra
+  const [ways, setWays] = useState([]); // Formas de compra
+  const [wayID, setWayID] = useState(0); // Id da forma de compra
+  const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
+  const [onlyOne, setOnlyOne] = useState(false); // Determina se o avisa terá apenas uma opção
+  const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
   const { navigate, goBack } = useNavigation();
-  const { user, requirement, edit } = route.params;
+  const { requirement, edit } = route.params; // Carrega a requisição inicial e se é edição ou não
 
+  // Carrega a requisição inicial
   useFocusEffect(() => {
     setDefaultRequirement(requirement);
   })
   
+  // Carrega os valores da requisição
   useEffect(() => {
-    setID(0);
+    setWayID(0);
     setName(requirement.name);
     setProduct(requirement.product);
     setAmount(requirement.amount);
@@ -44,15 +47,17 @@ const NewRequirement = ({ route }) => {
     setWays(requirement.ways);
   }, [defaultRequirement]);
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
 
+  // Cria uma nova Forma de compra
   function handleNewWay() {
     var newID;
     ways.length > 0
     ? newID = ways[ways.length - 1].id+1
-    : newID = id + 1
+    : newID = wayID + 1
  
     var way = {
       company: '',
@@ -62,11 +67,12 @@ const NewRequirement = ({ route }) => {
       unitaryPrice: 0,
     }
 
-    setID(newID);
+    setWayID(newID);
 
     ways.push(way);
   }
 
+  // Atualiza os valores da Forma de compra
   function setWayItemValue(position, field, value) {
     const updateWays = ways.map((way, index) => {
       if(index == position) {
@@ -79,6 +85,7 @@ const NewRequirement = ({ route }) => {
     setWays(updateWays);
   }
 
+  // Verifica se algum campo não foi preenchido
   function notEmpty(newRequirement) {
     for (const key in newRequirement) {
       if (newRequirement.hasOwnProperty(key)) {
@@ -104,6 +111,7 @@ const NewRequirement = ({ route }) => {
     return true;
   }
   
+  // Verifica se algo foi escrito
   function Wrote(newRequirement) {
     for (const key in newRequirement) {
       if (newRequirement.hasOwnProperty(key)) {
@@ -130,6 +138,7 @@ const NewRequirement = ({ route }) => {
     return false;
   }
 
+  // Cancela a escrita da requisição
   function handleCancel() {
     var newRequirement = {
       product, amount, reason, ways
@@ -138,7 +147,7 @@ const NewRequirement = ({ route }) => {
     setVisible(false)
     if(Wrote(newRequirement)){
       toggleOverlay();
-      setTextWarning("Deseja mesmo voltar? Dessa forma irá perder os dados já preenchidos");
+      setOverlayText("Deseja mesmo voltar? Dessa forma irá perder os dados já preenchidos");
       setConfirm(false);
       setOnlyOne(false);
     } else {
@@ -146,27 +155,30 @@ const NewRequirement = ({ route }) => {
     }
   }
 
+  // Escolhe a ação conforme o valor de confirm
   function handleConfirmOverlay() {
     confirm
     ? toggleOverlay()
     : cancel();
   }
 
+  // Retorna para a pagina anterior e cancelando a requisição
   function cancel() {
     setVisible(false);
     goBack();
   }
 
+  // Confirma a nova requisição
   function handleConfirm() {
     var newRequirement = {
       name, product, amount, reason, ways
     }
 
-    if(notEmpty(newRequirement) == true){
+    if(notEmpty(newRequirement)){
+      // Escolhe o menor preço
       var value = ways[0].unitaryPrice * amount + ways[0].correiosTax;
       ways.forEach(way => {
-        const testValue = 
-        way.unitaryPrice * amount + way.correiosTax;
+        const testValue = way.unitaryPrice * amount + way.correiosTax;
         if (testValue < value) {
           value = testValue;
         }
@@ -176,30 +188,19 @@ const NewRequirement = ({ route }) => {
         id: defaultRequirement.id, name, product, amount, reason, value, ways
       }
 
-      edit
-      ? handleEditRequirement(newRequirement)
-      : handleNewRequirement(newRequirement)
+      navigate("Review", {requirement: newRequirement, edit});
     } else {
-      setTextWarning(`Insira informações válidas nos campos destinados. \n Por Favor!`);
+      setOverlayText(`Insira informações válidas nos campos destinados. \n Por Favor!`);
       setOnlyOne(true);
       toggleOverlay();
       setConfirm(true);
     }
-    
-  }
-
-  function handleEditRequirement(requirement) {
-    navigate("Review", {requirement, edit: true});
-  }
-
-  function handleNewRequirement(requirement) {
-    navigate("Review", {requirement, edit: false})
   }
 
   return (
     <Container>
       <Warning
-        text={textWarning}
+        text={overlayText}
         cancel={toggleOverlay}
         confirm={handleConfirmOverlay}
         visible={visible}
@@ -216,7 +217,7 @@ const NewRequirement = ({ route }) => {
             placeholderTextColor="#969696"
           />
           <Inline>
-            <NormalText>Quantidade Requisitada</NormalText>
+            <InputTitle>Quantidade Requisitada</InputTitle>
             <QuantityInput 
               value={amount}
               onChangeText={text => setAmount(Number(text))}
@@ -226,7 +227,7 @@ const NewRequirement = ({ route }) => {
             />
           </Inline>
           <Reason>
-            <NormalText>Razão da Compra</NormalText>
+            <InputTitle>Razão da Compra</InputTitle>
             <BigInput 
               value={reason}
               onChangeText={text => setReason(text)}
@@ -235,10 +236,12 @@ const NewRequirement = ({ route }) => {
               multiline
             />
           </Reason>
+
+          {/* Formas de compra */}
           {ways.map((way, index) => {
             return (
-              <Mean key={way.id}>
-                <MeanTitle>{way.id}ª Forma de Compra</MeanTitle>
+              <Way key={way.id}>
+                <WayTitle>{way.id}ª Forma de Compra</WayTitle>
                 <NewInput 
                   value={way.company}
                   onChangeText={text => 
@@ -256,7 +259,7 @@ const NewRequirement = ({ route }) => {
                   placeholderTextColor="#969696"
                 />
                 <Inline>
-                  <NormalText>Preço Unitário</NormalText>
+                  <InputTitle>Preço Unitário</InputTitle>
                   <PriceInput 
                     value={way.unitaryPrice}
                     onChangeText={text => 
@@ -268,7 +271,7 @@ const NewRequirement = ({ route }) => {
                   />
                 </Inline>
                 <Inline>
-                  <NormalText>Taxa Correios</NormalText>
+                  <InputTitle>Taxa Correios</InputTitle>
                   <PriceInput 
                     value={way.correiosTax}
                     onChangeText={text => 
@@ -279,7 +282,7 @@ const NewRequirement = ({ route }) => {
                     placeholderTextColor="#969696"
                   />
                 </Inline>
-              </Mean>
+              </Way>
             )
           })}
           <New 
@@ -303,15 +306,5 @@ const NewRequirement = ({ route }) => {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-    elevation: 2,
-  }
-})
 
 export default NewRequirement;

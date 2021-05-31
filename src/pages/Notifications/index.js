@@ -16,56 +16,46 @@ import Head from '~/components/Head';
 import Back from '~/components/Back';
 import messaging from '@react-native-firebase/messaging';
 
-const Notifications = ({ route }) => {
-  const [notificationLabIsOn, setNotificationLabIsOn] = useState(false);
-  const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(false);
-  const [notificationNewMessage, setNotificationNewMessage] = useState(false);
-  const [notificationAcceptRequirement, setNotificationAcceptRequirement] = useState(false);
+// COnfiguração das notificações
+const Notifications = () => {
+  const [notifications, setNotifications] = useState({
+    Lab: false, Workshop: false, Message: false, Requirement: false
+  }); // Configuração da notificação do laboratório 
 
   const { colors } = useContext(ThemeContext);
-
   const color = colors.primaryIcon;
+
+  // Carrega a configuração das notificações 
   useFocusEffect(() => {
-    setNotificationLabIsOn(global.notifications.labOpen)
-    setNotificationWorkshopIsOn(global.notifications.workshopOpen)
-    setNotificationNewMessage(global.notifications.messages)
-    setNotificationAcceptRequirement(global.notifications.requirements)
+    setNotifications(global.notifications)
   })
 
-  function toggleNotificationLab() {
-    setNotificationLabIsOn(!notificationLabIsOn)
-    global.notifications.labOpen = !global.notifications.labOpen
+  // Alterna a configuração das notificações
+  function toggleNotification(name) {
+    setNotifications({...notifications, [name]: !notifications[name]})
+
+    global.notifications[name] = !global.notifications[name]
+
     storeJSON('notifications', global.notifications)
-    notificationLabIsOn
-    ? messaging().unsubscribeFromTopic("Lab")
-    : messaging().subscribeToTopic("Lab")
-  }
-  
-  function toggleNotificationWorkShop() {
-    setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
-    global.notifications.workshopOpen = !global.notifications.workshopOpen
-    storeJSON('notifications', global.notifications)
-    notificationWorkshopIsOn
-    ? messaging().unsubscribeFromTopic("Workshop")
-    : messaging().subscribeToTopic("Workshop")
+    notifications[name]
+    ? messaging().subscribeToTopic(name)
+    : messaging().unsubscribeFromTopic(name)
   }
 
-  function toggleNotificationMessage() {
-    setNotificationNewMessage(!notificationNewMessage)
-    global.notifications.messages = !global.notifications.messages
-    storeJSON('notifications', global.notifications)
-    notificationNewMessage
-    ? messaging().unsubscribeFromTopic("Message")
-    : messaging().subscribeToTopic("Message")
-  }
-
-  function toggleNotificationRequirement() {
-    setNotificationAcceptRequirement(!notificationAcceptRequirement)
-    global.notifications.requirements = !global.notifications.requirements
-    storeJSON('notifications', global.notifications)
-    notificationAcceptRequirement
-    ? messaging().unsubscribeFromTopic("Requirement")
-    : messaging().subscribeToTopic("Requirement")
+  // Mostra o Botão de Notificação
+  function NotificationButton({event, toggle, isOn}) {
+    return (
+      <Inline>
+        <InlineText>Notificar quando {event}?</InlineText>
+        <Toggle onPress={toggle}>
+          <Icon 
+            name={isOn ? "toggle-on" : "toggle-off"} 
+            size={35} 
+            color={color}
+          />
+        </Toggle>
+      </Inline>
+    )
   }
 
   return (
@@ -76,79 +66,30 @@ const Notifications = ({ route }) => {
           <Title>NOTIFICAÇÕES</Title>
           <Intern>
             
-            <Inline>
-              <InlineText>Notificar quando o Lab abrir?</InlineText>
-              <Toggle onPress={toggleNotificationLab}>
-                { notificationLabIsOn
-                  ? <Icon 
-                      name="toggle-on" 
-                      size={35} 
-                      color={color}
-                    />
-                  : <Icon 
-                      name="toggle-off" 
-                      size={35} 
-                      color={color}
-                    />
-                }
-              </Toggle>
-            </Inline>
-
-            <Inline>
-              <InlineText>Notificar quando a Oficina abrir?</InlineText>
-              <Toggle onPress={toggleNotificationWorkShop}>
-                { notificationWorkshopIsOn
-                  ? <Icon 
-                      name="toggle-on" 
-                      size={35} 
-                      color={color}
-                    />
-                  : <Icon 
-                      name="toggle-off" 
-                      size={35} 
-                      color={color}
-                    />
-                }
-              </Toggle>
-            </Inline>
-
-            <Inline>
-              <InlineText>Notificar quando aparecer um novo Recado?</InlineText>
-              <Toggle onPress={toggleNotificationMessage}>
-                { notificationNewMessage
-                  ? <Icon 
-                      name="toggle-on" 
-                      size={35} 
-                      color={color}
-                    />
-                  : <Icon 
-                      name="toggle-off" 
-                      size={35} 
-                      color={color}
-                    />
-                }
-              </Toggle>
-            </Inline>
-
-            <Inline>
-              <InlineText>Notificar quando uma requisição de compra for aceita?</InlineText>
-              <Toggle onPress={toggleNotificationRequirement}>
-                { notificationAcceptRequirement
-                  ? <Icon 
-                      name="toggle-on" 
-                      size={35} 
-                      color={color}
-                    />
-                  : <Icon 
-                      name="toggle-off" 
-                      size={35} 
-                      color={color}
-                    />
-                }
-              </Toggle>
-            </Inline>
+            {/* Botões de Notificações */}
+            <NotificationButton 
+              event="o Lab abrir"
+              toggle={() => toggleNotification('Lab')}
+              isOn={notifications['Lab']}
+            />
+            <NotificationButton 
+              event="a Oficina abrir"
+              toggle={() => toggleNotification('Workshop')}
+              isOn={notifications['Workshop']}
+            />
+            <NotificationButton
+              event="aparecer um novo Recado" 
+              toggle={() => toggleNotification('Message')}
+              isOn={notifications['Message']}
+            />
+            <NotificationButton
+              event="uma requisição de compra for aceita" 
+              toggle={() => toggleNotification('Requirement')}
+              isOn={notifications['Requirement']}
+            />
           </Intern>
         </Content>
+        {/* Botão para retornar a pagina anterior */}
         <End>
           <Back/>
         </End>

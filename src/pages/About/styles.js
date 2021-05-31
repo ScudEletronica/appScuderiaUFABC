@@ -1,12 +1,14 @@
 import styled from 'styled-components/native';
-import { Dimensions } from "react-native";
+import { height } from "~/utils/dimensions"
 import { RectButton } from 'react-native-gesture-handler';
 
+// Define a rolagem na página
 export const Scroll = styled.ScrollView`
   width: 100%;
   height: 829px;
 `;
 
+// Define o conteúdo interno da pagina
 export const Content = styled.View`
   width: 100%;
   height: 829px;
@@ -14,11 +16,13 @@ export const Content = styled.View`
   background: ${props => props.theme.colors.background};
 `;
 
+// Imagem do RM01
 export const RM01 = styled.Image`
   width: 292px;
   height: 195px;
 `;
 
+// Texto de apresentação da equipe
 export const Text = styled.Text`
   font-family: Roboto;
   font-size: 16px;
@@ -30,10 +34,12 @@ export const Text = styled.Text`
   color: ${props => props.theme.colors.primaryText};
 `;
 
+// Mídias sociais
 export const SocialMedias = styled.View`
   align-items: center;
 `;
 
+// Titulo da página
 export const Title = styled.Text`
   font-family: Roboto;
   font-weight: bold;
@@ -46,32 +52,37 @@ export const Title = styled.Text`
 
   color: #222;
 `;
- 
-export const Fundo3 = styled.ImageBackground`
+
+// Imagem de fundo maior
+export const Background1 = styled.ImageBackground`
   position: absolute;
   width: 100%;
-  height: ${382.28 + Dimensions.get('window').width - 360}px;
+  height: ${height(382.28)}px;
   left: 0px;
   bottom: 0px;
 `;
 
-export const Fundo4 = styled.ImageBackground`
+// Imagem de fundo menor
+export const Background2 = styled.ImageBackground`
   position: absolute;
   width: 100%;
-  height: ${208 + Dimensions.get('window').width - 360}px;
+  height: ${height(208)}px;
   left: 0px;
   bottom: 193px;
 `;
 
+// Lista de mídias sociais da equipe
 export const Medias = styled.View`
   flex-direction: row;
   margin-bottom: 30px;
 `;
 
+// Lista de contas do Instagram
 export const Instagram = styled.View`
   flex-direction: row;
 `;
 
+// Botão para acessar a mídia social
 export const Media = styled(RectButton)`
   align-items: center;
   justify-content: center;
@@ -79,6 +90,7 @@ export const Media = styled(RectButton)`
   margin-left: 18px;
 `;
 
+// Texto contendo o nome da mídia social
 export const MediaText = styled.Text`
   margin-top: 10px;
   font-family: Roboto;
@@ -89,15 +101,17 @@ export const MediaText = styled.Text`
   color: #222;
 `;
 
+// Imagem que representa um website
 export const WebSite = styled.Image`
   width: 50px;
   height: 50px;
 `;
 
-export const Intern = styled.View`
-
+// Logo de instagram com cadeado
+export const InstagramLock = styled.View`
 `
 
+// Imagem de cadeado
 export const Lock = styled.Image`
   position: absolute;
   right: 0;

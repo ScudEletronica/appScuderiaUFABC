@@ -1,7 +1,7 @@
+// Configuration of notifications
 global.notifications = {
-  labOpen: false,
-  workshopOpen: false,
-  messages: false,
-  requirements: false,
+  Lab: false,
+  Workshop: false,
+  Message: false,
+  Requirement: false,
 }
-global.coordinator = false

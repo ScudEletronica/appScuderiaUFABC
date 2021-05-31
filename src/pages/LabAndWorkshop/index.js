@@ -2,12 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import { storeJSON } from '~/utils/store';
 import database from '@react-native-firebase/database';
-import messaging from '@react-native-firebase/messaging';
 
 import { 
-  Title, Intern, SubTitle, Information, InformationTitle, InformationContent, Keys, KeyTitle, Key, InputKey, Create, CreateText
+  Title, Intern, KeysTitleText, Key, KeysTitle, KeyContent, Keys, KeyTitle, KeysTitleLogo, InputKey, Update, UpdateText
 } from './styles';
 
 import { Container, Scroll, Content } from "~/styles/global";
@@ -16,36 +14,31 @@ import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 import Place from '~/components/Place';
 
+const Status = "TestStatus"
+
 const reference = database().ref();
 
+// Informações do Laboratório e Oficina
 const LabAndWorkshop = ({ route }) => {
   const [status, setStatus] = useState({
     Lab: false, Workshop: false, labRequest: false, workshopRequest: false
-  });
-  const [notificationLabIsOn, setNotificationLabIsOn] = useState(false);
-  const [notificationWorkshopIsOn, setNotificationWorkshopIsOn] = useState(false);
-  const [totalHoursLab, setTotalHoursLab] = useState('');
-  const [totalHoursWorkshop, setTotalHoursWorkshop] = useState('');
-  const [keyWorkshop, setKeyWorkshop] = useState('');
-  const [keyLabBlue, setKeyLabBlue] = useState('');
-  const [keyLabRed, setKeyLabRed] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [askedLab, setAskedLab] = useState(false);
-  const [askedWorkshop, setAskedWorkshop] = useState(false);
-  const [place, setPlace] = useState('');
-  const [confirm, setConfirm] = useState(false);
-  const [overlayText, setOverlayText] = useState('');
+  }); // Estado do laboratório e Oficina
+  const [totalHoursLab, setTotalHoursLab] = useState(''); // Horas que o usuário esteve no laboratório
+  const [totalHoursWorkshop, setTotalHoursWorkshop] = useState(''); // Horas que o usuário esteve na Oficina
+  const [keyWorkshop, setKeyWorkshop] = useState(''); // Local da Chave da Oficina
+  const [keyLabBlue, setKeyLabBlue] = useState(''); // Local da Chave do Laboratório Azul
+  const [keyLabRed, setKeyLabRed] = useState(''); // Local da Chave do Laboratório Vermelha
+  const [askedLab, setAskedLab] = useState(false); // Define se alguém requisitou a abertura do laboratório
+  const [askedWorkshop, setAskedWorkshop] = useState(false); // Define se alguém requisitou a abertura da oficina
+  const [place, setPlace] = useState(''); // Define o local analisado
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
+  const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
+  const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
-  const { colors, images } = useContext(ThemeContext);
+  const { images } = useContext(ThemeContext);
   const { user, coordinator } = route.params
-
-  const color = colors.primaryIcon;
-
-  useFocusEffect(() => {
-    setNotificationLabIsOn(global.notifications.labOpen)
-    setNotificationWorkshopIsOn(global.notifications.workshopOpen)
-  })
-
+  
+  // Estilos de sombra
   const styles = StyleSheet.create({
     button: {
       shadowColor: "rgba(0, 0, 0, 0.25)",
@@ -63,26 +56,29 @@ const LabAndWorkshop = ({ route }) => {
     }, 
   })
 
-  function hoursFormat(hours) {
-    if (hours < 60) {
-      return `${hours}min`
-    } else if (hours%60 == 0){
-      return `${hours/60}h`
+  // Coloca um valor inteiro em formato de tempo
+  function timeFormat(time) {
+    if (time < 60) {
+      return `${time}min`
+    } else if (time%60 == 0){
+      return `${time/60}h`
     } else {
-      return `${parseInt(hours/60)}h${hours%60}min`
+      return `${parseInt(time/60)}h${time%60}min`
     }
   }
 
+  // Carrega o estado da Oficina e Laboratório
+  // e as horas de uso de ambos pelo usuário
   useFocusEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
-      setStatus(snapshot.child('Status').val())
+      setStatus(snapshot.child(Status).val())
       setTotalHoursLab(
-        hoursFormat(
+        timeFormat(
           snapshot.child(`Profile/${user}/labhours`).val()
-          )
-          );
+        )
+      );
       setTotalHoursWorkshop(
-        hoursFormat(
+        timeFormat(
           snapshot.child(`Profile/${user}/workshophours`).val()
         )
       );
@@ -91,6 +87,7 @@ const LabAndWorkshop = ({ route }) => {
     return () => reference.off('value', onChangeValue)
   }, [user])
 
+  // Carrega a localização das chaves
   useEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
       setKeyWorkshop(snapshot.child('Keys/workshop').val())
@@ -101,6 +98,7 @@ const LabAndWorkshop = ({ route }) => {
     return () => reference.off('value', onChangeValue)
   }, [user])
 
+  // Define se o Laboratório ou a Oficina podem ser requisitados
   useFocusEffect(() => {
     if (status.Lab == true) {
       setAskedLab(false)
@@ -111,28 +109,12 @@ const LabAndWorkshop = ({ route }) => {
     }
   }, [status])
 
-  function toggleNotificationLab() {
-    setNotificationLabIsOn(!notificationLabIsOn)
-    global.notifications.labOpen = !global.notifications.labOpen
-    storeJSON('notifications', global.notifications)
-    notificationLabIsOn
-    ? messaging().unsubscribeFromTopic("Lab")
-    : messaging().subscribeToTopic("Lab")
-  }
-  
-  function toggleNotificationWorkShop() {
-    setNotificationWorkshopIsOn(!notificationWorkshopIsOn)
-    global.notifications.workshopOpen = !global.notifications.workshopOpen
-    storeJSON('notifications', global.notifications)
-    notificationWorkshopIsOn
-    ? messaging().unsubscribeFromTopic("Workshop")
-    : messaging().subscribeToTopic("Workshop")
-  }
-
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
 
+  // Define a mensagem do aviso, o local e o tipo de ação quando o aviso receber confirmação
   function handleAction(actualPlace, action) {
     setPlace(actualPlace);
     setConfirm(action);
@@ -145,82 +127,70 @@ const LabAndWorkshop = ({ route }) => {
     toggleOverlay();
   }
 
+  // Escolhe a ação a ser tomada de acordo com o valor de confirm 
+  // e se o usuário é ou não coordenador
   function handleConfirmOverlay() {
     coordinator
-    ? confirm
-      ? handleOpen()
-      : handleClose()
-    : confirm
-      ? handleAsk()
-      : handleCancelRequest()
+    ? handleOpenClose(confirm)
+    : handleAsk(confirm)
   }
 
-  function handleOpen() {
+  // Muda o estado do laboratório e oficina para
+  // aberto ou fechado
+  function handleOpenClose(confirm) {
     if(place == 'Lab') {
-      setAskedLab(true);
+      setAskedLab(confirm);
       reference
-        .child('Status/')
-        .update({Lab: true, labRequest: false});
+        .child(Status)
+        .update({Lab: confirm, labRequest: false});
     } else {
-      setAskedWorkshop(true);
+      setAskedWorkshop(confirm);
       reference
-        .child('Status')
-        .update({Workshop: true, workshopRequest: false});
+        .child(Status)
+        .update({Workshop: confirm, workshopRequest: false});
     }
     toggleOverlay();
   }
 
-  function handleAsk() {
+  // Requisita que o lab ou a oficina sejam abertos ou cancela a requisição
+  function handleAsk(confirm) {
     if(place == 'Lab') {
-      setAskedLab(true);
+      setAskedLab(confirm);
       reference
-        .child('Status/')
-        .update({labRequest: true});
+        .child(Status)
+        .update({labRequest: confirm});
     } else {
-      setAskedWorkshop(true);
+      setAskedWorkshop(confirm);
       reference
-        .child('Status')
-        .update({workshopRequest: true});
+        .child(Status)
+        .update({workshopRequest: confirm});
     }
     toggleOverlay();
   }
 
-  function handleClose() {
-    if(place == 'Lab') {
-      setAskedLab(false);
-      reference
-        .child('Status/')
-        .update({Lab: false});
-    } else {
-      setAskedWorkshop(false);
-      reference
-        .child('Status')
-        .update({Workshop: false});
-    }
-    toggleOverlay();
-  }
-
-  function handleCancelRequest() {
-    if(place == 'Lab') {
-      setAskedLab(false);
-      reference
-        .child('Status/')
-        .update({labRequest: false});
-    } else {
-      setAskedWorkshop(false);
-      reference
-        .child('Status')
-        .update({workshopRequest: false});
-    }
-    toggleOverlay();
-  }
-
+  // Atualiza a localização das chaves
   function handleKey () {
     reference.child("Keys").update({
       labBlue: keyLabBlue,
       labRed: keyLabRed,
       workshop: keyWorkshop
     });
+  }
+
+  // Modelo de apresentação da localização das chaves
+  function keyLocation(name, key, set) {
+    return (
+      <Key>
+        <KeyTitle>{name}:</KeyTitle>
+        {coordinator
+          ? <InputKey 
+              value={key}
+              onChangeText={text => set(text)}
+            />
+          : <KeyContent>{key}</KeyContent>
+        }
+      </Key>
+    )
   }
 
   return (
@@ -245,8 +215,6 @@ const LabAndWorkshop = ({ route }) => {
               request={status.labRequest}
               asked={askedLab}
               hours={totalHoursLab}
-              toggle={toggleNotificationLab}
-              notification={notificationLabIsOn}
               coordinator={coordinator}
               action={handleAction}
             />
@@ -259,60 +227,30 @@ const LabAndWorkshop = ({ route }) => {
               request={status.workshopRequest}
               asked={askedWorkshop}
               hours={totalHoursWorkshop}
-              toggle={toggleNotificationWorkShop}
-              notification={notificationWorkshopIsOn}
               coordinator={coordinator}
               action={handleAction}
             />
 
             {/* Chaves */}
             <Keys>
-              <KeyTitle>
-                <Key source={images.key}/>
-                <SubTitle>Chaves</SubTitle>
-              </KeyTitle>
-              <Information>
-                <InformationTitle>Oficina:</InformationTitle>
-                {coordinator
-                  ? <InputKey 
-                      value={keyWorkshop}
-                      onChangeText={text => 
-                        setKeyWorkshop(text)}
-                    />
-                  : <InformationContent>{keyWorkshop}</InformationContent>
-                }
-              </Information>
+              <KeysTitle>
+                <KeysTitleLogo source={images.key}/>
+                <KeysTitleText>Chaves</KeysTitleText>
+              </KeysTitle>
 
-              <Information>
-                <InformationTitle>Lab Azul:</InformationTitle>
-                {coordinator
-                  ? <InputKey 
-                      value={keyLabBlue}
-                      onChangeText={text => 
-                        setKeyLabBlue(text)}
-                    />
-                  : <InformationContent>{keyLabBlue}</InformationContent>
-                }
-              </Information>
+              {/* Locais das chaves */}
+              {keyLocation("Oficina", keyWorkshop, setKeyWorkshop)}
+              {keyLocation("Lab Azul", keyLabBlue, setKeyLabBlue)}
+              {keyLocation("Lab Vermelha", keyLabRed, setKeyLabRed)}
 
-              <Information>
-                <InformationTitle>Lab Vermelha:</InformationTitle>
-                {coordinator
-                  ? <InputKey 
-                      value={keyLabRed}
-                      onChangeText={text => 
-                      setKeyLabRed(text)}
-                  />
-                  : <InformationContent>{keyLabRed}</InformationContent>
-                }
-              </Information>
+              {/* Botão para atualizar as chaves */}
               {coordinator &&
-                <Create 
+                <Update 
                   style={styles.button}
                   onPress={handleKey}
                 >
-                  <CreateText>Atualizar Chaves</CreateText>
-                </Create>
+                  <UpdateText>Atualizar Chaves</UpdateText>
+                </Update>
               }
             </Keys>
           </Intern>

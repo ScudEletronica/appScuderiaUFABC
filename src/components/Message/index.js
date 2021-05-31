@@ -1,60 +1,92 @@
 import React, { useContext } from 'react';
+import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import database from '@react-native-firebase/database'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { 
   Container, Title, Date, Content, Trash
 } from './styles';
 
-import Icon from 'react-native-vector-icons/FontAwesome'
-
-const reference = database().ref('Messages');
-
+// Item da lista de recados
 const Message = ({
-  message, coordinator, toggleOverlay, handleID
+  message, coordinator, toggleOverlay, handleID, list
 }) => {
   const { navigate } = useNavigation();
   const { colors } = useContext(ThemeContext);
 
+  // Seleciona o estilo do item
+  const styles = list ? listStyle : roundStyle;
+
+  // Navega para a página do recado
   function handleNavigateToMessage() {
     navigate("Message", {message, coordinator})
   }
   
-  async function handleDelete() {
+  // Deleta o recado
+  function handleDelete() {
     toggleOverlay();
     handleID(message.id)
   }
 
   return (
     <Container 
-      style={{
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 5,
-      }}
+      style={styles.container}
       onPress={handleNavigateToMessage}
     >
+      {/* Botão para deletar o recado */}
       {coordinator 
         && 
         <Trash onPress={handleDelete}>
           <Icon 
-            name="trash-o" 
-            size={15} 
-            color={colors.primaryIcon}
+            name="trash-o" size={15} color={colors.primaryIcon}
           />
         </Trash>
       }
-      <Title>{message.title}</Title>
+
+      {/* Informações do recado */}
+      <Title style={styles.title}>{message.title}</Title>
       <Date>{message.date}</Date>
-      <Content>{message.content.substring(0, 170).replace(/\r?\n|\r/g, ' ')} ...</Content>
+      <Content style={styles.content}>
+        {message.content.substring(0, 170).replace(/\r?\n|\r/g, ' ')} ...
+      </Content>
     </Container>
   );
 }
+
+// Estilo arredondado
+const roundStyle = StyleSheet.create({
+  container: {
+    shadowColor: "rgba(0, 0, 0, 0.25)",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 5,
+
+    width: 338,
+    alignItems: 'center',
+    borderRadius: 25,
+    marginBottom: 10,
+  }, title: {}, content: {}
+})
+
+// Estilo lista
+const listStyle = StyleSheet.create({
+  container: {
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: 7,
+  }, 
+  title: {
+    textAlign: 'left',
+    width: '95%',
+  }, 
+  content: {
+    textAlign: 'justify',
+  }
+})
 
 export default Message;

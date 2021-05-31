@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import { RectButton } from 'react-native-gesture-handler';
 
+// Todo o conteúdo do componente
 export const Container = styled.View.attrs({
   shadowColor: "rgba(0, 0, 0, 0.3)",
   shadowOffset: { width: 0, height: 2 },
@@ -21,11 +21,13 @@ export const Container = styled.View.attrs({
   justify-content: center;
 `;
 
+// Dimensões do logo da Scuderia
 export const ScudHeader = styled.Image`
   width: 212px;
   height: 100%;
 `
 
+// Botão para abrir o menu lateral
 export const More = styled(RectButton)`
   position: absolute;
   top: 13px;

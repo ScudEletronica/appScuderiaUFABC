@@ -13,10 +13,12 @@ import Warning from '~/components/Warning';
 
 const reference = database().ref('Meters');
 
+// Telemetria do Carro
 const Telemetry = ({navigation}) => {
-  const [meters, setMeters] = useState([]);
-  const [visible, setVisible] = useState(true);
+  const [meters, setMeters] = useState([]); // Medidores
+  const [visible, setVisible] = useState(true); // Visibilidade do recado
 
+  // Aviso de quando a telemetria não está sendo usada
   useFocusEffect(() => {
     setVisible(true);
     const onChangeValue = reference.on('value', snapshot => {
@@ -26,6 +28,7 @@ const Telemetry = ({navigation}) => {
     return () => reference.off('value', onChangeValue)
   }, [reference])
 
+  // Retorna para a pagina anterior caso a Telemetria não esteja em uso
   function notInUse() {
     setVisible(false);
     navigation.goBack();
@@ -44,6 +47,7 @@ const Telemetry = ({navigation}) => {
       <Scroll>
         <Content>
           <Title>TELEMETRIA</Title>
+          {/* Paginas de Medidores conforme as suas categorias */}
           <Buttons>
             <Select style={styles.button}>
               <SelectText>Principal</SelectText>
@@ -58,6 +62,8 @@ const Telemetry = ({navigation}) => {
               <NotSelectText>Batéria</NotSelectText>
             </NotSelect>
           </Buttons>
+
+          {/* Mostra os medidores desta pagina */}
           <Meters 
             data={Object.values(meters)}
             renderItem={meter =>

@@ -6,6 +6,7 @@ import Key from '~/assets/Key.png'
 export default {
   title: "light",
 
+  // Padrões de cores quando o app está no tema claro
   colors: {
     title: '#37BF65',
     background: '#FFF',
@@ -31,6 +32,7 @@ export default {
     buttonText: '#FFF',
   },
 
+  // Padrões de imagens quando o app está no tema claro
   images: {
     header: ScudHeader,
     capacete: Capacete,

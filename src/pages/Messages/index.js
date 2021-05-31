@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
-import { storeJSON } from '~/utils/store';
 import database from '@react-native-firebase/database';
 import Icon from 'react-native-vector-icons/AntDesign'
 
@@ -14,15 +13,17 @@ import {
 } from '~/styles/global'
 
 import Head from '~/components/Head';
-import MessageList from '~/components/MessageList'
+import Message from '~/components/Message'
 import Back from '~/components/Back';
 import Warning from '~/components/Warning';
 
 const reference = database().ref();
 
+
+// Lista de recados
 const Messages = ({navigation, route}) => {
   const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
   const [id, setID] = useState();
 
   const { coordinator } = route.params
@@ -41,14 +42,17 @@ const Messages = ({navigation, route}) => {
     })
   }
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
 
+  // Seleciona o id da mensagem a ser apagada
   function handleID(id) {
     setID(id)
   }
 
+  // Deleta uma mensagem
   function handleDelete() {
     reference.child(`Messages/${id}`).remove();
 
@@ -67,18 +71,23 @@ const Messages = ({navigation, route}) => {
       <Scroll>
         <Content>
           <Title>RECADOS</Title>
+
+          {/* Mostra todos os recados */}
           {Object.values(messages).map(message => {
             return (
-              <MessageList 
+              <Message
                 key={message.id}
                 message={message}
                 coordinator={coordinator}
                 toggleOverlay={toggleOverlay}
                 handleID={handleID}
+                list
               />
             )
           })}
         </Content>
+
+        {/* Fim da pagina */}
         <End>
           {coordinator 
             && 
@@ -104,13 +113,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowOpacity: 1,
     elevation: 2,
-  },
-  overlay: {
-    borderRadius: 36,
-    width: 293,
-    height: 135,
-    alignItems: 'center',
-    justifyContent: 'center',
   }
 })
 

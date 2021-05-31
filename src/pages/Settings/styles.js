@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import { GreenTitle, Button, ButtonText } from "~/styles/global";
 import { RectButton } from 'react-native-gesture-handler';
 
+// Titulo da Pagina
 export const Title = styled(GreenTitle)`
   font-size: 30px;
   line-height: 35px;
@@ -9,6 +10,7 @@ export const Title = styled(GreenTitle)`
   margin: 31px 0 78px;
 `;
 
+// Lista de modos de tema
 export const Modes = styled.View`
   flex-direction: row;
   width: 100%;
@@ -16,6 +18,7 @@ export const Modes = styled.View`
   justify-content: space-between;
 `
 
+// Botão para ativar o Modo Claro
 export const LightMode = styled(RectButton)`
   width: 135px;
   height: 28px;
@@ -28,6 +31,7 @@ export const LightMode = styled(RectButton)`
   justify-content: center;
 `
 
+// Texto do botão para ativar o Modo Claro
 export const LightModeText = styled.Text`
   font-family: Roboto;
   font-weight: 500;
@@ -37,15 +41,18 @@ export const LightModeText = styled.Text`
   color: #222;
 `
 
+// Botão para ativar o Modo Escuro
 export const DarkMode = styled(LightMode)`
   background: #3D3D3D;
   border: 1px solid #222222;
 `
 
+// Texto do botão para ativar o Modo Escuro
 export const DarkModeText = styled(LightModeText)`
   color: #F0F0F0;
 `
 
+// Lista de opções
 export const Options = styled.View`
   width: 80%;
   
@@ -53,6 +60,7 @@ export const Options = styled.View`
   align-items: flex-start;
 `
 
+// Botão para navegar para a opção escolhida
 export const Option = styled(RectButton)`
   flex-direction: row;
   justify-content: flex-start;
@@ -63,6 +71,7 @@ export const Option = styled(RectButton)`
   width: 100%;
 `
 
+// Nome da opção
 export const OptionTitle = styled.Text`
   font-family: Roboto;
   font-weight: 500;

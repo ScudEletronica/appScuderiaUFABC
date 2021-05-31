@@ -20,25 +20,29 @@ import Warning from '~/components/Warning';
 
 const reference = database().ref('Requirements');
 
+// Revisão da requisição 
 const Review = ({ route }) => {
-  const [overlayText, setOverlayText] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [confirm, setConfirm] = useState(false);
+  const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
+  const [visible, setVisible] = useState(false); // Visibilidade do recado
+  const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
   const { navigate } = useNavigation();
   const { requirement, edit } = route.params;
   const { colors } = useContext(ThemeContext);
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
 
+  // Pergunta se usuário deseja cancelar sua ação
   function handleCancel() {
     setOverlayText("Deseja mesmo voltar? Dessa forma irá perder os dados já preenchidos");
     setConfirm(false)
     toggleOverlay();
   }
   
+  // Ações de confirmação de edição ou realização da requisição
   function handleConfirm() {
     setConfirm(true);
     edit
@@ -47,6 +51,7 @@ const Review = ({ route }) => {
     toggleOverlay()
   }
   
+  // Escolhe as opções de ação conforme o valor de confirm e edit
   function handleConfirmOverlay() {
     confirm
     ? edit
@@ -55,11 +60,13 @@ const Review = ({ route }) => {
     : cancel()
   }
 
+  // Cancelamento da requisição
   function cancel() {
     setVisible(false);
     navigate('MyRequirements')
   }
 
+  // Cria uma nova requisição
   function handleNew() {
     const NewReference = reference.push();
     const id = NewReference.key;
@@ -78,6 +85,7 @@ const Review = ({ route }) => {
     navigate('MyRequirements')
   }
 
+  // Atualiza uma requisição
   function handleUpdate() {
     reference.child(requirement.id).update({
       name: requirement.name, 
@@ -92,10 +100,19 @@ const Review = ({ route }) => {
     navigate('MyRequirements')
   }
   
+  // Navega para pagina de edição
   function handleEdit() {
-    edit
-    ? navigate('NewRequirement', { requirement, edit: true })
-    : navigate('NewRequirement', { requirement, edit: false })
+    navigate('NewRequirement', { requirement, edit})
+  }
+
+  // Modelo de informações na mesma linha
+  function InlineTemplate({name, value}) {
+    return (
+      <Inline>
+        <InlineTitle>{name}: </InlineTitle>
+        <InlineText>{value}</InlineText>
+      </Inline>
+    )
   }
 
   return (
@@ -112,52 +129,41 @@ const Review = ({ route }) => {
           <Title>REVISÃO</Title>
           <Intern>
             <Subtitle>Dados do Pedido</Subtitle>
-            <Inline>
-              <InlineTitle>Nome: </InlineTitle>
-              <InlineText>{requirement.name}</InlineText>
-            </Inline>
-            <Inline>
-              <InlineTitle>Produto: </InlineTitle>
-              <InlineText>{requirement.product}</InlineText>
-            </Inline>
-            <Inline>
-              <InlineTitle>Quantidade: </InlineTitle>
-              <InlineText>{requirement.amount}</InlineText>
-            </Inline>
+            <InlineTemplate name="Nome" value={requirement.name} />
+            <InlineTemplate name="Produto" value={requirement.product} />
+            <InlineTemplate name="Quantidade" value={requirement.amount} />
+
             <InlineTitle>Razão da compra: </InlineTitle>
             <InlineText>{requirement.reason}</InlineText>
+
             <Subtitle>Dados da Compra</Subtitle>
             {Object.values(requirement.ways).map(way => {
               return (
                 <Way key={way.id}>
                   <WayTitle>{way.id}ª Forma de Compra</WayTitle>
-                  <Inline>
-                    <InlineTitle>Empresa: </InlineTitle>
-                    <InlineText>{way.company}</InlineText>
-                  </Inline>
-                  <Inline>
-                    <InlineTitle>Contato: </InlineTitle>
-                    <InlineText>{way.contact}</InlineText>
-                  </Inline>
-                  <Inline>
-                    <InlineTitle>Preço Unitário: </InlineTitle>
-                    <InlineText>R$ {way.unitaryPrice.toFixed(2)}</InlineText>
-                  </Inline>
-                  <Inline>
-                    <InlineTitle>Taxa Correios: </InlineTitle>
-                    <InlineText>R$ {way.correiosTax.toFixed(2)}</InlineText>
-                  </Inline>
+                  <InlineTemplate name="Empresa" value={way.company} />
+                  <InlineTemplate name="Contato" value={way.contact} />
+                  <InlineTemplate 
+                    name="Preço Unitário" value={`R$ ${way.unitaryPrice.toFixed(2)}`} 
+                  />
+                  <InlineTemplate 
+                    name="Taxa Correios" value={`R$ ${way.correiosTax.toFixed(2)}`} 
+                  />
                 </Way>
               )
             })}
             
             <Inline style={{marginTop: 28}}>
+
+              {/* Valor Final */}
               <Inline style={{marginRight: "auto"}}>
                 <ValueTitle>Valor: </ValueTitle>
                 <ValueText>
                   R$ {requirement.value.toFixed(2)}
                 </ValueText>
               </Inline>
+
+              {/* Botão de edição */}
               <Edit onPress={handleEdit}>
                 <Icon name="edit" size={32} color={colors.primaryIcon}/>
                 <EditText>Editar</EditText>
@@ -165,12 +171,15 @@ const Review = ({ route }) => {
             </Inline>
 
             <Inline>
+              {/* Botão para cancelar */}
               <Cancel 
                 style={styles.button}
                 onPress={handleCancel}
               >
                 <ButtonText>Cancelar</ButtonText>
               </Cancel>
+
+              {/* Botão para confirmar */}
               <Confirm 
                 style={styles.button}
                 onPress={handleConfirm}

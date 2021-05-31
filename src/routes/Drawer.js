@@ -21,14 +21,33 @@ import MenuBar from "~/components/MenuBar";
 const { Navigator, Screen } = createDrawerNavigator()
 
 function Drawer({lightMode, darkMode, route, navigation}) {
+  // Dados carregados da Firebase que são reutilizáveis em várias páginas
   const { user, ra, field, coordinator, name } = route.params;
 
+  // const [logout, setLogout] = useState(false);
+  // useEffect(() => navigation.addListener('beforeRemove', (e) => {
+  //     if (logout) return;
+
+  //     e.preventDefault();
+  //   }
+  // ), [logout])
+
   return (
+    // Configuração do menu lateral:
+    // initialRouteName: Primeira rota aberta
+    // drawerContent: Configuração do Menu lateral
+    // drawerStyle: Estilos do menu lateral
     <Navigator 
-      initialRouteName="Main"
-      drawerContent={props => <MenuBar user={user} props={props} />}
-      drawerStyle={{width: 217}}
+    initialRouteName="Main"
+    drawerContent={props => <MenuBar user={user} props={props} />}
+    drawerStyle={{width: 217}}
     >
+      {/* 
+        Configuração das rotas:
+          name: Determina o nome da rota
+          component: Determina o componente que contem a rota
+          initialParams: Determina os valores iniciais na rota 
+      */}
       <Screen 
         name="Main" 
         component={Main} 
@@ -65,7 +84,7 @@ function Drawer({lightMode, darkMode, route, navigation}) {
       <Screen name="Review" component={Review}/>
       <Screen name="Settings" initialParams={{coordinator}}>
         {(props) => <Settings 
-        darkMode={darkMode} lightMode={lightMode} {...props}/>}
+          darkMode={darkMode} lightMode={lightMode} {...props}/>}
       </Screen>
       <Screen 
         name="Profile" 

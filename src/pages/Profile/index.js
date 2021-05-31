@@ -6,7 +6,7 @@ import Icon2 from 'react-native-vector-icons/Ionicons'
 import database from '@react-native-firebase/database'
 
 import { 
-  Title, Avatar, AvatarImage, Cam, Fundo, Fundo9, Fundo10, Name, NameText, RA, RAText, TotalSpace
+  Title, Avatar, AvatarImage, Cam, Background, Background2, Background1, Name, NameText, RA, RAText, AvatarSpace
 } from './styles';
 
 import {
@@ -16,27 +16,26 @@ import {
 import Head from '~/components/Head';
 import Back from '~/components/Back';
 
+// Informações de Perfil
 const Profile = ({ route }) => {
-  
-  const [picture, setPicture] = useState(' ');
+  // const [picture, setPicture] = useState(' '); // Foto de perfil
   
   const { colors } = useContext(ThemeContext);
   const { user, name, ra } = route.params
 
   const reference = database().ref(`Profile/${user}`);
 
-
-  useFocusEffect(() => {
-    reference.on("value", snapshot => {
-      setPicture('../../assets/Avatar.png');
-    })
-  });
+  // useFocusEffect(() => {
+  //   reference.on("value", snapshot => {
+  //     setPicture('../../assets/Avatar.png');
+  //   })
+  // });
 
   return (
     <Container>
       <Head />
       <Scroll>
-        <TotalSpace>
+        <AvatarSpace>
           <Title>PERFIL</Title>
           <Avatar>
             {/* <AvatarImage resizeMode="contain" source={require('../../assets/Avatar.png')} /> */}
@@ -52,10 +51,11 @@ const Profile = ({ route }) => {
                 color={colors.primaryIcon}/>
             </Cam> */}
           </Avatar>
-        </TotalSpace>
-        <Fundo>
-          <Fundo10 source={require('../../assets/Fundo10.png')}>
-            <Fundo9 source={require('../../assets/Fundo9.png')}>
+        </AvatarSpace>
+        <Background>
+          <Background1 source={require('../../assets/Fundo10.png')}>
+            <Background2 source={require('../../assets/Fundo9.png')}>
+              {/* Informações de perfil */}
               <Name>
                 <NameText>{name}</NameText>
               </Name>
@@ -64,13 +64,14 @@ const Profile = ({ route }) => {
                 <RAText>{ra}</RAText>
               </RA>
 
-            </Fundo9>
-          </Fundo10>
+            </Background2>
+          </Background1>
           
+          {/* Fim da página */}
           <End>
             <Back different/>
           </End>
-        </Fundo>
+        </Background>
       </Scroll>
     </Container>
   );

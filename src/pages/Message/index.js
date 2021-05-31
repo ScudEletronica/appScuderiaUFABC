@@ -1,14 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import { storeJSON } from '~/utils/store';
 import database from "@react-native-firebase/database";
 import Markdown from 'react-native-markdown-renderer'
 import Icon from 'react-native-vector-icons/AntDesign'
 
 import { 
-  Title, MessageView, MessageTitle, MessageDate, MessageText, Buttons, Delete, ButtonText, Edit, EditText
+  Title, MessageView, MessageTitle, MessageDate, MessageText, Buttons, Delete, DeleteText, Edit, EditText
 } from './styles';
 
 import { 
@@ -21,14 +19,11 @@ import Warning from '~/components/Warning';
 
 const reference = database().ref()
 
+// Recado completo
 const Message = ({ route, navigation }) => {
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
-  const [content, setContent] = useState('');
-  const [amount, setAmount] = useState(0);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
 
-  const { message, coordinator } = route.params;
+  const { message, coordinator } = route.params; // carrega os valores do mensagem
   const { colors } = useContext(ThemeContext);
 
   const markdown = StyleSheet.create({
@@ -37,20 +32,17 @@ const Message = ({ route, navigation }) => {
     }
   })
 
-  useFocusEffect(() =>{
-    setTitle(message.title);
-    setDate(message.date);
-    setContent(message.content);
-  })
-
+  // Vai para edição do recado
   function handleEdit() {
     navigation.navigate('NewMessage', { message, edit: true })
   }
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
 
+  // Deleta o Recado
   function handleDelete() {
     reference.child(`Messages/${message.id}`).remove();
 
@@ -71,16 +63,22 @@ const Message = ({ route, navigation }) => {
       <Scroll>
         <Content>
           <Title>RECADOS</Title>
+
+          {/* Mensagem com Titulo, Data e Conteúdo */}
           <MessageView>
-            <MessageTitle>{title}</MessageTitle>
-            <MessageDate>{date}</MessageDate>
-            <Markdown style={markdown}>{content}</Markdown>
+            <MessageTitle>{message.title}</MessageTitle>
+            <MessageDate>{message.date}</MessageDate>
+            <Markdown style={markdown}>{message.content}</Markdown>
           </MessageView>
         </Content>
+
+        {/* Fim da Página */}
         <End>
           <Back />
           {coordinator 
             && 
+
+            // Botões para edição e remoção do recado
             <Buttons>
               <Edit onPress={handleEdit}>
                 <Icon name="edit" size={32} color={colors.primaryIcon}/>
@@ -90,7 +88,7 @@ const Message = ({ route, navigation }) => {
                 style={styles.button}
                 onPress={toggleOverlay}
               >
-                <ButtonText>Deletar</ButtonText>
+                <DeleteText>Deletar</DeleteText>
               </Delete>
             </Buttons>
           }

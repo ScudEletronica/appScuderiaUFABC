@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { storeJSON } from '~/utils/store';
 import database from '@react-native-firebase/database';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import {
-  Fundo, Fundo7, Fundo8, Picture, Name, RA, Messages, MessagesTitle, Status, Place, PlaceTitle, Open, Request, Close, StatusText
+  Profile, Background1, Background2, Picture, Name, RA, Messages, MessagesTitle, Status, 
 } from './styles';
 
 import { Container, Scroll, Content } from '~/styles/global';
@@ -14,23 +13,28 @@ import Head from '~/components/Head';
 import Message from '~/components/Message';
 import Avatar from '~/assets/Picture.png'
 import Warning from '~/components/Warning';
+import PlaceMin from '~/components/PlaceMin';
+
+const Source = "TestStatus"
 
 const reference = database().ref();
 
-const Main = ({ route, navigation }) => {
+// Pagina Inicial
+const Main = ({ route }) => {
   const [status, setStatus] = useState({
     Lab: false, Workshop: false, labRequest: false, workshopRequest: false
-  });
+  }); // Estado atual do Lab e oficina
   const [picture, setPicture] = useState(' ');
-  const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
-  const [visible, setVisible] = useState(false);
-  const [id, setID] = useState();
+  const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]); // Conteúdo dos recados
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
+  const [id, setID] = useState(); // Id da mensagem que será apagada
 
-  const { user, ra, name, coordinator } = route.params;
+  const { ra, name, coordinator } = route.params; // Dados do usuário
 
+  // Carrega os valores da firebase
   useFocusEffect(() => {
     const onValueChange = reference.on('value', snapshot => {
-      setStatus(snapshot.child('Status').val())
+      setStatus(snapshot.child(Source).val())
       setMessages(snapshot.child('Messages').val())
       setPicture(Avatar);
     })
@@ -38,14 +42,16 @@ const Main = ({ route, navigation }) => {
     return () => reference.off('value', onValueChange)
   }, [reference]);
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
-
+  
+  // Determina o id da mensagem a ser 
   function handleID(id) {
     setID(id)
   }
-
+  // Remove um recado
   function handleDelete() {
     reference.child(`Messages/${id}`).remove();
     
@@ -54,6 +60,7 @@ const Main = ({ route, navigation }) => {
 
   return (
     <Container>
+      {/* Aviso antes de apagar uma mensagem */}
       <Warning
         text="Tem certeza de que quer apagar esse recado?"
         cancel={toggleOverlay}
@@ -63,51 +70,35 @@ const Main = ({ route, navigation }) => {
       <Head />
       <Scroll>
         <Content>
-          <Fundo7 source={require('../../assets/Fundo8.png')}>
-            <Fundo8 source={require('../../assets/Fundo7.png')}/>
-              <Fundo>
+          <Background1 source={require('../../assets/Fundo8.png')}>
+            <Background2 source={require('../../assets/Fundo7.png')}/>
+              <Profile>
                 {/* <Picture 
                   source={picture} 
                 /> */}
+                {/* Informações do usuário */}
                 <Icon name={"person-circle-outline"} size={100}/>
                 <Name>{name}</Name>
                 <RA>{ra}</RA>
-              </Fundo>
-          </Fundo7>
+              </Profile>
+          </Background1>
           
           <Status>
-            <Place>
-              <PlaceTitle>Laboratório</PlaceTitle>
-              { status.Lab
-                ? <Open>
-                    <StatusText>Aberto</StatusText>
-                  </Open>
-                : status.labRequest
-                  ? <Request>
-                      <StatusText>Requisitado</StatusText>
-                    </Request>
-                  : <Close>
-                    <StatusText>Fechado</StatusText>
-                  </Close>
-              }
-            </Place>
-            <Place>
-              <PlaceTitle>Oficina</PlaceTitle>
-              { status.Workshop
-                ? <Open>
-                    <StatusText>Aberta</StatusText>
-                  </Open>
-                : status.workshopRequest
-                  ? <Request>
-                      <StatusText>Requisitado</StatusText>
-                    </Request>
-                  : <Close>
-                    <StatusText>Fechada</StatusText>
-                  </Close>
-              }
-            </Place>
+            {/* Mostra o estado atual do Laboratório */}
+            <PlaceMin 
+              name="Laboratório"
+              isOpen={status.Lab}
+              request={status.labRequest}
+              />
+            {/* Mostra o estado atual do Laboratório */}
+            <PlaceMin 
+              name="Oficina"
+              isOpen={status.Workshop}
+              request={status.workshopRequest}
+            />
           </Status>
           
+          {/* Mostra todos os recados, porém apenas parte delas */}
           <Messages>
             <MessagesTitle>RECADOS</MessagesTitle>
             {Object.values(messages).map(message => {

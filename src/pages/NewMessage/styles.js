@@ -2,27 +2,15 @@ import styled from 'styled-components/native';
 import { GreenTitle, Input } from "~/styles/global";
 import { RectButton } from 'react-native-gesture-handler';
 
+// Titulo da Pagina
 export const Title = styled(GreenTitle)`
   font-size: 24px;
   line-height: 28px;
   margin: 40px 0 52px;
 `;
 
-export const NewInput = styled(Input)`
-  width: 313px;
-  height: 49px;
-  margin-bottom: 10px;
-`;
-
-export const MainText = styled.View`
-  align-items: flex-start;
-`;
-
-export const BigInput = styled(NewInput)`
-  height: 400px;
-`;
-
-export const NormalText = styled.Text`
+// Nome da entrada de texto
+export const InputTitle = styled.Text`
   font-family: Roboto;
   font-weight: bold;
   font-size: 16px;
@@ -33,6 +21,19 @@ export const NormalText = styled.Text`
   color: ${props => props.theme.colors.tertiaryText};
 `;
 
+// Entrada de Texto 
+export const NewInput = styled(Input)`
+  width: 313px;
+  height: 49px;
+  margin-bottom: 10px;
+`;
+
+// Entrada de Texto de multilinha
+export const BigInput = styled(NewInput)`
+  height: 400px;
+`;
+
+// Lista de Botões 
 export const Buttons = styled.View`
   flex-direction: row;
   align-self: flex-end;
@@ -40,6 +41,7 @@ export const Buttons = styled.View`
   justify-content: space-between;
 `;
 
+// Botão para cancelar a criação do Recado
 export const Cancel = styled(RectButton)`
   width: 128px;
   height: 34px;
@@ -53,6 +55,7 @@ export const Cancel = styled(RectButton)`
   margin: 0 10px;
 `;
 
+// Texto dos Botões
 export const ButtonText = styled.Text`
   font-family: Roboto;
   font-weight: bold;
@@ -62,24 +65,21 @@ export const ButtonText = styled.Text`
   color: #FFF;
 `;
 
+// Botão para criar um novo Recado
 export const Create = styled(RectButton)`
-  background: #4F81BC;
   width: 215px;
   height: 44px;
+  background: #4F81BC;
   border-radius: 80px;
-  margin-right: 24px;
 
+  margin-right: 24px;
   align-items: center;
+  align-self: flex-end;
   justify-content: center;
   flex-direction: row;
-  align-self: flex-end;
 `;
 
-export const CreateText = styled.Text`
-  font-family: Roboto;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 23px;
-
+// Texto do botão de criação de Recado
+export const CreateText = styled(ButtonText)`
   color: ${props => props.theme.colors.buttonText};
 `;

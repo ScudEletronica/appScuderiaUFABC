@@ -1,33 +1,38 @@
 import styled from 'styled-components/native';
-import { Dimensions } from "react-native";
-import { GreenTitle, Subtitle, ButtonText} from "~/styles/global";
+import { GreenTitle } from "~/styles/global";
+import { height } from '~/utils/dimensions';
 
-export const Fundo = styled.View`
+// Informações do perfil de usuário
+export const Profile = styled.View`
   align-items: center;
 `;
 
-export const Fundo7 = styled.ImageBackground`
+// Imagem de fundo maior
+export const Background1 = styled.ImageBackground`
   width: 100%;
-  height: ${279 + Dimensions.get('window').width - 360}px;
+  height: ${height(279)}px;
   left: 0px;
   top: 0px;
   justify-content: center;
 `;
 
-export const Fundo8 = styled.ImageBackground`
+// Imagem de fundo menor
+export const Background2 = styled.ImageBackground`
   position: absolute;
   width: 100%;
-  height: ${208 + Dimensions.get('window').width - 360}px;
+  height: ${height(208)}px;
   left: 0px;
   top: 85px;
   margin-bottom: 119px;
 `;
 
+// Imagem de Perfil
 export const Picture = styled.Image`
   width: 106px;
   height: 106px;
 `;
 
+// Nome inteiro do usuário
 export const Name = styled.Text`
   font-family: Roboto;
   font-size: 18px;
@@ -38,11 +43,13 @@ export const Name = styled.Text`
   color: #222;
 `;
 
+// RA do usuário
 export const RA = styled(Name)`
   font-weight: bold;
   margin-top: 0px;
 `;
 
+// Estado da oficina e laboratório
 export const Status = styled.View`
   width: 70%;
   flex-direction: row;
@@ -50,54 +57,11 @@ export const Status = styled.View`
   margin: 40px 0;
 `;
 
-export const Place = styled.View`
-  align-items: center;
-`;
-
-export const PlaceTitle = styled(Subtitle)`
-  font-size: 19px;
-  line-height: 22px;
-  margin-bottom: 10px;
-`
-
-export const Open = styled.View.attrs({
-  shadowColor: "rgba(0, 0, 0, 0.3)",
-  shadowOffset: {
-    width: 0,
-    height: 2,
-  },
-  shadowOpacity: 1,
-  shadowRadius: 4,
-  elevation: 4,
-})`
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  width: 110px;
-  height: 38px;
-  border-radius: 30px;
-
-  background: #6BFF6B;
-`
-
-export const Close = styled(Open)`
-  background: #FF6B6B;
-` 
-
-export const Request = styled(Open)`
-  background: #FFFF6B
-`
-
-export const StatusText = styled(ButtonText)`
-  font-size: 19px;
-  line-height: 22px;
-  font-weight: 500;
-`
-
+// Lista de Recados
 export const Messages = styled.View`
-
 `;
 
+// Titulo da lista de Recados
 export const MessagesTitle = styled(GreenTitle)`
   font-size: 25px;
   line-height: 29px;

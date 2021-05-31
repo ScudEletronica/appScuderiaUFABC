@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import database from '@react-native-firebase/database'
 
 import { 
-  Title, NewInput, NormalText, BigInput, Buttons, Create, CreateText, Cancel, ButtonText
+  Title, NewInput, InputTitle, BigInput, Buttons, Create, CreateText, Cancel, ButtonText
 } from './styles';
 
 import {
@@ -15,24 +15,25 @@ import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 
 const reference = database().ref('Messages')
-const status = database().ref('Status')
 
+// Novo Recado
 const NewMessage = ({navigation, route}) => {
-  const [title, setTitle] = useState();
-  const [amount, setAmount] = useState(0);
-  const [content, setContent] = useState();
-  const [defaultTitle, setDefaultTitle] = useState('');
-  const [defaultContent, setDefaultContent] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [textWarning, setTexWarning] = useState('');
+  const [title, setTitle] = useState(); // Titulo do recado
+  const [content, setContent] = useState(); // Conteúdo do Recado
+  const [defaultTitle, setDefaultTitle] = useState(''); // Titulo inicial do recado
+  const [defaultContent, setDefaultContent] = useState(''); // Conteúdo inicial do recado
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
+  const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
 
-  const { message, edit } = route.params;
+  const { message, edit } = route.params; // Carrega a mensagem inicial e se é edição ou não
 
+  // Define os valores iniciais do recado
   useFocusEffect(() => {
     setDefaultTitle(message.title);
     setDefaultContent(message.content);
   }, [message]);
 
+  // Pergunta se usuário deseja cancelar sua ação
   function handleCancel() {
     setVisible(false)
     if(title || content){
@@ -43,6 +44,7 @@ const NewMessage = ({navigation, route}) => {
     }
   }
 
+  // Cancela a criação ou edição do recado
   function cancel() {
     setTitle();
     setContent();
@@ -50,22 +52,24 @@ const NewMessage = ({navigation, route}) => {
     navigation.goBack();
   }
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
 
+  // Confirma a criação ou edição do recado
   function handleConfirm() {
     setVisible(false);
-    if(edit){
-      handleEdit()
-    } else {
-      handleNew()
-    } 
+    
+    edit
+    ? handleEdit()
+    : handleNew()
 
     setTitle();
     setContent();
   }
 
+  // Cria um novo recado
   function handleNew() {
     if (title && content) {
       var date = new Date();
@@ -87,6 +91,7 @@ const NewMessage = ({navigation, route}) => {
     }
   }
 
+  // Edita um recado existente
   function handleEdit() {
     if(title || content) {
       reference.child(message.id).update({title, content});
@@ -100,7 +105,7 @@ const NewMessage = ({navigation, route}) => {
           
       navigation.navigate('Message', {message: newMessage});
     } else {
-      setTexWarning("Nenhuma modificação feita, deseja continuar?");
+      setOverlayText("Nenhuma modificação feita, deseja continuar?");
       toggleOverlay();
     }
   }
@@ -108,7 +113,7 @@ const NewMessage = ({navigation, route}) => {
   return (
     <Container>
       <Warning
-        text={textWarning}
+        text={overlayText}
         cancel={toggleOverlay}
         confirm={cancel}
         visible={visible}
@@ -117,32 +122,40 @@ const NewMessage = ({navigation, route}) => {
       <Scroll>
         <Content>
           <Title>NOVO RECADO</Title>
-          <NormalText>Titulo</NormalText>
+          {/* Inserção do Titulo do recado */}
+          <InputTitle>Titulo</InputTitle>
           <NewInput
             defaultValue={defaultTitle}
             value={title}
             onChangeText={text => setTitle(text)}
             placeholder="Insira o Titulo do Recado" 
             placeholderTextColor="#969696"
-          />
-            <NormalText>Conteúdo</NormalText>
-            <BigInput 
-              multiline 
-              defaultValue={defaultContent}
-              value={content}
-              onChangeText={text => setContent(text)}
-              placeholder="Insira o conteúdo do recado" 
-              placeholderTextColor="#969696"
             />
+          
+          {/* Inserção do Conteúdo do recado */}
+          <InputTitle>Conteúdo</InputTitle>
+          <BigInput 
+            multiline 
+            defaultValue={defaultContent}
+            value={content}
+            onChangeText={text => setContent(text)}
+            placeholder="Insira o conteúdo do recado" 
+            placeholderTextColor="#969696"
+          />
         </Content>
+
+        {/* Fim da Página */}
         <End>
           <Buttons>
+            {/* Botão de cancelar */}
             <Cancel 
               style={styles.button}
               onPress={handleCancel}
             >
               <ButtonText>Cancelar</ButtonText>
             </Cancel>
+
+            {/* Botão de confirmação */}
             <Create 
               style={styles.button}
               onPress={handleConfirm}

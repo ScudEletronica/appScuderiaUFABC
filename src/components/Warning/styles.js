@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-
+// Todo o conteúdo do componente
 export const Container = styled.View`
   width: 294px;
   height: 136px;
@@ -12,6 +12,7 @@ export const Container = styled.View`
   padding: 10px 8px;
 `; 
 
+// Texto do aviso
 export const Message = styled.Text`
   font-family: Roboto;
   font-weight: 500;
@@ -22,6 +23,7 @@ export const Message = styled.Text`
   color: ${props => props.theme.colors.primaryText};
 `;
 
+// Botões
 export const Buttons = styled.View`
   flex-direction: row;
   justify-content: space-between;

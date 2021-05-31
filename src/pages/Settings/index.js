@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { StyleSheet, useColorScheme, ColorSchemeName } from 'react-native';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -16,6 +16,7 @@ import Head from '~/components/Head';
 import Back from '~/components/Back';
 import AsyncStorage from '@react-native-community/async-storage';
 
+// Configurações
 const Settings = ({darkMode, lightMode, route}) => {
   const { navigate } = useNavigation();
   const { colors } = useContext(ThemeContext);
@@ -23,26 +24,21 @@ const Settings = ({darkMode, lightMode, route}) => {
 
   const color = colors.primaryIcon;
   
-  function handleNavigateToProfile() {
-    navigate('Profile');
-  }
-  
-  function handleNavigateToNotifications() {
-    navigate('Notifications');
-  }
-  
-  function handleNavigateToInformation() {
-    navigate('Information');
-  }
-  
+  // Executa o logout do usuário
   function handleLogout() {
     AsyncStorage.removeItem('user');
     AsyncStorage.removeItem('ra');
     navigate('Login')
   }
   
-  function handleNewUsers() {
-    navigate('NewUsers');
+  // Modelo para Botão de opções
+  function OptionButton({name, action, Icon, iconName}) {
+    return (
+      <Option onPress={action}>
+        <Icon name={iconName} size={40} color={color}/>
+        <OptionTitle>{name}</OptionTitle>
+      </Option>
+    )
   }
 
   return (
@@ -66,50 +62,42 @@ const Settings = ({darkMode, lightMode, route}) => {
                 <DarkModeText>Dark Mode</DarkModeText>
               </DarkMode>
             </Modes>
-            <Option onPress={handleNavigateToProfile}>
-              <Ionicons 
-                name="ios-person-circle-outline" 
-                size={40} 
-                color={color}
-              />
-              <OptionTitle>Perfil</OptionTitle>
-            </Option>
-            <Option onPress={handleNavigateToNotifications}>
-              <FontAwesome5 
-                name="bell" 
-                size={40} 
-                color={color}
-              />
-              <OptionTitle>Notificações</OptionTitle>
-            </Option>
-            <Option onPress={handleNavigateToInformation}>
-              <Entypo 
-                name="info-with-circle" 
-                size={40} 
-                color={color}
-              />
-              <OptionTitle>Informações</OptionTitle>
-            </Option>
+            
+            <OptionButton
+              name="Perfil"
+              action={() => navigate("Profile")}
+              Icon={Ionicons}
+              iconName="ios-person-circle-outline"
+            />
+            <OptionButton
+              name="Notificações"
+              action={() => navigate("Notifications")}
+              Icon={FontAwesome5}
+              iconName="bell"
+            />
+            <OptionButton
+              name="Informações"
+              action={() => navigate("Information")}
+              Icon={Entypo}
+              iconName="info-with-circle"
+            />
             {coordinator &&
-              <Option onPress={handleNewUsers}>
-                <Entypo 
-                  name="add-user" 
-                  size={40} 
-                  color={color}
-                />
-                <OptionTitle>Novos Usuários</OptionTitle>
-              </Option>
-            }
-            <Option onPress={handleLogout}>
-              <Entypo 
-                name="log-out" 
-                size={40} 
-                color={color}
+              <OptionButton
+                name="Novos Usuários"
+                action={() => navigate("NewUsers")}
+                Icon={Entypo}
+                iconName="add-user"
               />
-              <OptionTitle>Sair</OptionTitle>
-            </Option>
+            }
+            <OptionButton 
+              name="Sair"
+              action={handleLogout}
+              Icon={Entypo}
+              iconName="log-out" 
+            />
           </Options>
         </Content>
+        {/* Botão para retornar a pagina anterior */}
         <End>
           <Back />
         </End>

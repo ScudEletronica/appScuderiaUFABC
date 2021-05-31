@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 
+// Todo o conteúdo do componente
 export const Container = styled.View.attrs({
   shadowColor: "rgba(0, 0, 0, 0.2)",
   shadowOffset: {
@@ -21,6 +22,7 @@ export const Container = styled.View.attrs({
   border: 2px solid ${props => props.theme.colors.background};
 `;
 
+// Cabeçalho do componente
 export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -28,20 +30,22 @@ export const Header = styled.View`
   padding: 19px 17px;
 `
 
+// Botão para fechar o menu lateral
 export const Less = styled(RectButton)`
-  
 `;
 
+// Botão de configurações
 export const Settings = styled(RectButton)`
-  
 `;
 
+// Lista de opções
 export const Options = styled.View`
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 `
 
+// Botão que navega para o perfil de usuário
 export const Profile = styled(RectButton)`
   flex-direction: row;
   align-items: center;
@@ -49,18 +53,25 @@ export const Profile = styled(RectButton)`
   margin-bottom: 11px;
 `
 
+// Imagem de Perfil
 export const ProfileImage = styled.Image``
 
+// Nome de usuário
 export const ProfileText = styled.Text`
   font-family: Roboto;
   font-weight: 500;
   font-size: 20px;
   line-height: 23px;
   margin-left: 20px;
+  
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: flex-start;
 
   color: ${props => props.theme.colors.quaternaryText};
 `
 
+// Botão de navegação para as paginas
 export const Option = styled(RectButton)`
   flex-direction: row;
   justify-content: flex-start;
@@ -69,6 +80,7 @@ export const Option = styled(RectButton)`
   width: 170px;
 `
 
+// Texto para o botão de navegação
 export const OptionText = styled(ProfileText)`
   font-size: 18px;
   line-height: 21px;

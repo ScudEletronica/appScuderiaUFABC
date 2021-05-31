@@ -1,16 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button } from "react-native-elements";
 import { ThemeContext } from 'styled-components';
 import { StyleSheet } from 'react-native';
+import { storeJSON } from '~/utils/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { 
-  Content, Status, SubTitle, Open, Close, Request, Buttons, NotificationText, Toggle, Information, InformationTitle, InformationContent
+  Container, Status, Name, Open, Close, Request, Buttons, NotificationText, Toggle, Hour, HourTitle, HourContent
 } from './styles';
 
+import messaging from '@react-native-firebase/messaging'
+
+// Informações da oficina ou laboratório
 const Place = ({
-  name, place, isOpen, request, asked, hours, toggle, notification, coordinator, action
+  name, place, isOpen, request, asked, hours, coordinator, action
 }) => {
+  const [notification, setNotification] = useState(false); // Configuração da notificação de quando o local estiver aberto
+
   const { colors } = useContext(ThemeContext);
   const color = colors.primaryIcon;
 
@@ -29,22 +35,18 @@ const Place = ({
       marginLeft: 10,
       marginBottom: 7
     }, 
-    ask: {
+    buttonDimensions: {
       width: 110,
       height: 46,
       textAlign: 'center',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.primaryButton,
       borderRadius: 38,
     },
+    ask: {
+      backgroundColor: colors.primaryButton,
+    },
     cancel: {
-      width: 110,
-      height: 46,
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 38,
       backgroundColor: '#EB5757',
     },
     text: {
@@ -57,10 +59,39 @@ const Place = ({
     }
   })
 
+  // Carrega a configuração das notificações 
+  useEffect(() => setNotification(global.notifications[place]))
+
+  // Alterna a configuração das notificações
+  function toggleNotification() {
+    setNotification(!notification)
+
+    global.notifications[place] = !global.notifications[place]
+
+    storeJSON('notifications', global.notifications)
+    notification
+    ? messaging().unsubscribeFromTopic(place)
+    : messaging().subscribeToTopic(place)
+  }
+
+  // Seleciona o botão a ser usado
+  function buttonSelect(name, color, option, disable) {
+    return (
+      <Button
+        title={name}
+        titleStyle={styles.text}
+        containerStyle={styles.button}
+        buttonStyle={[color, styles.buttonDimensions]}
+        onPress={() => { action(place, option) }}
+        disabled={disable}
+      />
+    )
+  }
+
   return (
-    <Content>
+    <Container>
       <Status>
-        <SubTitle>{name}</SubTitle>
+        <Name>{name}</Name>
         { isOpen
           ? <Open>Aberto</Open>
           : request
@@ -70,63 +101,33 @@ const Place = ({
       </Status>
 
       <Buttons>
-      {coordinator
-        ? asked || isOpen
-          ? <Button
-              title="Fechar"
-              titleStyle={styles.text}
-              containerStyle={styles.button}
-              buttonStyle={styles.ask}
-              onPress={() => {
-                action(place, false);
-              }}
-              />
-          : <Button
-              title="Abrir"
-              titleStyle={styles.text}
-              containerStyle={styles.button}
-              buttonStyle={styles.ask}
-              onPress={() => {
-                action(place, true);
-              }}
-              disabled={isOpen}
-            />
-        : asked
-          ? <Button
-              title="Cancelar"
-              titleStyle={styles.text}
-              containerStyle={styles.button}
-              buttonStyle={styles.cancel}
-              onPress={() => {
-                action(place, false);
-              }}
-              disabled={isOpen}
-            />
-          : <Button
-              title="Pedir para abrir"
-              titleStyle={styles.text}
-              containerStyle={styles.button}
-              buttonStyle={styles.ask}
-              onPress={() => {
-                action(place, true)
-              }}
-              disabled={isOpen || request}
-            />
+        {/* Botões de controle do Status da Oficina e Laboratório */}
+        {coordinator
+          ? asked || isOpen
+            ? buttonSelect("Fechar", styles.ask, false, !isOpen)
+            : buttonSelect("Abrir", styles.ask, true, isOpen)
+          : asked
+            ? buttonSelect("Cancelar", styles.cancel, false, isOpen)
+            : buttonSelect("Pedir para abrir", styles.ask, true, isOpen || request)
         }
+
+        {/* Escolhe se irá ou não receber notificações */}
         <NotificationText>Notificar quando {name} abrir?</NotificationText>
-        <Toggle onPress={toggle}>
-          { notification
-            ? <Icon name="toggle-on" size={35} color={color}/>
-            : <Icon name="toggle-off" size={35} color={color}/>
-          }
+        <Toggle onPress={toggleNotification}>
+          <Icon 
+            name={notification ? "toggle-on" : "toggle-off"} 
+            size={35} 
+            color={color}
+          />
         </Toggle>
       </Buttons>
-
-      {/* <Information>
-        <InformationTitle>Horas:</InformationTitle>
-        <InformationContent>{hours}</InformationContent>
-      </Information> */}
-    </Content>
+      
+      {/* Exibe as horas que o usuário passou no local */}
+      {/* <Hour>
+        <HourTitle>Horas:</HourTitle>
+        <HourContent>{hours}</HourContent>
+      </Hour> */}
+    </Container>
   );
 }
 

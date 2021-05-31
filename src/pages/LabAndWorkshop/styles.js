@@ -2,12 +2,7 @@ import styled from 'styled-components/native';
 import { RectButton } from "react-native-gesture-handler";
 import { GreenTitle} from '~/styles/global';
 
-export const Content = styled.View`
-  flex: 1;
-  background: ${props => props.theme.colors.background};
-  align-items: center;
-`;
-
+// Titulo da Pagina
 export const Title = styled(GreenTitle)`
   font-size: 36px;
   line-height: 42px;
@@ -15,12 +10,35 @@ export const Title = styled(GreenTitle)`
   margin: 23px 0 28px;
 `;
 
+// Margin interna
 export const Intern = styled.View`
   align-items: flex-start;
   margin-bottom: 5px;
 `
 
-export const SubTitle = styled.Text`
+// Lista de chaves
+export const Keys = styled.View`
+  align-items: flex-start;
+  margin-top: 9px;
+  margin-right: 37px;
+`
+
+// Titulo da lista de chaves
+export const KeysTitle = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+`
+
+// Logo da lista de chaves
+export const KeysTitleLogo = styled.Image`
+  width: 44px;
+  height: 44px;
+  margin-right: 19px;
+`
+
+// Texto do Titulo da lista de Chaves
+export const KeysTitleText = styled.Text`
   font-family: Roboto;
   font-weight: bold;
   font-size: 24px;
@@ -30,13 +48,15 @@ export const SubTitle = styled.Text`
   color: ${props => props.theme.colors.tertiaryText};
 `;
 
-export const Information = styled.View`
+// Item da lista de chaves
+export const Key = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
 `
 
-export const InformationTitle = styled.Text`
+// Nome da chave
+export const KeyTitle = styled.Text`
   font-family: Roboto;
   font-weight: bold;
   font-size: 18px;
@@ -48,7 +68,8 @@ export const InformationTitle = styled.Text`
   color: ${props => props.theme.colors.tertiaryText};
 `
 
-export const InformationContent = styled.Text`
+// Local da chave
+export const KeyContent = styled.Text`
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
@@ -59,6 +80,7 @@ export const InformationContent = styled.Text`
   color: ${props => props.theme.colors.tertiaryText};
 `
 
+// Entrada de texto para alterar o local das chaves
 export const InputKey = styled.TextInput`
   font-family: Roboto;
   font-style: normal;
@@ -70,19 +92,8 @@ export const InputKey = styled.TextInput`
   color: ${props => props.theme.colors.tertiaryText};
 `
 
-export const Keys = styled.View`
-  align-items: flex-start;
-  margin-top: 9px;
-  margin-right: 37px;
-`
-
-export const KeyTitle = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 12px;
-`
-
-export const Create = styled(RectButton)`
+// Botão para atualizar o local das chaves
+export const Update = styled(RectButton)`
   background: #4F81BC;
   width: 215px;
   height: 44px;
@@ -95,7 +106,8 @@ export const Create = styled(RectButton)`
   align-self: flex-end;
 `;
 
-export const CreateText = styled.Text`
+// Texto do botão de atualizar
+export const UpdateText = styled.Text`
   font-family: Roboto;
   font-weight: bold;
   font-size: 20px;
@@ -103,9 +115,3 @@ export const CreateText = styled.Text`
 
   color: ${props => props.theme.colors.buttonText};
 `;
-
-export const Key = styled.Image`
-  width: 44px;
-  height: 44px;
-  margin-right: 19px;
-`

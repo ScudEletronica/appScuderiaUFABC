@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { GreenTitle, Button, ButtonText } from "~/styles/global";
 
+// Titulo da Pagina
 export const Title = styled(GreenTitle)`
   font-size: 36px;
   line-height: 42px;
@@ -8,11 +9,13 @@ export const Title = styled(GreenTitle)`
   margin-top: 17px;
 `
 
+// Botões
 export const Buttons = styled.View`
   flex-direction: row;
   margin-bottom: 46px;
 `
 
+// Botão ativado indicando a página atual
 export const Select = styled(Button)`
   width: 78px;
   height: 29px;
@@ -22,26 +25,32 @@ export const Select = styled(Button)`
   margin: 0 7px; 
 `
 
+// Texto do botão ativado
 export const SelectText = styled(ButtonText)`
   font-size: 12px;
   line-height: 14px;
 `
 
+// Botão desativado indicando as opções de páginas
 export const NotSelect = styled(Select)`
   background: ${props => props.theme.colors.tertiaryButton}; 
 `
 
+// Texto do botão desativado
 export const NotSelectText = styled(SelectText)`
   color: ${props => props.theme.colors.quaternaryText};
 `
 
+// Lista de medidores
 export const Meters = styled.View`
 `
 
+// Linha com medidores
 export const MetersLine = styled.View`
   flex-direction: row;
 `
 
+// Informações do medidor
 export const Meter = styled.FlatList`
   width: 147px;
   height: 97px;
@@ -52,6 +61,7 @@ export const Meter = styled.FlatList`
   padding: 8px;
 `
 
+// Nome do medidor
 export const MeterName = styled.Text`
   font-family: Roboto;
   font-weight: bold;
@@ -63,6 +73,7 @@ export const MeterName = styled.Text`
   color: ${props => props.theme.colors.buttonText};
 `
 
+// Valor do medidor
 export const MeterValue = styled.Text`
   font-family: Roboto;
   font-weight: bold;

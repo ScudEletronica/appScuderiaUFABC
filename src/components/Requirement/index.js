@@ -6,32 +6,27 @@ import {
   Container, Information, InformationTitle, InformationText, Value, ValueTitle, ValueText, Buttons,  Accept, Cancel, CancelText
 } from './styles';
 
+// Item da lista de requisições
 const Requirement = ({
   requirement, pending, nothing, allowed, action
 }) => {
   const { navigate } = useNavigation()
 
+  // Navega para página de reviews
   function handleReview() {
     navigate('Review', {requirement, edit: true})
   }
 
+  // Aceita a requisição
   function handleAccept() {
     action(requirement.id, true)
   }
 
+  // Rejeita a requisição
   function handleDelete() {
     action(requirement.id, false)
   }
 
-  if (nothing) {
-    return (
-      <Container style={styles.container}>
-        <Information>
-          <InformationTitle>Nenhuma Requisição</InformationTitle>
-        </Information>
-      </Container>
-    )
-  } 
   return (
     <>
       <Container 
@@ -44,6 +39,7 @@ const Requirement = ({
         }}
         onPress={handleReview}
       >
+        {/* Informações da Requisição */}
         <Information>
           <InformationTitle>Produto:</InformationTitle>
           <InformationText>{requirement.product}</InformationText>
@@ -57,6 +53,7 @@ const Requirement = ({
           <ValueText>R$ {requirement.value.toFixed(2)}</ValueText>
         </Value>
       </Container>
+      {/* Botões para aceitar ou recusar uma requisição */}
       <Buttons>
       {allowed && 
         <Accept 

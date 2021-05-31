@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ThemeContext } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons'
-import Icon2 from 'react-native-vector-icons/AntDesign'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import database from '@react-native-firebase/database'
 
 import { 
@@ -21,59 +21,53 @@ import Warning from '~/components/Warning';
 
 const reference = database().ref(); 
 
+// Requisições realizadas
 const MyRequirements = ({ navigation, route }) => {
-  const [pendingRequirements, setPendingRequirements] = useState([])
-  const [acceptRequirements, setAcceptRequirements] = useState([])
-  const [admin, setAdmin] = useState(false);
-  const [manager, setManager] = useState(false);
-  const [id, setID] = useState('')
-  const [overlayText, setOverlayText] = useState('')
-  const [visible, setVisible] = useState(false);
-  const [confirm, setConfirm] = useState(false);
+  const [pendingRequirements, setPendingRequirements] = useState([]) // Armazena as requisições pendentes
+  const [acceptRequirements, setAcceptRequirements] = useState([]) // Armazena as requisições aceitas
+  const [admin, setAdmin] = useState(false); // Verifica se o usuário é da Administração
+  const [manager, setManager] = useState(false); // Verifica se o usuário é da Gestão
+  const [id, setID] = useState('') // Id da requisição selecionada
+  const [overlayText, setOverlayText] = useState('') // Define a mensagem do aviso
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
+  const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
   const { colors } = useContext(ThemeContext);
 
   const { user, field, name } = route.params;
 
-  function isAllowed(newField, field, set) {
-    const answer = newField == field ? true : false;
-    set(answer)
-  }
-
+  // Determina os valores de admin e manager
   useEffect(() => {
-    isAllowed(field, "Administração", setAdmin)
-    isAllowed(field, "Gerência", setManager)
-  })
+    setAdmin(field === "Administração")
+    setManager(field === "Gerência")
+  }, [field])
 
+  // Carrega as requisições
   useFocusEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
       var pending = [];
       var accept = [];
       const requirements = snapshot.child('Requirements').val()
-
-      if(manager == true) {
-        if(requirements){
+      
+      if(requirements) {
+        if(manager) {
           Object.values(requirements).forEach(element => {
             element.acceptManager
             ? accept.push(element)
             : pending.push(element)
           });
-        }
-      } else if(admin == true) {
-        if(requirements){
+        } else if(admin) {
           Object.values(requirements).forEach(element => {
             if(element.acceptAdmin) accept.push(element)
             else if(element.acceptManager) pending.push(element)
           });
-        }
-      } else {
-        if(requirements) {
-          Object.values(requirements).forEach(element => {
-            
+        } else {
+          Object.values(requirements).forEach(element => {  
             if (element.name == name) {
               element.acceptAdmin
               ? accept.push(element)
               : pending.push(element)
+              return
             }
           });
         }
@@ -86,6 +80,7 @@ const MyRequirements = ({ navigation, route }) => {
     return () => reference.off('value', onChangeValue)
   }, [reference])
   
+  // Navega para pagina de criação de requisições
   function handleCreateNewRequirement() {
     navigation.navigate('NewRequirement', {
       requirement: {
@@ -101,31 +96,37 @@ const MyRequirements = ({ navigation, route }) => {
     })
   }
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
 
+  // Define a mensagem do aviso, o local e o tipo de ação quando o aviso receber confirmação
   function handleAction(id, action) {
     setID(id);
     setConfirm(action)
+
     action
     ? setOverlayText("Tem certeza de que quer aceitar essa requisição?")
     : setOverlayText("Tem certeza de que quer cancelar essa requisição?")
     toggleOverlay();
   }
 
+  // Escolhe a ação conforme o valor de confirm
   function handleConfirmOverlay() {
     confirm
     ? handleAccept()
     : handleDelete()
   }
   
+  // Remove uma requisição
   function handleDelete() {
     reference.child(`Requirements/${id}`).remove();
     
     toggleOverlay();
   }
   
+  // Aceita uma requisição
   function handleAccept() {
     manager
     ? reference.child(`Requirements/${id}`).update({acceptManager: true})
@@ -162,48 +163,47 @@ const MyRequirements = ({ navigation, route }) => {
           <Title>MINHAS REQUISIÇÕES</Title>
           <Menu>
             <MenuHeader>
-              <Icon name="hourglass-outline" size={28} color={colors.primaryIcon}/>
+              <Ionicons name="hourglass-outline" size={28} color={colors.primaryIcon}/>
               <MenuTitle>Pendentes</MenuTitle>
             </MenuHeader>
-            {pendingRequirements == []
-            ? <Requirement nothing/>
-            : pendingRequirements.map(pending => {
-                return (
-                  <Requirement 
-                    key={pending.id}
-                    requirement={pending}
-                    pending
-                    allowed={manager || admin}
-                    action={handleAction}
-                  />
-                  )
+            {pendingRequirements.map(pending => {
+              return (
+                <Requirement 
+                  key={pending.id}
+                  requirement={pending}
+                  pending
+                  allowed={manager || admin}
+                  action={handleAction}
+                />
+              )
             })}
           </Menu>
 
           <Menu>
             <MenuHeader>
-              <Icon2 name="checkcircle" size={28} color="#0f0"/>
+              <AntDesign name="checkcircle" size={28} color="#0f0"/>
               <MenuTitle>Aceitas</MenuTitle>
             </MenuHeader>
-            {acceptRequirements == []
-            ? <Requirement nothing/>
-            : acceptRequirements.map(accept => {
-                return (
-                  <Requirement 
-                    key={accept.id}
-                    requirement={accept}
-                  />
-                )
+            {acceptRequirements.map(accept => {
+              return (
+                <Requirement 
+                  key={accept.id}
+                  requirement={accept}
+                />
+              )
             })}
           </Menu>
         </Content>
+
+        {/* Fim da Página */}
         <End>
+          {/* Botão para criação de nova requisição */}
           {!(manager || admin) &&
             <New 
               style={styles.button} 
               onPress={handleCreateNewRequirement}
             >
-              <Icon2 name="plus" size={16}/>
+              <AntDesign name="plus" size={16}/>
               <NewText>Adicionar Requisição</NewText>
             </New>
           }

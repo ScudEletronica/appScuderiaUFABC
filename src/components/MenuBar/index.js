@@ -15,22 +15,34 @@ import {
   Container, Header, Less, Settings, Profile, ProfileImage, ProfileText, Options,  Option, OptionText
 } from './styles';
 
-
+// Menu Lateral
 const MenuBar = ({props, user}) => {  
   const [picture, setPicture] = useState('');
   
   const { colors } = useContext(ThemeContext);
   
-  const reference = database().ref(`Profile/${user}`)
   const color = colors.secondaryIcon
 
-  useFocusEffect(() => {
-    setPicture('../../../assets/Profile.png');
-  })
+  // useFocusEffect(() => {
+  //   setPicture('../../../assets/Profile.png');
+  // })
+
+  // Modelo para botão de navegação para um local
+  function OptionButton({name, route, Icon, iconName}) {
+    return (
+      <Option
+        onPress={() => props.navigation.navigate(route)}
+      >
+        <Icon name={iconName} size={29} color={color}/>
+        <OptionText>{name}</OptionText>
+      </Option>
+    )
+  }
 
   return (
     <Container>
       <DrawerContentScrollView>
+        {/* Cabeçalho */}
         <Header>
           <Less onPress={props.navigation.closeDrawer}>
             <MaterialIcons name="more-vert" size={20} color={color}/>
@@ -39,7 +51,10 @@ const MenuBar = ({props, user}) => {
             <Ionicons name="settings-outline" size={20} color={color}/>
           </Settings>
         </Header>
+
+        {/* Botões de navegação */}
         <Options>
+          {/* Perfil do usuário */}
           <Profile
             onPress={() => props.navigation.navigate('Profile')}
           >
@@ -51,51 +66,47 @@ const MenuBar = ({props, user}) => {
             <ProfileText>{user}</ProfileText>
           </Profile>
         
-          <Option
-            onPress={() => props.navigation.navigate('Main')}
-          >
-            <MaterialIcons name="home" size={29} color={color}/>
-            <OptionText>Home</OptionText>
-          </Option>
+          <OptionButton 
+            name="Home" 
+            route='Main' 
+            Icon={MaterialIcons} 
+            iconName="home" 
+          />
 
-          <Option
-            onPress={() => props.navigation.navigate('About')}
-          >
-            <Entypo name="info-with-circle" size={29} color={color}/>
-            <OptionText>Sobre</OptionText>
-          </Option>
+          <OptionButton 
+            name="Sobre" 
+            route='About' 
+            Icon={Entypo} 
+            iconName="info-with-circle" 
+          />
 
-          <Option 
-            onPress={() => props.navigation.navigate('Messages')}
-          >
-            <MaterialCommunityIcons 
-              name="newspaper-variant-outline" 
-              size={29} 
-              color={color}
-            />
-            <OptionText>Recados</OptionText>
-          </Option>
-        
-          <Option 
-            onPress={() => props.navigation.navigate('LabAndWorkshop')}
-          >
-            <Fontisto name="laboratory" size={29} color={color}/>
-            <OptionText>Lab/Oficina</OptionText>
-          </Option>
-        
-          <Option 
-            onPress={() => props.navigation.navigate('Telemetry')}
-          >
-            <AntDesign name="dashboard" size={29} color={color}/>
-            <OptionText>Telemetria</OptionText>
-          </Option>
-        
-          <Option 
-            onPress={() => props.navigation.navigate('MyRequirements')}
-          >
-            <MaterialIcons name="shopping-cart" size={29} color={color}/>
-            <OptionText>Requisição</OptionText>
-          </Option>
+          <OptionButton 
+            name="Recados" 
+            route='Messages' 
+            Icon={MaterialCommunityIcons} 
+            iconName="newspaper-variant-outline" 
+          />
+          
+          <OptionButton 
+            name="Lab/Oficina" 
+            route='LabAndWorkshop' 
+            Icon={Fontisto} 
+            iconName="laboratory" 
+          />
+          
+          <OptionButton 
+            name="Telemetria" 
+            route='Telemetry' 
+            Icon={AntDesign} 
+            iconName="dashboard" 
+          />
+
+          <OptionButton 
+            name="Requisição" 
+            route='MyRequirements' 
+            Icon={MaterialIcons} 
+            iconName="shopping-cart" 
+          />
         </Options>
       </DrawerContentScrollView>
     </Container>

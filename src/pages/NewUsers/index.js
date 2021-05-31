@@ -19,14 +19,15 @@ import NewUser from '~/components/NewUser';
 
 const reference = database().ref(); 
 
+// Novos Usuários
 const NewUsers = ({}) => {
-  const [newUsers, setNewUsers] = useState({})
-  const [id, setID] = useState('')
-  const [overlayText, setOverlayText] = useState('')
-  const [visible, setVisible] = useState(false);
-  const [confirm, setConfirm] = useState(false);
-  const [amount, setAmount] = useState(0);
+  const [newUsers, setNewUsers] = useState({}) // Lista de novos usuários
+  const [id, setID] = useState('') // Id do usuário
+  const [overlayText, setOverlayText] = useState('') // Define a mensagem do aviso
+  const [visible, setVisible] = useState(false); // Visibilidade do aviso
+  const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
+  // Carrega os novos usuários da Firebase
   useFocusEffect(() => {
     const onChangeValue = reference.on('value', snapshot => {
       setNewUsers(snapshot.child("NewUsers").val())
@@ -35,10 +36,12 @@ const NewUsers = ({}) => {
     return () => reference.off('value', onChangeValue)
   }, [reference])
 
+  // Alterna a visibilidade do Aviso
   function toggleOverlay() {
     setVisible(!visible);
   }
-
+  
+  // Define a mensagem do aviso, o local e o tipo de ação quando o aviso receber confirmação
   function handleAction(id, action) {
     setID(id);
     setConfirm(action)
@@ -48,18 +51,21 @@ const NewUsers = ({}) => {
     toggleOverlay();
   }
 
+  // Escolhe uma ação conforme o valor de confirm
   function handleConfirmOverlay() {
     confirm
     ? handleAccept()
     : handleDelete()
   }
   
+  // Remove o usuário da lista de novos usuários
   async function handleDelete() {
     await reference.child(`NewUsers/${id}`).remove();
     
     toggleOverlay();
   }
 
+  // Manda um email para o usuário aceito
   async function sendEmail(to) {
     let url = `mailto:${to}`;
   
@@ -83,6 +89,7 @@ const NewUsers = ({}) => {
     return Linking.openURL(url);
   }
   
+  // Aceita o usuário
   async function handleAccept() {
     await reference.once('value')
     .then(snapshot => { 
@@ -97,7 +104,7 @@ const NewUsers = ({}) => {
         user: newUser.user,
         workshophours: 0
       })
-      if (snapshot.child(`Profile/${id}`)) {
+      if (snapshot.child(`Profile/${newUser.user}`)) {
         try {
           sendEmail(newUser.email)
         } catch (error) {
@@ -120,6 +127,7 @@ const NewUsers = ({}) => {
       <Scroll>
         <Content>
           <Title>Novos Usuários</Title>
+          {/* Lista de todos os novos usuários */}
           <Menu>
             {newUsers && Object.values(newUsers).map(user => {
               return (
@@ -132,6 +140,8 @@ const NewUsers = ({}) => {
             })}
           </Menu>
         </Content>
+
+        {/* Fim da Página */}
         <End>
           <Back />
         </End>

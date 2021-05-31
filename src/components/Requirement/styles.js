@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 
+// Todo o conteúdo do componente
 export const Container = styled(RectButton)`
   width: 331px;
   height: 90px;
@@ -13,10 +14,12 @@ export const Container = styled(RectButton)`
   background: ${props => props.theme.colors.fill};
 `;
 
+// Informação
 export const Information = styled.View`
   flex-direction: row;
 `;
 
+// Titulo da informação
 export const InformationTitle = styled.Text`
   font-family: Roboto;
   font-style: normal;
@@ -28,6 +31,7 @@ export const InformationTitle = styled.Text`
   color: ${props => props.theme.colors.primaryText};
 `;
 
+// Valor da informação
 export const InformationText = styled(InformationTitle)`
   font-weight: normal;
 `;

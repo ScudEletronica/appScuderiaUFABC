@@ -1,54 +1,59 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { 
-  Container, Information, InformationTitle, InformationText, Value, ValueTitle, ValueText, Buttons,  Accept, Cancel, CancelText
+  Container, Information, InformationTitle, InformationText, Buttons,  Accept, Cancel, ButtonText
 } from './styles';
 
+// Item da lista de novos usuários
 const NewUser = ({user, action}) => {
+  // Aceita o usuário
   function handleAccept() {
     action(user.id, true)
   }
 
+  // Rejeita o usuário
   function handleDelete() {
     action(user.id, false)
+  }
+
+  // Modelo de apresentação de informação
+  function InformationTemplate({name, value}) {
+    return (
+      <Information>
+        <InformationTitle>{name}:</InformationTitle>
+        <InformationText>{value}</InformationText>
+      </Information>
+    )
   }
 
   return (
     <>
       <Container style={styles.container}>
+        {/* Informações do usuário */}
+        <InformationTemplate name="Nome" value={user.name} />
+        <InformationTemplate name="Email" value={user.email} />
+        <InformationTemplate name="Área" value={user.field} />
         <Information>
-          <InformationTitle>Nome:</InformationTitle>
-          <InformationText>{user.name}</InformationText>
-        </Information>
-        <Information>
-          <InformationTitle>Email:</InformationTitle>
-          <InformationText>{user.email}</InformationText>
-        </Information>
-        <Information>
-          <InformationTitle>Área:</InformationTitle>
-          <InformationText>{user.field}</InformationText>
-        </Information>
-        <Information>
-          {user.coordinator
-            ? <InformationTitle>É coordenador</InformationTitle>
-            : <InformationTitle>Não é coordenador</InformationTitle>
-          }         
+          <InformationTitle>
+            {user.coordinator ? "É coordenador" : "Não é coordenador"}
+          </InformationTitle>
         </Information>
       </Container>
+
+      {/* Botões para aceitar e Rejeitar um usuário */}
       <Buttons>
         <Accept 
           onPress={handleAccept}
           style={styles.button}
         >
-        <CancelText>Aceitar</CancelText>
+          <ButtonText>Aceitar</ButtonText>
         </Accept>
         <Cancel 
           onPress={handleDelete}
           style={styles.button}
         >
-          <CancelText>Cancelar</CancelText>
+          <ButtonText>Cancelar</ButtonText>
         </Cancel>
       </Buttons>
     </>
@@ -56,6 +61,7 @@ const NewUser = ({user, action}) => {
 }
 
 const styles = StyleSheet.create({
+  // Sombra do container
   container: {
     shadowColor: "rgba(0, 0, 0, 0.18)",
     shadowOffset: { width: 0, height: 2 },
@@ -63,6 +69,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     elevation: 6,
   },
+  // Sombra dos botões
   button: {
     shadowColor: "rgba(0, 0, 0, 0.2)",
     shadowOffset: { width: 0, height: 2 },

@@ -9,87 +9,78 @@ import dark from '~/styles/themes/dark'
 
 import AppStack from '~/routes/AppStack';
 
-import database from '@react-native-firebase/database'
 import messaging from '@react-native-firebase/messaging'
 import AsyncStorage from '@react-native-community/async-storage';
 import notifee from '@notifee/react-native';
 
-const reference = database().ref();
-
+// Primeiro arquivo carregado pelo aparelho
 const App = () => {
-  const [theme, setTheme] = useState(light);
-  const [messages, setMessages] = useState(0);
-  const [status, setStatus] = useState({
-    Lab: false, Workshop: false, labRequest: false, workshopRequest: false, pendingRequirements: 0
-  });
-  const [profile, setProfile] = useState({
-    acceptRequirements: 0, user: ''
-  })
-  const [user, setUser] = useState('')
+  const [theme, setTheme] = useState(light); // Variável que determina o tema usado no momento
 
+  // Mostra as notificações quando elas chegarem
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(onMessageReceived)
+    // Mostra o token. É usado para fazer destes de notificação usando Firebase
+    messaging().getToken().then(
+      currentToken => console.log('Token: ', currentToken)
+    )
+
+    return unsubscribe;
+  });
+
+  // Função para apresentar Notificações
   async function onMessageReceived(message) {
-    const channelId = await notifee.createChannel({
+    // Cria um canal
+    const channelId = await  notifee.createChannel({
       id: 'default',
       name: 'Default Channel',
     });
-  
-    const notificationId = await notifee.displayNotification({
+    
+    // Mostra a notificação usando os dados vindo da Firebase
+    await notifee.displayNotification({
       id: message.messageId,
       title: message.notification.title,
       body: message.notification.body,
       android: {
         channelId,
+        smallIcon: 'icon_round'
       },
     });
   }
 
+  // Carregar dados salvos na memória do aparelho
   useEffect(() => {
     getData();
   }, [])
 
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(onMessageReceived);
-
-    return unsubscribe;
-  }, []);
-
-
-  useEffect(() => {
-    const onChangeValue = reference.on('value', snapshot => {
-      setStatus(snapshot.child('Status').val())
-      const newProfile = snapshot.child(`Profile/${global.user}`).val()
-      if (newProfile) {
-        setProfile(newProfile)
-      }
-    })
-
-    return () => reference.off('value', onChangeValue)
-  }, [reference])
-
+  // Função para carregar os dados salvos na memória do aparelho
   const getData = async () => {
     var archived;
+    // Carrega o tema da memoria do aparelho
     archived = await AsyncStorage.getItem('theme')
     if(archived) setTheme(JSON.parse(archived));
     
-    archived = await AsyncStorage.getItem('coordinator')
-    if(archived) global.coordinator = JSON.parse(archived);
-    
+    // Carrega as configurações de notificações da memoria do aparelho
     archived = await AsyncStorage.getItem('notifications')
     if(archived) global.notifications = JSON.parse(archived);
   }
 
+  // Seleciona o tema claro
   const handleStartLightMode = () => {
     storeJSON('theme', light)
     setTheme(light)
   }
-
+  
+  // Seleciona o tema escuro
   const handleStartDarkMode = () => {
     storeJSON('theme', dark)
     setTheme(dark)
   }
 
   return (
+    // Define o tema do aplicativo
     <ThemeProvider theme={theme}>
+      {/* Inicia as rotas */}
       <AppStack 
         lightMode={handleStartLightMode} 
         darkMode={handleStartDarkMode} 

@@ -1,82 +1,105 @@
 import React, { useContext, useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import { storeJSON, storeString } from "~/utils/store";
 import AsyncStorage from '@react-native-community/async-storage';
 import database from '@react-native-firebase/database';
 import messaging from '@react-native-firebase/messaging';
 
-import { storeJSON, storeString } from "~/utils/store";
-
 import { 
-  Container, Fundo, Logo, Fundo1, Fundo2, Form, Title, Subtitle, Input, LoginBotao, LoginImage, Warning
+  Container, Background, Logo, Background1, Background2, Form, Title, Subtitle, Input, LoginBotao, LoginImage, Warning
 } from './styles';
 
 import { Scroll } from "~/styles/global"; 
 
 const reference = database().ref('Profile');
 
+// Pagina de Login
 export default function Login() {
-  const [user, setUser] = useState('');
-  const [ra, setRA] = useState('');
-  const [raFirebase, setRaFirebase] = useState('');
-  const [wrong, setWrong] = useState(false);
-  const [coordinator, setCoordinator] = useState(false);
-  const [submit, setSubmit] = useState(false);
-  const [nothing, setNothing] = useState(false);
+  const [user, setUser] = useState(''); // Variável que armazena o Nome de usuário digitado
+  const [ra, setRA] = useState(''); // Variável que armazena o RA digitado
+  const [raFirebase, setRaFirebase] = useState(''); // Variável que armazena o RA carregado da Firebase a partir do Usuário
+  const [wrong, setWrong] = useState(false); // Variável que determina se o login está correto ou não
+  const [submit, setSubmit] = useState(false); // Variável que determina a tentativa de login
+  const [nothing, setNothing] = useState(false); // Variável que determina se todos os campos foram digitados
 
-  const { navigate } = useNavigation();
-  const { images } = useContext(ThemeContext);
+  const { navigate } = useNavigation(); // Função de navegação entre rotas
+  const { images } = useContext(ThemeContext); // Imagens usadas pelos temas
 
-  function Login(user, ra) {
-    var field, coordinator, name
-    reference.child(user).on("value", snapshot => {
-      coordinator = snapshot.child('coordinator').val()
-      name = snapshot.child('name').val()
-
-      global.coordinator = snapshot.child('coordinator').val()
-      global.coordinator
-      ? messaging().subscribeToTopic("Request")
-      : messaging().unsubscribeFromTopic("Request")
-
-      field = snapshot.child('field').val() 
-      field == 'Administração' || field == "Gerência"
-      ? messaging().subscribeToTopic("Requirement")
-      : messaging().unsubscribeFromTopic("Requirement")
-      navigate("Drawer", {
-        user, ra, field, coordinator, name
-      })
+  // Executa o Login
+  function Login(
+    user, ra, field, coordinator, name
+  ) {
+    // Determina se esse usuário irá receber as notificações de 
+    // requisições para abrir o lab ou oficina
+    coordinator
+    ? messaging().subscribeToTopic("Request") 
+    : messaging().unsubscribeFromTopic("Request")
+    
+    // Determina se esse usuário irá receber as notificações de 
+    // novas requisições
+    field == 'Administração' || field == "Gerência"
+    ? messaging().subscribeToTopic("Requirement")
+    : messaging().unsubscribeFromTopic("Requirement")
+    
+    // Navega para a rota com o menu Lateral
+    navigate("Drawer", {
+      user, ra, field, coordinator, name
     })
   }
-
+  
+  // Carrega dados de Login da memória do aparelho.
+  // Dessa forma o usuário não precisa fazer login 
+  // toda vez que entrar no aplicativo
   const getData = async () => {
     const user = await AsyncStorage.getItem('user');
     const ra = await AsyncStorage.getItem('ra');
     
-    if(user && ra) Login(user, ra)
+    if(user && ra) {
+      const field = await AsyncStorage.getItem('field');
+      var coordinator = await AsyncStorage.getItem('coordinator')
+      if (coordinator) coordinator = JSON.parse(coordinator)
+      
+      const name = await AsyncStorage.getItem('name');
+      
+      if(field && coordinator && name) Login(user, ra, field, coordinator, name)
+      else storeData()
+    }
   }
-
+  
+  // Armazena dados de login na memória do aparelho
   const storeData = async () => {
-    storeString('user', user)
-    storeString('ra', ra)
-    storeJSON('coordinator', coordinator)
+    await storeString('user', user)
+    await storeString('ra', ra)
+    
+    reference.child(user).once("value").then(async snapshot => {
+      const coordinator = snapshot.child('coordinator').val()
+      await storeJSON('coordinator', coordinator)
+      
+      const field = snapshot.child('field').val()
+      await storeString('field', field)
 
-    global.coordinator = coordinator;
-    Login(user, ra)
+      const name = snapshot.child('name').val()
+      await storeString('name', name)
+
+      Login(user, ra, field, coordinator, name)
+    })
   }
-
+  
+  // Controla a tentativa de login
   function handleSubmit() {
     reference.child(user).on("value", async snapshot => {
       setRaFirebase(snapshot.child('ra').val());
-      setCoordinator(snapshot.child('coordinator').val())
     })
-
+    
     setNothing(false)
     setWrong(false)
     
     ra != ''
     ? setSubmit(!submit) : setNothing(true)
   }
-
+  
+  // Verifica se o login é valido
   useEffect(() => {
     if (!nothing && ra != '') {
       if(ra == raFirebase) {
@@ -89,33 +112,38 @@ export default function Login() {
       }
     }
   }, [submit, raFirebase])
-
+  
+  // Carrega dados de login da memória
   getData()
-
+  
   return (
     <Scroll>
       <Container>
-        <Fundo>
-          <Fundo2 source={require('./../../assets/Fundo2.png')} />
-          <Fundo1 source={require('./../../assets/Fundo1.png')} />
+        <Background>
+          <Background2 source={require('./../../assets/Fundo2.png')} />
+          <Background1 source={require('./../../assets/Fundo1.png')} />
           <Logo source={images.capacete} />
-        </Fundo>
+        </Background>
         <Form>
             <Title>Bem-Vindo!</Title>
             <Subtitle>Efetue seu login a seguir:</Subtitle>
+          {/* Campo para inserir o Usuário */}
           <Input 
             value={user}
             onChangeText={text => setUser(text)}
             placeholder="Insira seu Nome" 
             placeholderTextColor={"#969696"}
-          />
+            />
+          {/* Campo para inserir o RA */}
           <Input 
             value={ra}
             onChangeText={text => setRA(text)}
             placeholder="Insira seu RA" 
             placeholderTextColor={"#969696"} 
           />
+          {/* Mensagem de erro caso o login não seja válido */}
           {wrong && <Warning>Usuário ou senha incorretos</Warning>}
+          {/* Mensagem de erro caso não seja inserido os dados necessários */}
           {nothing && <Warning>Digite Usuário e senha</Warning>}
           <LoginBotao onPress={handleSubmit}>
             <LoginImage source={images.login} />
