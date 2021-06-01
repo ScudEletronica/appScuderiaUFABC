@@ -13,7 +13,7 @@ jobs:
 
       - name: Get Upload Key
         working-directory: ./android/app
-        run: echo ${{ secrets.UPLOAD_KEY }} | base64 -d >> upload-key.keystore
+        run: echo ${{ secrets.UPLOAD_KEY }} | base64 -d >> my-upload-key.keystore
 
       - name: Get Service Account Config
         working-directory: ./android
