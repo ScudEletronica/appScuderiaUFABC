@@ -71,5 +71,6 @@ buck-out/
 
 ### Google Play Store ###
 api.json
+google-services.json
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
