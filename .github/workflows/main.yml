@@ -24,8 +24,9 @@ jobs:
 
       - name: OPTIONAL Jetify
         run: npx jetify
+        
       - name: Compile and Upload
-        uses: maierj/fastlane-action@v1.4.0
+        uses: maierj/fastlane-action@v2.184.1
         with:
           lane: "deploy_alpha"
           subdirectory: "android"
