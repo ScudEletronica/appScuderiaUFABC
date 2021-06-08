@@ -19,7 +19,7 @@ platform :android do
   desc "Deploy a new version to the Google Play - Alpha"
   lane :deploy_alpha do
     gradle(task: "clean bundleRelease -PMYAPP_UPLOAD_STORE_PASSWORD=#{ENV['MYAPP_UPLOAD_STORE_PASSWORD']} -PMYAPP_UPLOAD_KEY_PASSWORD=#{ENV['MYAPP_UPLOAD_KEY_PASSWORD']}")
-    upload_to_play_store(track: 'alpha')
+    upload_to_play_store(track: 'internal')
   end
 end
 
