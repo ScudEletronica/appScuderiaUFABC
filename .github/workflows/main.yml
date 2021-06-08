@@ -25,6 +25,9 @@ jobs:
       - name: OPTIONAL Jetify
         run: npx jetify
         
+      - name: Update
+        run: gem update --system
+        
       - name: Compile and Upload
         uses: maierj/fastlane-action@v2.0.0
         with:
