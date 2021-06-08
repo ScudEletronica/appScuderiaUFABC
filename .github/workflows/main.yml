@@ -25,8 +25,11 @@ jobs:
       - name: OPTIONAL Jetify
         run: npx jetify
         
+      - name: Update
+        run: export GEM_HOME="$HOME/.gem" && gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
+        
       - name: Compile and Upload
-        uses: maierj/fastlane-action@v2.184.1
+        uses: maierj/fastlane-action@v2.0.0
         with:
           lane: "deploy_alpha"
           subdirectory: "android"
