@@ -69,6 +69,14 @@ buck-out/
 # Ignore all local history of files
 .history
 
+### Firebase ###
+.idea
+.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
 ### Google Play Store ###
 api.json
 google-services.json
