@@ -131,20 +131,6 @@ const MyRequirements = ({ navigation, route }) => {
     manager
     ? reference.child(`Requirements/${id}`).update({acceptManager: true})
     : reference.child(`Requirements/${id}`).update({acceptAdmin: true})
-    
-    // reference.once('value')
-    // .then(snapshot => { 
-    //   const requirement = snapshot.child(`Requirements/${id}`).val()
-    //   Object.values(snapshot.child('Profile').val())
-    //     .forEach(element => {
-    //       if (element.name == requirement.name) {
-    //         reference.child(`Profile/${element.user}`)
-    //           .update({
-    //             acceptRequirements: element.acceptRequirements + 1
-    //           });
-    //       }
-    //     });
-    // })
 
     toggleOverlay();
   }

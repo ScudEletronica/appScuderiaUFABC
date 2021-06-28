@@ -15,7 +15,7 @@ import Avatar from '~/assets/Picture.png'
 import Warning from '~/components/Warning';
 import PlaceMin from '~/components/PlaceMin';
 
-const Source = "TestStatus"
+const Source = "Status"
 
 const reference = database().ref();
 

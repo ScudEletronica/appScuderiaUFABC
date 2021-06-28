@@ -14,7 +14,7 @@ import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 import Place from '~/components/Place';
 
-const Status = "TestStatus"
+const Status = "Status"
 
 const reference = database().ref();
 
