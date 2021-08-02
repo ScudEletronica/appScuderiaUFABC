@@ -28,16 +28,14 @@ const MenuBar = ({props, user}) => {
   // })
 
   // Modelo para botão de navegação para um local
-  function OptionButton({name, route, Icon, iconName}) {
-    return (
-      <Option
-        onPress={() => props.navigation.navigate(route)}
-      >
-        <Icon name={iconName} size={29} color={color}/>
-        <OptionText>{name}</OptionText>
-      </Option>
-    )
-  }
+  const OptionButton = ({name, route, Icon, iconName}) => (
+    <Option
+      onPress={() => props.navigation.navigate(route)}
+    >
+      <Icon name={iconName} size={29} color={color}/>
+      <OptionText>{name}</OptionText>
+    </Option>
+  )
 
   return (
     <Container>

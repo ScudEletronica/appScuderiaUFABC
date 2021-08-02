@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import database from '@react-native-firebase/database';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -32,7 +32,7 @@ const Main = ({ route }) => {
   const { ra, name, coordinator } = route.params; // Dados do usuário
 
   // Carrega os valores da firebase
-  useFocusEffect(() => {
+  useEffect(() => {
     const onValueChange = reference.on('value', snapshot => {
       setStatus(snapshot.child(Source).val())
       setMessages(snapshot.child('Messages').val())
@@ -101,17 +101,15 @@ const Main = ({ route }) => {
           {/* Mostra todos os recados, porém apenas parte delas */}
           <Messages>
             <MessagesTitle>RECADOS</MessagesTitle>
-            {Object.values(messages).map(message => {
-              return (
-                <Message 
-                  key={message.id}
-                  message={message}
-                  coordinator={coordinator}
-                  toggleOverlay={toggleOverlay}
-                  handleID={handleID}
-                />
-              )
-            })}
+            {Object.values(messages).map(message => (
+              <Message 
+                key={message.id}
+                message={message}
+                coordinator={coordinator}
+                toggleOverlay={toggleOverlay}
+                handleID={handleID}
+              />
+            ))}
           </Messages>
         </Content>
       </Scroll>

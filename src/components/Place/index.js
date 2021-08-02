@@ -75,18 +75,16 @@ const Place = ({
   }
 
   // Seleciona o botão a ser usado
-  function buttonSelect(name, color, option, disable) {
-    return (
-      <Button
-        title={name}
-        titleStyle={styles.text}
-        containerStyle={styles.button}
-        buttonStyle={[color, styles.buttonDimensions]}
-        onPress={() => { action(place, option) }}
-        disabled={disable}
-      />
-    )
-  }
+  const buttonSelect = (name, color, option, disable) => (
+    <Button
+      title={name}
+      titleStyle={styles.text}
+      containerStyle={styles.button}
+      buttonStyle={[color, styles.buttonDimensions]}
+      onPress={() => { action(place, option) }}
+      disabled={disable}
+    />
+  )
 
   return (
     <Container>

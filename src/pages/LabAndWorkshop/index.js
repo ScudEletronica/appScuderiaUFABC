@@ -178,20 +178,18 @@ const LabAndWorkshop = ({ route }) => {
   }
 
   // Modelo de apresentação da localização das chaves
-  function keyLocation(name, key, set) {
-    return (
-      <Key>
-        <KeyTitle>{name}:</KeyTitle>
-        {coordinator
-          ? <InputKey 
-              value={key}
-              onChangeText={text => set(text)}
-            />
-          : <KeyContent>{key}</KeyContent>
-        }
-      </Key>
-    )
-  }
+  const keyLocation = (name, key, set) => (
+    <Key>
+      <KeyTitle>{name}:</KeyTitle>
+      {coordinator
+        ? <InputKey 
+            value={key}
+            onChangeText={text => set(text)}
+          />
+        : <KeyContent>{key}</KeyContent>
+      }
+    </Key>
+  )
 
   return (
     <Container>

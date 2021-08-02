@@ -238,53 +238,51 @@ const NewRequirement = ({ route }) => {
           </Reason>
 
           {/* Formas de compra */}
-          {ways.map((way, index) => {
-            return (
-              <Way key={way.id}>
-                <WayTitle>{way.id}ª Forma de Compra</WayTitle>
-                <NewInput 
-                  value={way.company}
+          {ways.map((way, index) => (
+            <Way key={way.id}>
+              <WayTitle>{way.id}ª Forma de Compra</WayTitle>
+              <NewInput 
+                value={way.company}
+                onChangeText={text => 
+                  setWayItemValue(index, 'company', text)
+                }
+                placeholder="Insira o nome da Empresa" 
+                placeholderTextColor="#969696"
+              />
+              <NewInput 
+                value={way.contact}
+                onChangeText={text => 
+                  setWayItemValue(index, 'contact', text)
+                }
+                placeholder="Meio de Contato" 
+                placeholderTextColor="#969696"
+              />
+              <Inline>
+                <InputTitle>Preço Unitário</InputTitle>
+                <PriceInput 
+                  value={way.unitaryPrice}
                   onChangeText={text => 
-                    setWayItemValue(index, 'company', text)
+                    setWayItemValue(index, 'unitaryPrice', Number(text))
                   }
-                  placeholder="Insira o nome da Empresa" 
+                  keyboardType={'numeric'}
+                  placeholder="R$ X" 
                   placeholderTextColor="#969696"
                 />
-                <NewInput 
-                  value={way.contact}
+              </Inline>
+              <Inline>
+                <InputTitle>Taxa Correios</InputTitle>
+                <PriceInput 
+                  value={way.correiosTax}
                   onChangeText={text => 
-                    setWayItemValue(index, 'contact', text)
+                    setWayItemValue(index, 'correiosTax', Number(text))
                   }
-                  placeholder="Meio de Contato" 
+                  keyboardType={'numeric'}
+                  placeholder="R$ X" 
                   placeholderTextColor="#969696"
                 />
-                <Inline>
-                  <InputTitle>Preço Unitário</InputTitle>
-                  <PriceInput 
-                    value={way.unitaryPrice}
-                    onChangeText={text => 
-                      setWayItemValue(index, 'unitaryPrice', Number(text))
-                    }
-                    keyboardType={'numeric'}
-                    placeholder="R$ X" 
-                    placeholderTextColor="#969696"
-                  />
-                </Inline>
-                <Inline>
-                  <InputTitle>Taxa Correios</InputTitle>
-                  <PriceInput 
-                    value={way.correiosTax}
-                    onChangeText={text => 
-                      setWayItemValue(index, 'correiosTax', Number(text))
-                    }
-                    keyboardType={'numeric'}
-                    placeholder="R$ X" 
-                    placeholderTextColor="#969696"
-                  />
-                </Inline>
-              </Way>
-            )
-          })}
+              </Inline>
+            </Way>
+          ))}
           <New 
             onPress={handleNewWay}
             style={styles.button}

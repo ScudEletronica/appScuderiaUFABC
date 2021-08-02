@@ -129,15 +129,13 @@ const NewUsers = ({}) => {
           <Title>Novos Usuários</Title>
           {/* Lista de todos os novos usuários */}
           <Menu>
-            {newUsers && Object.values(newUsers).map(user => {
-              return (
-                <NewUser 
-                  key={user.id}
-                  user={user}
-                  action={handleAction}
-                />
-                )
-            })}
+            {newUsers && Object.values(newUsers).map(user => (
+              <NewUser 
+                key={user.id}
+                user={user}
+                action={handleAction}
+              />
+            ))}
           </Menu>
         </Content>
 

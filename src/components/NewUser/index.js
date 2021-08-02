@@ -18,14 +18,12 @@ const NewUser = ({user, action}) => {
   }
 
   // Modelo de apresentação de informação
-  function InformationTemplate({name, value}) {
-    return (
-      <Information>
-        <InformationTitle>{name}:</InformationTitle>
-        <InformationText>{value}</InformationText>
-      </Information>
-    )
-  }
+  const InformationTemplate = ({name, value}) => (
+    <Information>
+      <InformationTitle>{name}:</InformationTitle>
+      <InformationText>{value}</InformationText>
+    </Information>
+  )
 
   return (
     <>

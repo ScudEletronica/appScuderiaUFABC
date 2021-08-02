@@ -49,19 +49,17 @@ const Information = ({ route }) => {
   }, [reference]);
 
   // Modelo para botão de acesso a mídia
-  function MediaLink({name, url, icon, geral}) {
-    return (
-      <Link onPress={() => Linking.openURL(url)}>
-        <Logo source={icon} />
-        <TextArea>
-          <LinkText>{name}</LinkText>
-          <LinkText>
-            {geral ? "Scuderia" : field}
-          </LinkText>
-        </TextArea>
-      </Link>
-    )
-  }
+  const MediaLink = ({name, url, icon, geral}) => (
+    <Link onPress={() => Linking.openURL(url)}>
+      <Logo source={icon} />
+      <TextArea>
+        <LinkText>{name}</LinkText>
+        <LinkText>
+          {geral ? "Scuderia" : field}
+        </LinkText>
+      </TextArea>
+    </Link>
+  )
 
   return (
     <Container>

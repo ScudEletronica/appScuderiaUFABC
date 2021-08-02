@@ -73,18 +73,16 @@ const Messages = ({navigation, route}) => {
           <Title>RECADOS</Title>
 
           {/* Mostra todos os recados */}
-          {Object.values(messages).map(message => {
-            return (
-              <Message
-                key={message.id}
-                message={message}
-                coordinator={coordinator}
-                toggleOverlay={toggleOverlay}
-                handleID={handleID}
-                list
-              />
-            )
-          })}
+          {Object.values(messages).map(message => (
+            <Message
+              key={message.id}
+              message={message}
+              coordinator={coordinator}
+              toggleOverlay={toggleOverlay}
+              handleID={handleID}
+              list
+            />
+          ))}
         </Content>
 
         {/* Fim da pagina */}

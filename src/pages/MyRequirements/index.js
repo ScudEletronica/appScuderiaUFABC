@@ -152,17 +152,15 @@ const MyRequirements = ({ navigation, route }) => {
               <Ionicons name="hourglass-outline" size={28} color={colors.primaryIcon}/>
               <MenuTitle>Pendentes</MenuTitle>
             </MenuHeader>
-            {pendingRequirements.map(pending => {
-              return (
-                <Requirement 
-                  key={pending.id}
-                  requirement={pending}
-                  pending
-                  allowed={manager || admin}
-                  action={handleAction}
-                />
-              )
-            })}
+            {pendingRequirements.map(pending => (
+              <Requirement 
+                key={pending.id}
+                requirement={pending}
+                pending
+                allowed={manager || admin}
+                action={handleAction}
+              />
+            ))}
           </Menu>
 
           <Menu>
@@ -170,14 +168,12 @@ const MyRequirements = ({ navigation, route }) => {
               <AntDesign name="checkcircle" size={28} color="#0f0"/>
               <MenuTitle>Aceitas</MenuTitle>
             </MenuHeader>
-            {acceptRequirements.map(accept => {
-              return (
-                <Requirement 
-                  key={accept.id}
-                  requirement={accept}
-                />
-              )
-            })}
+            {acceptRequirements.map(accept => (
+              <Requirement 
+                key={accept.id}
+                requirement={accept}
+              />
+            ))}
           </Menu>
         </Content>
 

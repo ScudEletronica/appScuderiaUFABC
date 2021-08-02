@@ -32,14 +32,12 @@ const Settings = ({darkMode, lightMode, route}) => {
   }
   
   // Modelo para Botão de opções
-  function OptionButton({name, action, Icon, iconName}) {
-    return (
-      <Option onPress={action}>
-        <Icon name={iconName} size={40} color={color}/>
-        <OptionTitle>{name}</OptionTitle>
-      </Option>
-    )
-  }
+  const OptionButton = ({name, action, Icon, iconName}) => (
+    <Option onPress={action}>
+      <Icon name={iconName} size={40} color={color}/>
+      <OptionTitle>{name}</OptionTitle>
+    </Option>
+  )
 
   return (
     <Container>

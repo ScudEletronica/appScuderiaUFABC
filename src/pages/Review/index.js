@@ -106,14 +106,12 @@ const Review = ({ route }) => {
   }
 
   // Modelo de informações na mesma linha
-  function InlineTemplate({name, value}) {
-    return (
-      <Inline>
-        <InlineTitle>{name}: </InlineTitle>
-        <InlineText>{value}</InlineText>
-      </Inline>
-    )
-  }
+  const InlineTemplate = ({name, value}) => (
+    <Inline>
+      <InlineTitle>{name}: </InlineTitle>
+      <InlineText>{value}</InlineText>
+    </Inline>
+  )
 
   return (
     <Container>
@@ -137,21 +135,19 @@ const Review = ({ route }) => {
             <InlineText>{requirement.reason}</InlineText>
 
             <Subtitle>Dados da Compra</Subtitle>
-            {Object.values(requirement.ways).map(way => {
-              return (
-                <Way key={way.id}>
-                  <WayTitle>{way.id}ª Forma de Compra</WayTitle>
-                  <InlineTemplate name="Empresa" value={way.company} />
-                  <InlineTemplate name="Contato" value={way.contact} />
-                  <InlineTemplate 
-                    name="Preço Unitário" value={`R$ ${way.unitaryPrice.toFixed(2)}`} 
-                  />
-                  <InlineTemplate 
-                    name="Taxa Correios" value={`R$ ${way.correiosTax.toFixed(2)}`} 
-                  />
-                </Way>
-              )
-            })}
+            {Object.values(requirement.ways).map(way => (
+              <Way key={way.id}>
+                <WayTitle>{way.id}ª Forma de Compra</WayTitle>
+                <InlineTemplate name="Empresa" value={way.company} />
+                <InlineTemplate name="Contato" value={way.contact} />
+                <InlineTemplate 
+                  name="Preço Unitário" value={`R$ ${way.unitaryPrice.toFixed(2)}`} 
+                />
+                <InlineTemplate 
+                  name="Taxa Correios" value={`R$ ${way.correiosTax.toFixed(2)}`} 
+                />
+              </Way>
+            ))}
             
             <Inline style={{marginTop: 28}}>
 

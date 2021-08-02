@@ -43,20 +43,18 @@ const Notifications = () => {
   }
 
   // Mostra o Botão de Notificação
-  function NotificationButton({event, toggle, isOn}) {
-    return (
-      <Inline>
-        <InlineText>Notificar quando {event}?</InlineText>
-        <Toggle onPress={toggle}>
-          <Icon 
-            name={isOn ? "toggle-on" : "toggle-off"} 
-            size={35} 
-            color={color}
-          />
-        </Toggle>
-      </Inline>
-    )
-  }
+  const NotificationButton = ({event, toggle, isOn}) => (
+    <Inline>
+      <InlineText>Notificar quando {event}?</InlineText>
+      <Toggle onPress={toggle}>
+        <Icon 
+          name={isOn ? "toggle-on" : "toggle-off"} 
+          size={35} 
+          color={color}
+        />
+      </Toggle>
+    </Inline>
+  )
 
   return (
     <Container>
