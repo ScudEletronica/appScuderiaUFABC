@@ -57,12 +57,13 @@ const Telemetry = ({navigation}) => {
     button: {
       width: 78,
       height: 29,
+      padding: 0,
     },
     buttonText: {
       fontFamily: 'Roboto',
       fontWeight: 'bold',
       fontSize: 12,
-      lineHeight: 14
+      lineHeight: 14,
     },
     container: {
       alignItems: "center",
@@ -159,7 +160,7 @@ const Telemetry = ({navigation}) => {
         visible={visible}
       />
       <Head />
-      <Scroll>
+      <Scroll horizontal>
         <Content>
           <Title>TELEMETRIA</Title>
           {/* Paginas de Medidores conforme as suas categorias */}

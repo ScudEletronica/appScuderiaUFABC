@@ -19,6 +19,7 @@ const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
       height: 30,
       marginRight: 28,
       marginLeft: 28,
+      padding: 0,
   
       backgroundColor: colors.secondaryButton,
   

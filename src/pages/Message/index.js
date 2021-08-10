@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import database from "@react-native-firebase/database";
-import Markdown from 'react-native-markdown-renderer'
+import Markdown from 'react-native-markdown-display'
 import Icon from 'react-native-vector-icons/AntDesign'
 
 import { 
