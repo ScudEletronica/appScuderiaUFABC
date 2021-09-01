@@ -25,8 +25,9 @@ const About = () => {
       setInstagram(snapshot.child('Instagram/source').val())
     })
 
+
     return () => reference.off('value', onValueChange)
-  }, [reference]);
+  });
 
   // Seleciona o link para uma rede a social
   const handleLink = (media) => useCallback(async () => {

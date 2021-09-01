@@ -1,7 +1,6 @@
 import React, {useEffect, useState } from 'react';
 import { ThemeProvider } from "styled-components";
 import { storeJSON } from "./utils/store";
-import '~/config/ReactotronConfig';
 import './global'
 
 import light from '~/styles/themes/light'
@@ -10,7 +9,7 @@ import dark from '~/styles/themes/dark'
 import AppStack from '~/routes/AppStack';
 
 import messaging from '@react-native-firebase/messaging'
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import notifee from '@notifee/react-native';
 
 // Primeiro arquivo carregado pelo aparelho

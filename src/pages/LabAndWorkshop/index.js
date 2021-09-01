@@ -85,7 +85,7 @@ const LabAndWorkshop = ({ route }) => {
     })
 
     return () => reference.off('value', onChangeValue)
-  }, [user])
+  })
 
   // Carrega a localização das chaves
   useEffect(() => {
@@ -107,7 +107,7 @@ const LabAndWorkshop = ({ route }) => {
     if (status.Workshop == true) {
       setAskedWorkshop(false)
     }
-  }, [status])
+  })
 
   // Alterna a visibilidade do Aviso
   function toggleOverlay() {

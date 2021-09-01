@@ -100,7 +100,7 @@ const Telemetry = ({navigation}) => {
         return () => reference.off('value', onChangeValue)
       }
     })
-  }, [reference])
+  })
 
   // Aviso de quando a telemetria não está sendo usada
   useEffect(() => {

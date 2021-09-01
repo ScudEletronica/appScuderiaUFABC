@@ -46,7 +46,7 @@ const Information = ({ route }) => {
     })
 
     return () => reference.off('value', onValueChange)
-  }, [reference]);
+  });
 
   // Modelo para botão de acesso a mídia
   const MediaLink = ({name, url, icon, geral}) => (

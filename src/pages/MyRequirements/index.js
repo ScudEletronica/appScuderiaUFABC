@@ -78,7 +78,7 @@ const MyRequirements = ({ navigation, route }) => {
     })
 
     return () => reference.off('value', onChangeValue)
-  }, [reference])
+  })
   
   // Navega para pagina de criação de requisições
   function handleCreateNewRequirement() {

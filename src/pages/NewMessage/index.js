@@ -31,7 +31,7 @@ const NewMessage = ({navigation, route}) => {
   useFocusEffect(() => {
     setDefaultTitle(message.title);
     setDefaultContent(message.content);
-  }, [message]);
+  });
 
   // Pergunta se usuário deseja cancelar sua ação
   function handleCancel() {

@@ -34,7 +34,7 @@ const NewUsers = ({}) => {
     })
 
     return () => reference.off('value', onChangeValue)
-  }, [reference])
+  })
 
   // Alterna a visibilidade do Aviso
   function toggleOverlay() {

@@ -17,6 +17,7 @@ import Information from '~/pages/Information';
 import Notifications from '~/pages/Notifications';
 import NewUsers from "~/pages/NewUsers";
 import MenuBar from "~/components/MenuBar";
+import Head from "~/components/Head";
 
 const { Navigator, Screen } = createDrawerNavigator()
 
@@ -38,9 +39,9 @@ function Drawer({lightMode, darkMode, route, navigation}) {
     // drawerContent: Configuração do Menu lateral
     // drawerStyle: Estilos do menu lateral
     <Navigator 
-    initialRouteName="Main"
-    drawerContent={props => <MenuBar user={user} props={props} />}
-    drawerStyle={{width: 217}}
+      initialRouteName="Main"
+      drawerContent={props => <MenuBar user={user} props={props} />}
+      drawerStyle={{width: 217}}
     >
       {/* 
         Configuração das rotas:

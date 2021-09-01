@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import { storeJSON, storeString } from "~/utils/store";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import database from '@react-native-firebase/database';
 import messaging from '@react-native-firebase/messaging';
 
