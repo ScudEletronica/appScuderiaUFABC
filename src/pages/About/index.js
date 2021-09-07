@@ -58,7 +58,6 @@ const About = () => {
 
   return (
     <Container>
-      <Head />
       <Scroll>
         <Content>
           {/* Imagem do RM01 */}

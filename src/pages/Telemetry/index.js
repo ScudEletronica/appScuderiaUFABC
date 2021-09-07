@@ -11,7 +11,6 @@ import {
 } from './styles';
 import { Container, Scroll, Content } from '~/styles/global';
 
-import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 
 const reference = database().ref('Meters');
@@ -159,7 +158,6 @@ const Telemetry = ({navigation}) => {
         cancel={notInUse}
         visible={visible}
       />
-      <Head />
       <Scroll horizontal>
         <Content>
           <Title>TELEMETRIA</Title>

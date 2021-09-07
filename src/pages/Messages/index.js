@@ -12,7 +12,6 @@ import {
   Container, Scroll, Content, End
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Message from '~/components/Message'
 import Back from '~/components/Back';
 import Warning from '~/components/Warning';
@@ -67,7 +66,6 @@ const Messages = ({navigation, route}) => {
         confirm={handleDelete}
         visible={visible}
       />
-      <Head />
       <Scroll>
         <Content>
           <Title>RECADOS</Title>

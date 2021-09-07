@@ -15,7 +15,6 @@ import {
 import GDriveIcon from '~/assets/GDrive.png'
 import TeamsIcon from '~/assets/Teams.png'
 
-import Head from '~/components/Head';
 import Back from '~/components/Back';
 
 const reference = database().ref('Secrets');
@@ -63,7 +62,6 @@ const Information = ({ route }) => {
 
   return (
     <Container>
-      <Head />
       <Scroll>
         <Content>
           <Intern>

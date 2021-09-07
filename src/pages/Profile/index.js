@@ -13,7 +13,6 @@ import {
   Container, End, Scroll
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Back from '~/components/Back';
 
 // Informações de Perfil
@@ -33,7 +32,6 @@ const Profile = ({ route }) => {
 
   return (
     <Container>
-      <Head />
       <Scroll>
         <AvatarSpace>
           <Title>PERFIL</Title>

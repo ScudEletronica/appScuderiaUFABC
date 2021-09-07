@@ -15,7 +15,6 @@ import {
   Container, Scroll, Content
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 
 const reference = database().ref('Requirements');
@@ -121,7 +120,6 @@ const Review = ({ route }) => {
         confirm={handleConfirmOverlay}
         visible={visible}
       />
-      <Head />
       <Scroll>
         <Content>
           <Title>REVISÃO</Title>

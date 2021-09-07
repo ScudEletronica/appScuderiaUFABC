@@ -12,7 +12,6 @@ import {
   Container, Scroll, Content, End
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Back from '~/components/Back';
 import Warning from '~/components/Warning';
 import NewUser from '~/components/NewUser';
@@ -117,7 +116,6 @@ const NewUsers = ({}) => {
 
   return (
     <Container>
-      <Head />
       <Warning 
         text={overlayText}
         cancel={toggleOverlay}

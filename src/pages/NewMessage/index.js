@@ -11,7 +11,6 @@ import {
   Container, Scroll, Content, End
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Warning from '~/components/Warning';
 
 const reference = database().ref('Messages')
@@ -118,7 +117,6 @@ const NewMessage = ({navigation, route}) => {
         confirm={cancel}
         visible={visible}
       />
-      <Head />
       <Scroll>
         <Content>
           <Title>NOVO RECADO</Title>

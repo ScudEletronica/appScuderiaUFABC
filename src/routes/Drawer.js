@@ -42,6 +42,10 @@ function Drawer({lightMode, darkMode, route, navigation}) {
       initialRouteName="Main"
       drawerContent={props => <MenuBar user={user} props={props} />}
       drawerStyle={{width: 217}}
+      screenOptions={{ 
+        headerShown: true,
+        header: props => <Head {...props}/>
+      }}
     >
       {/* 
         Configuração das rotas:

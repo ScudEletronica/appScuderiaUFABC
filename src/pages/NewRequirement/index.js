@@ -11,7 +11,6 @@ import {
   Container, Scroll, Content, End
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Back from '~/components/Back';
 import Warning from '~/components/Warning';
 
@@ -206,7 +205,6 @@ const NewRequirement = ({ route }) => {
         visible={visible}
         onlyOne={onlyOne}
       />
-      <Head />
       <Scroll>
         <Content>
           <Title>REQUISIÇÃO DE COMPRA</Title>

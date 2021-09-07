@@ -12,7 +12,6 @@ import {
   Container, Scroll, Content, End
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Back from '~/components/Back';
 import messaging from '@react-native-firebase/messaging';
 
@@ -58,7 +57,6 @@ const Notifications = () => {
 
   return (
     <Container>
-      <Head />
       <Scroll>
         <Content>
           <Title>NOTIFICAÇÕES</Title>

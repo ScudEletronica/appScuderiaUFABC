@@ -14,7 +14,6 @@ import {
   Container, Scroll, Content, End
 } from '~/styles/global'
 
-import Head from '~/components/Head';
 import Requirement from '~/components/Requirement';
 import Back from '~/components/Back';
 import Warning from '~/components/Warning';
@@ -137,7 +136,6 @@ const MyRequirements = ({ navigation, route }) => {
 
   return (
     <Container>
-      <Head />
       <Warning 
         text={overlayText}
         cancel={toggleOverlay}

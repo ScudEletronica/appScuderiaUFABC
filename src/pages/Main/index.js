@@ -8,7 +8,6 @@ import {
 
 import { Container, Scroll, Content } from '~/styles/global';
 
-import Head from '~/components/Head';
 import Message from '~/components/Message';
 import Avatar from '~/assets/Picture.png'
 import Warning from '~/components/Warning';
@@ -66,7 +65,6 @@ const Main = ({ route }) => {
         confirm={handleDelete}
         visible={visible}
       />
-      <Head />
       <Scroll>
         <Content>
           <Background1 source={require('../../assets/Fundo8.png')}>
