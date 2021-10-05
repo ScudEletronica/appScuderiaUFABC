@@ -9,7 +9,6 @@ import {
 
 import { Container, End } from '~/styles/global'
 
-import Head from '~/components/Head'
 import Back from '~/components/Back';
 
 import Icon from 'react-native-vector-icons/AntDesign'

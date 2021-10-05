@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import database from '@react-native-firebase/database';
 import Icon from 'react-native-vector-icons/Ionicons'
+import { useUser } from '~/contexts/AuthContext';
 
 import {
   Profile, Background1, Background2, Picture, Name, RA, Messages, MessagesTitle, Status, 
@@ -18,7 +19,7 @@ const Source = "Status"
 const reference = database().ref();
 
 // Pagina Inicial
-const Main = ({ route }) => {
+const Main = () => {
   const [status, setStatus] = useState({
     Lab: false, Workshop: false, labRequest: false, workshopRequest: false
   }); // Estado atual do Lab e oficina
@@ -27,7 +28,7 @@ const Main = ({ route }) => {
   const [visible, setVisible] = useState(false); // Visibilidade do aviso
   const [id, setID] = useState(); // Id da mensagem que será apagada
 
-  const { ra, name, coordinator } = route.params; // Dados do usuário
+  const { ra, name, coordinator } = useUser(); // Dados do usuário
 
   // Carrega os valores da firebase
   useEffect(() => {

@@ -1,8 +1,6 @@
-import { useFocusEffect } from '@react-navigation/native';
 import React, { useState, useContext } from 'react';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { ThemeContext } from 'styled-components';
-import database from '@react-native-firebase/database'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -57,8 +55,8 @@ const MenuBar = ({props, user}) => {
             onPress={() => props.navigation.navigate('Profile')}
           >
             <Ionicons 
-              name="person-circle-outline" 
-              size={65} 
+              name="person-circle-outline"
+              size={65}
               color={color}
             />
             <ProfileText>{user}</ProfileText>
@@ -104,6 +102,12 @@ const MenuBar = ({props, user}) => {
             route='MyRequirements' 
             Icon={MaterialIcons} 
             iconName="shopping-cart" 
+          />
+          <OptionButton
+            name="Matricula"
+            route='Registration'
+            Icon={Entypo}
+            iconName="list"
           />
         </Options>
       </DrawerContentScrollView>

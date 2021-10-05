@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { useUser } from '~/contexts/AuthContext';
+import { Formik } from 'formik';
 import database from '@react-native-firebase/database'
+import Warning from '~/components/Warning';
 
 import { 
   Title, NewInput, InputTitle, BigInput, Buttons, Create, CreateText, Cancel, ButtonText
@@ -11,12 +14,11 @@ import {
   Container, Scroll, Content, End
 } from '~/styles/global'
 
-import Warning from '~/components/Warning';
 
-const reference = database().ref('Messages')
+const reference = database().ref('TestMessages')
 
 // Novo Recado
-const NewMessage = ({navigation, route}) => {
+const NewMessage = ({ navigation }) => {
   const [title, setTitle] = useState(); // Titulo do recado
   const [content, setContent] = useState(); // Conteúdo do Recado
   const [defaultTitle, setDefaultTitle] = useState(''); // Titulo inicial do recado
@@ -24,7 +26,7 @@ const NewMessage = ({navigation, route}) => {
   const [visible, setVisible] = useState(false); // Visibilidade do aviso
   const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
 
-  const { message, edit } = route.params; // Carrega a mensagem inicial e se é edição ou não
+  const { message, edit } = useUser(); // Carrega a mensagem inicial e se é edição ou não
 
   // Define os valores iniciais do recado
   useFocusEffect(() => {
@@ -45,8 +47,8 @@ const NewMessage = ({navigation, route}) => {
 
   // Cancela a criação ou edição do recado
   function cancel() {
-    setTitle();
-    setContent();
+    setTitle("");
+    setContent("");
 
     navigation.goBack();
   }
@@ -117,52 +119,72 @@ const NewMessage = ({navigation, route}) => {
         confirm={cancel}
         visible={visible}
       />
-      <Scroll>
-        <Content>
-          <Title>NOVO RECADO</Title>
-          {/* Inserção do Titulo do recado */}
-          <InputTitle>Titulo</InputTitle>
-          <NewInput
-            defaultValue={defaultTitle}
-            value={title}
-            onChangeText={text => setTitle(text)}
-            placeholder="Insira o Titulo do Recado" 
-            placeholderTextColor="#969696"
-            />
-          
-          {/* Inserção do Conteúdo do recado */}
-          <InputTitle>Conteúdo</InputTitle>
-          <BigInput 
-            multiline 
-            defaultValue={defaultContent}
-            value={content}
-            onChangeText={text => setContent(text)}
-            placeholder="Insira o conteúdo do recado" 
-            placeholderTextColor="#969696"
-          />
-        </Content>
+      <Formik
+        initialValues={{title: defaultTitle, content: defaultContent}}
+        onSubmit={({title, content}) => {
+          var date = new Date();
+          var dd = String(date.getDate()).padStart(2, '0');
+          var mm = String(date.getMonth() + 1).padStart(2, '0');
+          var yyyy = date.getFullYear();
+      
+          date = dd + '/' + mm + '/' + yyyy;
+      
+          const NewReference = reference.push();
+          const id = NewReference.key;
+      
+          NewReference.set({id, title, date, content})
+      
+          navigation.navigate("Messages");
+        }}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        <Scroll>
+          <Content>
+            <Title>NOVO RECADO</Title>
+            {/* Inserção do Titulo do recado */}
+              
+              <InputTitle>Titulo</InputTitle>
+              <NewInput
+                value={values.title}
+                onChangeText={handleChange('title')}
+                placeholder="Insira o Titulo do Recado" 
+                placeholderTextColor="#969696"
+                />
+              
+              {/* Inserção do Conteúdo do recado */}
+              <InputTitle>Conteúdo</InputTitle>
+              <BigInput 
+                multiline 
+                value={values.content}
+                onChangeText={handleChange('content')}
+                placeholder="Insira o conteúdo do recado" 
+                placeholderTextColor="#969696"
+              />
+          </Content>
 
-        {/* Fim da Página */}
-        <End>
-          <Buttons>
-            {/* Botão de cancelar */}
-            <Cancel 
-              style={styles.button}
-              onPress={handleCancel}
-            >
-              <ButtonText>Cancelar</ButtonText>
-            </Cancel>
+          {/* Fim da Página */}
+          <End>
+            <Buttons>
+              {/* Botão de cancelar */}
+              <Cancel 
+                style={styles.button}
+                onPress={handleCancel}
+                >
+                <ButtonText>Cancelar</ButtonText>
+              </Cancel>
 
-            {/* Botão de confirmação */}
-            <Create 
-              style={styles.button}
-              onPress={handleConfirm}
-            >
-              <CreateText>Gerar Recado</CreateText>
-            </Create>
-          </Buttons>
-        </End>
-      </Scroll>
+              {/* Botão de confirmação */}
+              <Create 
+                style={styles.button}
+                onPress={handleSubmit}
+                >
+                <CreateText>Gerar Recado</CreateText>
+              </Create>
+            </Buttons>
+          </End>
+        </Scroll>
+      )}
+      </Formik>
     </Container>
   );
 }

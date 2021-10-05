@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Linking } from 'react-native';
+import { useUser } from '~/contexts/AuthContext';
 import database from '@react-native-firebase/database';
 
 import { 
@@ -31,7 +32,7 @@ const Information = ({ route }) => {
   const [teamsGeral, setTeamsGeral] = useState('')
   const [teamsField, setTeamsField] = useState('')
   
-  const { field } = route.params;
+  const { field } = useUser();
 
   // Carrega os valores da firebase
   useFocusEffect(() => {

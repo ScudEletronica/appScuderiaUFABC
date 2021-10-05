@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign'
 import { StyleSheet } from "react-native";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useUser } from '~/contexts/AuthContext';
 
 import { 
   Title, NewInput, Inline, InputTitle, QuantityInput, Reason, BigInput, New, NewText, Way, WayTitle, PriceInput, Create, CreateText, styles
@@ -15,7 +16,7 @@ import Back from '~/components/Back';
 import Warning from '~/components/Warning';
 
 // Nova Requisição
-const NewRequirement = ({ route }) => {
+const NewRequirement = () => {
   const [defaultRequirement, setDefaultRequirement] = useState('') // Requisição inicial
   const [name, setName] = useState('') // Nome do usuário
   const [product, setProduct] = useState(''); // Nome do produto
@@ -29,7 +30,7 @@ const NewRequirement = ({ route }) => {
   const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
   const { navigate, goBack } = useNavigation();
-  const { requirement, edit } = route.params; // Carrega a requisição inicial e se é edição ou não
+  const { requirement, edit } = useUser(); // Carrega a requisição inicial e se é edição ou não
 
   // Carrega a requisição inicial
   useFocusEffect(() => {

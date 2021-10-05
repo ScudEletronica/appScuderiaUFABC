@@ -14,13 +14,14 @@ import {
 } from '~/styles/global'
 
 import Back from '~/components/Back';
+import { useUser } from '~/contexts/AuthContext';
 
 // Informações de Perfil
-const Profile = ({ route }) => {
+const Profile = () => {
   // const [picture, setPicture] = useState(' '); // Foto de perfil
   
   const { colors } = useContext(ThemeContext);
-  const { user, name, ra } = route.params
+  const { user, name, ra } = useUser()
 
   const reference = database().ref(`Profile/${user}`);
 

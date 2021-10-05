@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { ThemeContext } from 'styled-components';
+import { useUser } from '~/contexts/AuthContext';
 import database from "@react-native-firebase/database";
 import Markdown from 'react-native-markdown-display'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -22,7 +23,7 @@ const reference = database().ref()
 const Message = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false); // Visibilidade do aviso
 
-  const { message, coordinator } = route.params; // carrega os valores do mensagem
+  const { message, coordinator } = useUser(); // carrega os valores do mensagem
   const { colors } = useContext(ThemeContext);
 
   const markdown = StyleSheet.create({

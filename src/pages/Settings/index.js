@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import { useUser } from '~/contexts/AuthContext';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -19,7 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Settings = ({darkMode, lightMode, route}) => {
   const { navigate } = useNavigation();
   const { colors } = useContext(ThemeContext);
-  const { coordinator } = route.params
+  const { coordinator } = useUser();
 
   const color = colors.primaryIcon;
   

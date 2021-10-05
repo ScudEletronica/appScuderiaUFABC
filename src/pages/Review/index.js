@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { 
-  useFocusEffect, useNavigation 
-} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import { useUser } from '~/contexts/AuthContext';
 import Icon from 'react-native-vector-icons/AntDesign'
 import database from '@react-native-firebase/database'
 
@@ -20,13 +19,13 @@ import Warning from '~/components/Warning';
 const reference = database().ref('Requirements');
 
 // Revisão da requisição 
-const Review = ({ route }) => {
+const Review = () => {
   const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
   const [visible, setVisible] = useState(false); // Visibilidade do recado
   const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
   const { navigate } = useNavigation();
-  const { requirement, edit } = route.params;
+  const { requirement, edit } = useUser();
   const { colors } = useContext(ThemeContext);
 
   // Alterna a visibilidade do Aviso

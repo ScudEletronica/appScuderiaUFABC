@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ThemeContext } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native';
+import { useUser } from '~/contexts/AuthContext';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import database from '@react-native-firebase/database'
@@ -21,7 +22,7 @@ import Warning from '~/components/Warning';
 const reference = database().ref(); 
 
 // Requisições realizadas
-const MyRequirements = ({ navigation, route }) => {
+const MyRequirements = ({ navigation }) => {
   const [pendingRequirements, setPendingRequirements] = useState([]) // Armazena as requisições pendentes
   const [acceptRequirements, setAcceptRequirements] = useState([]) // Armazena as requisições aceitas
   const [admin, setAdmin] = useState(false); // Verifica se o usuário é da Administração
@@ -33,7 +34,7 @@ const MyRequirements = ({ navigation, route }) => {
 
   const { colors } = useContext(ThemeContext);
 
-  const { user, field, name } = route.params;
+  const { user, field, name } = useUser();
 
   // Determina os valores de admin e manager
   useEffect(() => {

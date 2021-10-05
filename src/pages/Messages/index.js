@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
+import { useUser } from '~/contexts/AuthContext';
+import { Icon } from 'react-native-elements'
 import database from '@react-native-firebase/database';
-import Icon from 'react-native-vector-icons/AntDesign'
 
 import { 
   Title, New, NewText,
@@ -18,14 +19,13 @@ import Warning from '~/components/Warning';
 
 const reference = database().ref();
 
-
 // Lista de recados
 const Messages = ({navigation, route}) => {
   const [messages, setMessages] = useState([{title: '', id: 0, date: '', content: ' '}]);
   const [visible, setVisible] = useState(false); // Visibilidade do aviso
   const [id, setID] = useState();
 
-  const { coordinator } = route.params
+  const { coordinator } = useUser()
 
   useFocusEffect(() => {
     const onValueChange =reference.on('value', snapshot => {
@@ -91,7 +91,7 @@ const Messages = ({navigation, route}) => {
               style={styles.button} 
               onPress={handleCreateNewRequirement}
             >
-              <Icon name="plus" size={16}/>
+              <Icon name="plus" size={16} type="ant-design"/>
               <NewText>Adicionar Recado</NewText>
             </New>
           }

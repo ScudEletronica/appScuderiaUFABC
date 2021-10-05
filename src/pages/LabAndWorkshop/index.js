@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
+import { useUser } from '~/contexts/AuthContext';
 import database from '@react-native-firebase/database';
 
 import { 
@@ -35,7 +36,7 @@ const LabAndWorkshop = ({ route }) => {
   const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
   const { images } = useContext(ThemeContext);
-  const { user, coordinator } = route.params
+  const { user, coordinator } = useUser()
   
   // Estilos de sombra
   const styles = StyleSheet.create({
