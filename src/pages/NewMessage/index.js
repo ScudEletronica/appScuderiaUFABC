@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { useUser } from '~/contexts/AuthContext';
 import { Formik } from 'formik';
 import database from '@react-native-firebase/database'
 import Warning from '~/components/Warning';
@@ -18,7 +17,7 @@ import {
 const reference = database().ref('TestMessages')
 
 // Novo Recado
-const NewMessage = ({ navigation }) => {
+const NewMessage = ({ navigation, route }) => {
   const [title, setTitle] = useState(); // Titulo do recado
   const [content, setContent] = useState(); // Conteúdo do Recado
   const [defaultTitle, setDefaultTitle] = useState(''); // Titulo inicial do recado
@@ -26,7 +25,7 @@ const NewMessage = ({ navigation }) => {
   const [visible, setVisible] = useState(false); // Visibilidade do aviso
   const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
 
-  const { message, edit } = useUser(); // Carrega a mensagem inicial e se é edição ou não
+  const { message, edit } = route.params; // Carrega a mensagem inicial e se é edição ou não
 
   // Define os valores iniciais do recado
   useFocusEffect(() => {

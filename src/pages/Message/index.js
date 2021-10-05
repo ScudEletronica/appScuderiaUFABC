@@ -23,7 +23,8 @@ const reference = database().ref()
 const Message = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false); // Visibilidade do aviso
 
-  const { message, coordinator } = useUser(); // carrega os valores do mensagem
+  const { message } = route.params;
+  const { coordinator } = useUser(); // carrega os valores do mensagem
   const { colors } = useContext(ThemeContext);
 
   const markdown = StyleSheet.create({

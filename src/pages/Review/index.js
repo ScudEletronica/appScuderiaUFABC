@@ -19,13 +19,13 @@ import Warning from '~/components/Warning';
 const reference = database().ref('Requirements');
 
 // Revisão da requisição 
-const Review = () => {
+const Review = ({ route }) => {
   const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
   const [visible, setVisible] = useState(false); // Visibilidade do recado
   const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
   const { navigate } = useNavigation();
-  const { requirement, edit } = useUser();
+  const { requirement, edit } = route.params;
   const { colors } = useContext(ThemeContext);
 
   // Alterna a visibilidade do Aviso

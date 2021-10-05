@@ -19,7 +19,7 @@ import NewUsers from "~/pages/NewUsers";
 import MenuBar from "~/components/MenuBar";
 import Head from "~/components/Head";
 import Registration from "~/pages/Registration";
-import { AuthContextProvider, useUser } from "~/contexts/AuthContext";
+import { AuthContextProvider } from "~/contexts/AuthContext";
 
 const { Navigator, Screen } = createDrawerNavigator()
 
