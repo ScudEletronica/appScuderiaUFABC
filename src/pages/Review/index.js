@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
-import { useUser } from '~/contexts/AuthContext';
 import Icon from 'react-native-vector-icons/AntDesign'
 import database from '@react-native-firebase/database'
 
