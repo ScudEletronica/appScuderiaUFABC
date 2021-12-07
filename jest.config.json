@@ -1,0 +1,22 @@
+{
+  "preset": "react-native",
+  "transform": {
+    "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+  },
+  "transformIgnorePatterns": [
+    "node_modules/(?!(jest-)?react-native|@react-native|react-native-vector-icons|react-navigation|@react-native-community|@react-navigation|react-native-gesture-handler/.*)"
+  ],
+  "moduleNameMapper": {
+    "~(.*)$": "<rootDir>/src/$1",
+    "styled-components": "<rootDir>/node_modules/styled-components/native/dist/styled-components.native.cjs.js"
+  },
+  "moduleFileExtensions": ["js", "jsx"],
+  "setupFiles": [
+    "./jestSetup.js",
+    "./node_modules/react-native-gesture-handler/jestSetup.js",
+    "./node_modules/react-native/jest/setup.js"
+  ],
+  "modulePathIgnorePatterns": [
+    "src/assets"
+  ]
+}
