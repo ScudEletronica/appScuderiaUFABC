@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import Icon from 'react-native-vector-icons/Fontisto'
 import Icon2 from 'react-native-vector-icons/AntDesign'
 
@@ -9,7 +9,7 @@ import {
 
 // Pagina de mudança da foto de perfil
 const ChangeAvatar = () => {
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   return (
     <Container>

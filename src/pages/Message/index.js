@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { useUser } from '~/contexts/AuthContext';
 import database from "@react-native-firebase/database";
 import Markdown from 'react-native-markdown-display'
@@ -25,7 +25,7 @@ const Message = ({ route, navigation }) => {
 
   const { message } = route.params;
   const { coordinator } = useUser(); // carrega os valores do mensagem
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   const markdown = StyleSheet.create({
     text: {

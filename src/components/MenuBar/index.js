@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
+import { useUser } from '~/contexts/AuthContext';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -14,10 +15,11 @@ import {
 } from './styles';
 
 // Menu Lateral
-const MenuBar = ({props, user}) => {  
+const MenuBar = ({ props }) => {  
   const [picture, setPicture] = useState('');
   
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
+  const { user } = useUser();
   
   const color = colors.secondaryIcon
 

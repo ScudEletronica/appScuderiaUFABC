@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button } from "react-native-elements";
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { StyleSheet } from 'react-native';
 import { storeJSON } from '~/utils/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -17,7 +17,7 @@ const Place = ({
 }) => {
   const [notification, setNotification] = useState(false); // Configuração da notificação de quando o local estiver aberto
 
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
   const color = colors.primaryIcon;
 
   const styles = StyleSheet.create({

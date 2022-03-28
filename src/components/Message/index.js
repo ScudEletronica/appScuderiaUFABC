@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { 
@@ -13,7 +13,7 @@ const Message = ({
   message, coordinator, toggleOverlay, handleID, list
 }) => {
   const { navigate } = useNavigation();
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   // Seleciona o estilo do item
   const styles = list ? listStyle : roundStyle;

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 import { 
   Container
@@ -10,7 +10,7 @@ import {
 // Botão de retorno para a página anterior
 function Back({different, cancel}) {
   const { goBack } = useNavigation();
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   // Função de voltar 
   // pode ser simplesmente voltar a para a pagina anterior 

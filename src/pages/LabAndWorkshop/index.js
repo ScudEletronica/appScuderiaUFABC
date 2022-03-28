@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { useUser } from '~/contexts/AuthContext';
 import database from '@react-native-firebase/database';
 
@@ -35,7 +35,7 @@ const LabAndWorkshop = ({ route }) => {
   const [overlayText, setOverlayText] = useState(''); // Define a mensagem do aviso
   const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
-  const { images } = useContext(ThemeContext);
+  const { images } = useTheme();
   const { user, coordinator } = useUser()
   
   // Estilos de sombra

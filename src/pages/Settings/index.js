@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
-import { useUser } from '~/contexts/AuthContext';
+import { useTheme } from 'styled-components';
+import { AuthContext, useUser } from '~/contexts/AuthContext';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -17,9 +17,10 @@ import Back from '~/components/Back';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Configurações
-const Settings = ({darkMode, lightMode, route}) => {
+const Settings = () => {
   const { navigate } = useNavigation();
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
+  const { setLightTheme, setDarkTheme } = useContext(AuthContext);
   const { coordinator } = useUser();
 
   const color = colors.primaryIcon;
@@ -48,13 +49,13 @@ const Settings = ({darkMode, lightMode, route}) => {
             <Modes>
               <LightMode 
                 style={styles.button}
-                onPress={lightMode}
+                onPress={setLightTheme}
               >
                 <LightModeText>Light Mode</LightModeText>
               </LightMode>
               <DarkMode 
                 style={styles.button}
-                onPress={darkMode}
+                onPress={setDarkTheme}
               >
                 <DarkModeText>Dark Mode</DarkModeText>
               </DarkMode>

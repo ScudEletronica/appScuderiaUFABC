@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from "react-native-elements";
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native';
 import NetInfo from "@react-native-community/netinfo";
 import database from '@react-native-firebase/database'
@@ -22,7 +22,7 @@ const Telemetry = ({navigation}) => {
   const [page, setPage] = useState('Principal'); // Pagina Selecionada
   const [alertText, setAlertText] = useState('');
 
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   const styles = StyleSheet.create({
     meter: {

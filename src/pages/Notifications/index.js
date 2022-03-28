@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native';
 import { storeJSON } from '~/utils/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -21,7 +21,7 @@ const Notifications = () => {
     Lab: false, Workshop: false, Message: false, Requirement: false
   }); // Configuração da notificação do laboratório 
 
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
   const color = colors.primaryIcon;
 
   // Carrega a configuração das notificações 

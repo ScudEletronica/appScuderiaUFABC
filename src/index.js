@@ -1,6 +1,4 @@
-import React, {useEffect, useState } from 'react';
-import { ThemeProvider } from "styled-components";
-import { storeJSON } from "./utils/store";
+import React, {useEffect, useState} from 'react';
 import './global'
 
 import light from '~/styles/themes/light'
@@ -11,11 +9,10 @@ import AppStack from '~/routes/AppStack';
 import messaging from '@react-native-firebase/messaging'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import notifee from '@notifee/react-native';
+import { AuthContextProvider } from './contexts/AuthContext';
 
 // Primeiro arquivo carregado pelo aparelho
 const App = () => {
-  const [theme, setTheme] = useState(light); // Variável que determina o tema usado no momento
-
   // Mostra as notificações quando elas chegarem
   useEffect(() => {
     const unsubscribe = messaging().onMessage(onMessageReceived)
@@ -47,44 +44,20 @@ const App = () => {
     });
   }
 
-  // Carregar dados salvos na memória do aparelho
+  // Carrega as configurações de notificações da memoria do aparelho
   useEffect(() => {
-    getData();
+    const getData = async () => {
+      var archived = await AsyncStorage.getItem('notifications')
+      if(archived) global.notifications = JSON.parse(archived);
+    }
+    
+    getData().catch(console.error);
   }, [])
 
-  // Função para carregar os dados salvos na memória do aparelho
-  const getData = async () => {
-    var archived;
-    // Carrega o tema da memoria do aparelho
-    archived = await AsyncStorage.getItem('theme')
-    if(archived) setTheme(JSON.parse(archived));
-    
-    // Carrega as configurações de notificações da memoria do aparelho
-    archived = await AsyncStorage.getItem('notifications')
-    if(archived) global.notifications = JSON.parse(archived);
-  }
-
-  // Seleciona o tema claro
-  const handleStartLightMode = () => {
-    storeJSON('theme', light)
-    setTheme(light)
-  }
-  
-  // Seleciona o tema escuro
-  const handleStartDarkMode = () => {
-    storeJSON('theme', dark)
-    setTheme(dark)
-  }
-
   return (
-    // Define o tema do aplicativo
-    <ThemeProvider theme={theme}>
-      {/* Inicia as rotas */}
-      <AppStack 
-        lightMode={handleStartLightMode} 
-        darkMode={handleStartDarkMode} 
-      />
-    </ThemeProvider>
+    <AuthContextProvider>
+      <AppStack />
+    </AuthContextProvider>
   )
 }
 

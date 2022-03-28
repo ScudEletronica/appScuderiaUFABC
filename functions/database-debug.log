@@ -1,7 +1,12 @@
-16:49:02.128 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-16:49:02.309 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
-17:07:59.571 [Thread-1] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-17:07:59.583 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: appscuderia
-17:07:59.592 [NamespaceSystem-akka.actor.default-dispatcher-14] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for appscuderia
-17:07:59.594 [NamespaceSystem-akka.actor.default-dispatcher-14] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for appscuderia
-17:07:59.613 [Thread-1] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/home/marcelocfsf/.cache/firebase/emulators/firebase-database-emulator-v4.7.3.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
+WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+17:58:35.413 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+17:58:35.604 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+17:59:47.956 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+17:59:47.973 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: appscuderia
+17:59:47.984 [NamespaceSystem-akka.actor.default-dispatcher-9] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for appscuderia
+17:59:47.987 [NamespaceSystem-akka.actor.default-dispatcher-9] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for appscuderia
+17:59:47.999 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

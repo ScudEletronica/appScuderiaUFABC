@@ -108,3 +108,14 @@ exports.NewRequirement = functions.database.ref('/Requirements/{requirementId}')
 
   return admin.messaging().sendToTopic("Requirement", payload);
 })
+
+exports.DonationNotification = functions.pubsub.schedule('1, 2, 3 of month 15:40').timeZone('America/Sao_Paulo').onRun(() => {
+  const payload = {
+    notification: {
+      title: 'Mensalidade',
+      body: 'Um novo mês chegou e assim as doações para esse mês estão aberta'
+    }
+  };
+
+  return admin.messaging().sendToTopic("Donation", payload);
+})

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { Button, Overlay } from 'react-native-elements';
 
 import { 
@@ -9,7 +9,7 @@ import {
 
 // Modelo para avisos
 const Warning = ({text, cancel, confirm, visible, onlyOne}) => {
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   const styles = StyleSheet.create({
     button: {

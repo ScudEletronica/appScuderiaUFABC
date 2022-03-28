@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon2 from 'react-native-vector-icons/Ionicons'
 import database from '@react-native-firebase/database'
@@ -20,7 +20,7 @@ import { useUser } from '~/contexts/AuthContext';
 const Profile = () => {
   // const [picture, setPicture] = useState(' '); // Foto de perfil
   
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
   const { user, name, ra } = useUser()
 
   const reference = database().ref(`Profile/${user}`);

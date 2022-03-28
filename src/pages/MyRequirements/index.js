@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from "react-native";
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native';
 import { useUser } from '~/contexts/AuthContext';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -32,7 +32,7 @@ const MyRequirements = ({ navigation }) => {
   const [visible, setVisible] = useState(false); // Visibilidade do aviso
   const [confirm, setConfirm] = useState(false); // Define o tipo de operação
 
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   const { user, field, name } = useUser();
 

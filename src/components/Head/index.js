@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useNavigation } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 import { 
   Container, ScudHeader, More
@@ -10,7 +10,7 @@ import {
 // Cabeçalho de todas as páginas
 function Head() {
   const { openDrawer } = useNavigation()
-  const { colors, images } = useContext(ThemeContext);
+  const { colors, images } = useTheme();
 
   function handleOpenMenuBar() {
     openDrawer()

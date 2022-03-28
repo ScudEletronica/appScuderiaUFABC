@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { storeJSON, storeString } from "~/utils/store";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import database from '@react-native-firebase/database';
@@ -11,6 +11,7 @@ import {
 } from './styles';
 
 import { Scroll } from "~/styles/global"; 
+import { AuthContext, useLogin } from '~/contexts/AuthContext';
 
 const reference = database().ref('Profile');
 
@@ -24,12 +25,14 @@ export default function Login() {
   const [nothing, setNothing] = useState(false); // Variável que determina se todos os campos foram digitados
 
   const { navigate } = useNavigation(); // Função de navegação entre rotas
-  const { images } = useContext(ThemeContext); // Imagens usadas pelos temas
+  const { images } = useTheme();
+  const { dispatch } = useContext(AuthContext); // Imagens usadas pelos temas
 
   // Executa o Login
   function Login(
     user, ra, field, coordinator, name
   ) {
+    useLogin(dispatch, {user, ra, field, coordinator, name})
     // Determina se esse usuário irá receber as notificações de 
     // requisições para abrir o lab ou oficina
     coordinator
@@ -41,30 +44,13 @@ export default function Login() {
     field == 'Administração' || field == "Gerência"
     ? messaging().subscribeToTopic("Requirement")
     : messaging().unsubscribeFromTopic("Requirement")
+
+    messaging().subscribeToTopic("Donation")
     
     // Navega para a rota com o menu Lateral
     navigate("Drawer", {
       user, ra, field, coordinator, name
     })
-  }
-  
-  // Carrega dados de Login da memória do aparelho.
-  // Dessa forma o usuário não precisa fazer login 
-  // toda vez que entrar no aplicativo
-  const getData = async () => {
-    const user = await AsyncStorage.getItem('user');
-    const ra = await AsyncStorage.getItem('ra');
-    
-    if(user && ra) {
-      const field = await AsyncStorage.getItem('field');
-      var coordinator = await AsyncStorage.getItem('coordinator')
-      if (coordinator) coordinator = JSON.parse(coordinator)
-      
-      const name = await AsyncStorage.getItem('name');
-      
-      if(field && coordinator && name) Login(user, ra, field, coordinator, name)
-      else storeData()
-    }
   }
   
   // Armazena dados de login na memória do aparelho
@@ -113,8 +99,27 @@ export default function Login() {
     }
   }, [submit, raFirebase])
   
-  // Carrega dados de login da memória
-  getData()
+  // Carrega dados de Login da memória do aparelho.
+  // Dessa forma o usuário não precisa fazer login 
+  // toda vez que entrar no aplicativo
+  useEffect(() => {
+    const getData = async () => {
+      const user = await AsyncStorage.getItem('user');
+      const ra = await AsyncStorage.getItem('ra');
+      
+      if(user && ra) {
+        const field = await AsyncStorage.getItem('field');
+        var coordinator = await AsyncStorage.getItem('coordinator')
+        if (coordinator) coordinator = JSON.parse(coordinator)
+        
+        const name = await AsyncStorage.getItem('name');
+        
+        if(field && coordinator && name) Login(user, ra, field, coordinator, name)
+        else storeData()
+      }
+    }
+    getData().catch(console.error);
+  }, [])
   
   return (
     <Scroll>

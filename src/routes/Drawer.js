@@ -19,14 +19,11 @@ import NewUsers from "~/pages/NewUsers";
 import MenuBar from "~/components/MenuBar";
 import Head from "~/components/Head";
 import Registration from "~/pages/Registration";
-import { AuthContextProvider } from "~/contexts/AuthContext";
 
 const { Navigator, Screen } = createDrawerNavigator()
 
-function Drawer({ lightMode, darkMode, route }) {
+function Drawer() {
   // Dados carregados da Firebase que são reutilizáveis em várias páginas
-  const { user, ra, field, coordinator, name } = route.params;
-
   // const [logout, setLogout] = useState(false);
   // useEffect(() => navigation.addListener('beforeRemove', (e) => {
   //     if (logout) return;
@@ -40,12 +37,9 @@ function Drawer({ lightMode, darkMode, route }) {
     // initialRouteName: Primeira rota aberta
     // drawerContent: Configuração do Menu lateral
     // drawerStyle: Estilos do menu lateral
-    <AuthContextProvider 
-      nUser={user} nRa={ra} nName={name} nField={field} nCoordinator={coordinator}
-    >
       <Navigator 
         initialRouteName="Main"
-        drawerContent={props => <MenuBar user={user} props={props} />}
+        drawerContent={props => <MenuBar props={props} />}
         drawerStyle={{width: 217}}
         screenOptions={{ 
           headerShown: true,
@@ -68,10 +62,7 @@ function Drawer({ lightMode, darkMode, route }) {
         <Screen name="MyRequirements" component={MyRequirements} />
         <Screen name="NewRequirement" component={NewRequirement} />
         <Screen name="Review" component={Review} />
-        <Screen name="Settings" initialParams={{coordinator}}>
-          {(props) => <Settings 
-            darkMode={darkMode} lightMode={lightMode} {...props}/>}
-        </Screen>
+        <Screen name="Settings" component={Settings} />
         <Screen name="Profile" component={Profile} />
         <Screen name="Information" component={Information} />
         <Screen name="Notifications" component={Notifications} />
@@ -79,7 +70,6 @@ function Drawer({ lightMode, darkMode, route }) {
         <Screen name="MenuBar" component={MenuBar} />
         <Screen name="NewUsers" component={NewUsers} />
       </Navigator>
-    </AuthContextProvider>
   )
 }
 

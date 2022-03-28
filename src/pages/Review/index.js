@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 import Icon from 'react-native-vector-icons/AntDesign'
 import database from '@react-native-firebase/database'
 
@@ -25,7 +25,7 @@ const Review = ({ route }) => {
 
   const { navigate } = useNavigation();
   const { requirement, edit } = route.params;
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
 
   // Alterna a visibilidade do Aviso
   function toggleOverlay() {
